@@ -109,9 +109,9 @@ vpath %.c $(C_PATHS)
 vpath %.s $(S_PATHS)
 vpath %.S $(S_PATHS)
 
-####################################################################
-# BUILD                                                            #
-####################################################################
+###############################################################################
+# BUILD
+###############################################################################
 all:      prints build
 
 prints:
@@ -150,9 +150,6 @@ $(EXE_DIR)/$(PROJECTNAME).bin: $(EXE_DIR)/$(PROJECTNAME).out
 # Uncomment next line to produce assembly listing of entire program
 #	$(DUMP) -h -S -C $(EXE_DIR)/$(PROJECTNAME).out>$(LST_DIR)/$(PROJECTNAME)out.lst
 
-upload:
-	$(UPLOAD_CMD)
-
 clean:
 ifeq ($(filter $(MAKECMDGOALS),all debug release),)
 	$(RMDIRS) $(OBJ_DIR) $(EXE_DIR) $(LIB_DIR)
@@ -162,3 +159,11 @@ endif
 ifneq (clean,$(findstring clean, $(MAKECMDGOALS)))
 -include $(C_DEPS)
 endif
+
+###############################################################################
+# UPLOAD
+###############################################################################
+PORT ?= COM19
+upload:
+	$(UPLOAD_CMD)
+
