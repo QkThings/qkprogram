@@ -12,12 +12,12 @@
 
 PROJECTNAME = qkprogram
 TARGET = arduino
-OPTIMIZE = s
 
 OBJ_DIR = build
 EXE_DIR = bin
 LIB_DIR = lib
 
+OPTIMIZE = s
 FORMAT = binary
 
 # Try autodetecting the environment

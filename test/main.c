@@ -202,5 +202,14 @@ void qk_setup()
 
 int main(void)
 {
+  hal_gpio_init();
+  while(1)
+  {
+    _setLED(false);
+    delay_ms(100);
+    _setLED(true);
+    delay_ms(100);
+  }
+
   return qk_main();
 }

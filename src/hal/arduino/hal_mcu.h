@@ -9,9 +9,11 @@
 #ifndef HAL_MCU_H
 #define HAL_MCU_H
 
+#include <avr/interrupt.h>
+
 static inline void hal_mcu_init()
 {
-
+  sei();
 }
 
 #endif /* HAL_MCU_H */

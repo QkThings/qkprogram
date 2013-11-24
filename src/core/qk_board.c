@@ -18,6 +18,7 @@ static void qk_board_comm_processPacket();
 
 void qk_board_init()
 {
+  memset(&board, 0, sizeof(qk_board_t));
   qk_comm_init(_comm_board);
   _comm_board->callbacks.sendBytes = qk_board_comm_sendBytes;
   _comm_board->callbacks.processBytes = qk_board_comm_processBytes;
