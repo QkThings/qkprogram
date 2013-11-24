@@ -21,6 +21,6 @@ When cloning this repository, make sure you clone the **develop** branch so you 
 
 ### TODO
 
-* arduino port is still incomplete (some issues with the timer ISR)
+* arduino port is still incomplete (some issues regarding the timer ISR, clean up and improve the code)
 * currently the makefiles are tested only on windows, linux may require some changes
 * specify a test in the makefile (e.g. TEST=test/main.c), otherwise a static library is created
