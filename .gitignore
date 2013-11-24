@@ -1,0 +1,12 @@
+doc/
+gcc/lst
+gcc/exe
+gcc/build
+*.o
+*.d
+*.bin
+*.out
+*.map
+*.zip
+*.tar.gz
+*.rar

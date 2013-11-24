@@ -1,0 +1,77 @@
+/*!
+ * \file qk_utils.h
+ *
+ * \author root
+ *  
+ * This file is part of QkProgram
+ */
+
+#ifndef QK_UTILS_H
+#define QK_UTILS_H
+
+/*****************************************************************************
+ *  Defines and some useful macros
+ *****************************************************************************/
+#define round(x)  ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
+#define abs(x)    (x>0?x:(-x))
+
+#define flag(flag,mask) (flag & mask ? 1 : 0)
+#define flag_set(flag, mask) (flag |= mask)
+#define flag_clr(flag, mask) (flag &= ~mask)
+
+/*****************************************************************************
+ *  Date and Time
+ *****************************************************************************/
+typedef struct qk_datetime
+{
+  unsigned int hours : 5;
+  unsigned int minutes : 6;
+  unsigned int seconds : 6;
+  unsigned int year : 6;
+  unsigned int month : 4;
+  unsigned int day : 5;
+} qk_datetime_t;
+
+typedef qk_datetime_t qk_time_t;
+
+/*****************************************************************************
+ *  Circular Buffers
+ *****************************************************************************/
+typedef struct qk_cb
+{
+  void     *buf;
+  void     *bufEnd;
+  uint32_t capacity;
+  uint32_t itemSize;
+  uint32_t count;
+  void *head;
+  void *tail;
+  bool overwrite;
+} qk_cb_t;
+
+void qk_cb_init(qk_cb_t *cb, void *buf, uint32_t bufSize, uint32_t itemSize, bool overwrite);
+void qk_cb_write(qk_cb_t *cb, const void *item);
+void qk_cb_read(qk_cb_t *cb, void *item);
+bool qk_cb_isFull(qk_cb_t *cb);
+bool qk_cb_isEmpty(qk_cb_t *cb);
+
+/*****************************************************************************
+ *  Lightweight STDIO functions
+ *****************************************************************************/
+int sprintf(char *out, const char *format, ...);
+int printf(const char *format, ...);
+
+/*****************************************************************************
+ *  Others
+ *****************************************************************************/
+typedef union _IntFloatConverter
+{
+  int32_t i_value;
+  float f_value;
+} _IntFloatConverter;
+
+void _blinkLED(uint8_t n, uint16_t msec);
+float _floatFromBytes(int32_t value);
+int32_t _bytesFromFloat(float value);
+
+#endif /* QK_UTILS_H */

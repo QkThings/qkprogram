@@ -1,0 +1,104 @@
+/*!
+ * \file hal_gpio.c
+ *
+ * \author mribeiro
+ *  
+ * This file is part of QkProgram
+ */
+
+#include "../sys/qk_system.h"
+#include "em_gpio.h"
+
+#define LED_PORT  gpioPortC
+#define LED_PIN   3
+#define PB_PORT   gpioPortB
+#define PB_PIN    9
+#define DET_PORT  gpioPortC
+#define DET_PIN   12
+
+hal_gpio_t _hal_gpio;
+
+static void handleInputChanged();
+
+void hal_gpio_init()
+{
+  CMU->HFPERCLKEN0 |= CMU_HFPERCLKEN0_GPIO;
+
+
+  /* Setting MODEn to 0b0000 disables the pin, reducing power consumption
+   * to a minimum. */
+
+  /* Configure LED_PORT pin LED_PIN (User LED) as push/pull outputs */
+  GPIO_PinModeSet(LED_PORT,         /* Port */
+                  LED_PIN,          /* Pin */
+                  gpioModePushPull, /* Mode */
+                  0 );              /* Output value */
+
+  /* Set PB0_PORT PB0_PIN (Push button 0) as input */
+  GPIO_PinModeSet(PB_PORT,        /* Port */
+                  PB_PIN,                /* Pin */
+                  gpioModeInputPull,    /* Mode */
+                  1 );              /* Output value */
+
+  GPIO_PinModeSet(DET_PORT,        /* Port */
+                  DET_PIN,                /* Pin */
+                  gpioModeInputPull,    /* Mode */
+                  1 );              /* Output value */
+
+  GPIO_IntConfig(PB_PORT, PB_PIN, false, true, true);
+  GPIO_IntConfig(DET_PORT, DET_PIN, true, true, true);
+
+  NVIC_EnableIRQ(GPIO_EVEN_IRQn);
+  NVIC_EnableIRQ(GPIO_ODD_IRQn);
+}
+
+void GPIO_EVEN_IRQHandler(void) // Rise
+{
+  _toggleLED();
+  handleInputChanged();
+  GPIO_IntClear(0xFFFF); // Clear all GPIO IF
+}
+
+void GPIO_ODD_IRQHandler(void) // Fall
+{
+  _toggleLED();
+  handleInputChanged();
+  GPIO_IntClear(0xFFFF); // Clear all GPIO IF
+}
+
+bool _getPB()
+{
+  return GPIO_PinInGet(PB_PORT, PB_PIN);
+}
+
+bool _getDET()
+{
+  return GPIO_PinInGet(DET_PORT, DET_PIN);
+}
+
+bool _getLED()
+{
+  return GPIO_PinInGet(LED_PORT, LED_PIN);
+}
+
+void _setLED(bool on)
+{
+  if(on)
+    GPIO_PinOutSet(LED_PORT, LED_PIN);
+  else
+    GPIO_PinOutClear(LED_PORT, LED_PIN);
+}
+
+bool _toggleLED()
+{
+  GPIO_PinOutToggle(LED_PORT, LED_PIN);
+  return (GPIO_PinOutGet(LED_PORT, LED_PIN) == 1 ? true : false);
+}
+
+static void handleInputChanged()
+{
+  if(_hal_gpio.callbacks.inputChanged != 0) {
+    _hal_gpio.callbacks.inputChanged();
+  }
+  _hal_gpio.flags.inputChanged = 1;
+}
