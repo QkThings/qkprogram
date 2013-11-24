@@ -2,21 +2,10 @@
 # QkThings. Arduino Makefile
 ###############################################################################
 
-# Program settings
-CC = avr-gcc
-CXX = avr-g++
-OBJCOPY = avr-objcopy
-OBJDUMP = avr-objdump
-SIZE = avr-size
-NM = avr-nm
-AVRDUDE = C:\Users\mribeiro\Copy\qkthings\engineering\embedded\toolchain\win\avr\bin\avrdude.exe
-REMOVE = rm -f
-MV = mv -f
-
-CC      = avr-gcc
-OBJCOPY = avr-objcopy
-DUMP    = avr-objdump
-PSIZE	= avr-size
+CC      = ..\..\toolchain\win\avr\bin\avr-gcc
+OBJCOPY = ..\..\toolchain\win\avr\bin\avr-objcopy
+DUMP    = ..\..\toolchain\win\avr\bin\avr-objdump
+PSIZE	= ..\..\toolchain\win\avr\bin\avr-size
 
 OPTIMIZE = s
 FORMAT = ihex
@@ -48,6 +37,7 @@ LDFLAGS = $(CFLAGS)
 ###############################################################################
 PORT = COM19
 UPLOAD_RATE = 57600
+AVRDUDE = ..\..\toolchain\win\avr\bin\avrdude
 AVRDUDE_CONF = ..\..\toolchain\common\arduino
 AVRDUDE_PROGRAMMER = stk500
 AVRDUDE_PORT = $(PORT)

@@ -1,4 +1,8 @@
-ENERGYMICRO = C:\Users\mribeiro\Copy\qkthings\engineering\embedded\toolchain\common\energymicro
+###############################################################################
+# QkThings. EFM32 Makefile
+###############################################################################
+
+ENERGYMICRO = ..\..\toolchain\common\energymicro
 WINDOWSCS  ?= GNU Tools ARM Embedded\4.7 2013q1
 LINUXCS    ?= /home/mribeiro/gcc-arm-none-eabi-4_7-2013q1
 DEVICE = EFM32G890F128
@@ -31,18 +35,6 @@ else
   endif
 endif
 
-# Create directories and do a clean which is compatible with parallell make
-$(shell mkdir $(OBJ_DIR)>$(NULLDEVICE) 2>&1)
-$(shell mkdir $(EXE_DIR)>$(NULLDEVICE) 2>&1)
-$(shell mkdir $(LST_DIR)>$(NULLDEVICE) 2>&1)
-ifeq (clean,$(findstring clean, $(MAKECMDGOALS)))
-  ifneq ($(filter $(MAKECMDGOALS),all debug release),)
-    $(shell $(RMFILES) $(OBJ_DIR)$(ALLFILES)>$(NULLDEVICE) 2>&1)
-    $(shell $(RMFILES) $(EXE_DIR)$(ALLFILES)>$(NULLDEVICE) 2>&1)
-    $(shell $(RMFILES) $(LST_DIR)$(ALLFILES)>$(NULLDEVICE) 2>&1)
-  endif
-endif
-
 
 CC      = $(QUOTE)$(TOOLDIR)/bin/arm-none-eabi-gcc$(QUOTE)
 LD      = $(QUOTE)$(TOOLDIR)/bin/arm-none-eabi-ld$(QUOTE)
@@ -51,41 +43,18 @@ OBJCOPY = $(QUOTE)$(TOOLDIR)/bin/arm-none-eabi-objcopy$(QUOTE)
 DUMP    = $(QUOTE)$(TOOLDIR)/bin/arm-none-eabi-objdump$(QUOTE)
 PSIZE	= $(QUOTE)$(TOOLDIR)/bin/arm-none-eabi-size$(QUOTE)
 
-##################################################################
-# Flags                                                          
-##################################################################
 
-# -MMD : Don't generate dependencies on system header files.
-# -MP  : Add phony targets, useful when a h-file is removed from a project.
-# -MF  : Specify a file to write the dependencies to.
-DEPFLAGS = -MMD -MP -MF $(@:.o=.d)
-
-
-# Add -Wa,-ahld=$(LST_DIR)/$(@F:.o=.lst) to CFLAGS to produce assembly list files
-
-override CFLAGS += -D$(DEVICE) -Wall -Wextra -mcpu=cortex-m3 -mthumb \
--mfix-cortex-m3-ldrd -ffunction-sections \
--fdata-sections -fomit-frame-pointer -DDEBUG_EFM -DNDEBUG \
-$(DEPFLAGS)
-
-ASMFLAGS += -x assembler-with-cpp -mcpu=cortex-m3 -mthumb
-
-
-# NOTE: The -Wl,--gc-sections flag may interfere with debugging using gdb.
-
-override LDFLAGS += -Xlinker -Map=$(LST_DIR)/$(PROJECTNAME).map -mcpu=cortex-m3 \
--mthumb -T$(ENERGYMICRO)/Device/EnergyMicro/EFM32G/Source/GCC/efm32g.ld \
- -Wl,--gc-sections
-
-LIBS = -lm -Wl,--start-group -lgcc -lc -lnosys   -Wl,--end-group 
-
-
+###############################################################################
+# SOURCE
+###############################################################################
 INCLUDE_DIR += \
 $(ROOT_DIR)/src/hal/efm32 \
 $(ENERGYMICRO)/CMSIS/Include \
 $(ENERGYMICRO)/Device/EnergyMicro/EFM32G/Include \
 $(ENERGYMICRO)/emlib/inc
 
+C_SRC_DIR += \
+$(ROOT_DIR)/src/hal/efm32
 
 C_SRC += \
 $(ENERGYMICRO)/Device/EnergyMicro/EFM32G/Source/system_efm32g.c \
@@ -100,31 +69,31 @@ $(ENERGYMICRO)/emlib/src/em_usart.c
 
 S_SRC += $(ENERGYMICRO)/Device/EnergyMicro/EFM32G/Source/GCC/startup_efm32g.S
 
-
-####################################################################
-# Flags                                                            #
-####################################################################
+###############################################################################
+# FLAGS
+###############################################################################
 
 # -MMD : Don't generate dependencies on system header files.
 # -MP  : Add phony targets, useful when a h-file is removed from a project.
 # -MF  : Specify a file to write the dependencies to.
 DEPFLAGS = -MMD -MP -MF $(@:.o=.d)
 
-#
+
 # Add -Wa,-ahld=$(LST_DIR)/$(@F:.o=.lst) to CFLAGS to produce assembly list files
-#
-override CFLAGS += -D$(DEVICE) -Wall -Wextra -mcpu=cortex-m3 -mthumb \
+
+CFLAGS += -D$(DEVICE) -Wall -Wextra -mcpu=cortex-m3 -mthumb \
 -mfix-cortex-m3-ldrd -ffunction-sections \
--fdata-sections -fomit-frame-pointer -DDEBUG_EFM  \
+-fdata-sections -fomit-frame-pointer -DDEBUG_EFM -DNDEBUG \
 $(DEPFLAGS)
 
 ASMFLAGS += -x assembler-with-cpp -mcpu=cortex-m3 -mthumb
 
-#
+
 # NOTE: The -Wl,--gc-sections flag may interfere with debugging using gdb.
-#
-override LDFLAGS += -Xlinker -Map=$(LST_DIR)/$(PROJECTNAME).map -mcpu=cortex-m3 \
+
+LDFLAGS += -Xlinker -Map=$(LST_DIR)/$(PROJECTNAME).map -mcpu=cortex-m3 \
 -mthumb -T$(ENERGYMICRO)/Device/EnergyMicro/EFM32G/Source/GCC/efm32g.ld \
  -Wl,--gc-sections
 
 LIBS = -lm -Wl,--start-group -lgcc -lc -lnosys   -Wl,--end-group 
+

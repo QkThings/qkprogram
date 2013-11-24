@@ -1,18 +1,17 @@
 ####################################################################
-# Makefile                                                         
+# QkThings. QkProgram Makefile                                                         
 ####################################################################
 
-.SUFFIXES:				# ignore builtin rules
-.PHONY: all debug release clean upload
+TARGET = arduino
 
 ####################################################################
 # Definitions                                                      
 ####################################################################
 
+.SUFFIXES:
+.PHONY: all debug release clean upload
 
 PROJECTNAME = qkprogram
-TARGET = arduino
-
 OBJ_DIR = build
 EXE_DIR = bin
 LIB_DIR = lib
@@ -52,6 +51,10 @@ NULLDEVICE := /dev/null
 SHELLNAMES := $(ComSpec)$(COMSPEC)
 
 ROOT_DIR = ..
+
+####################################################################
+# SOURCE                                                      
+####################################################################
 
 INCLUDE_DIR += \
 $(ROOT_DIR)/include \
@@ -106,18 +109,15 @@ vpath %.c $(C_PATHS)
 vpath %.s $(S_PATHS)
 vpath %.S $(S_PATHS)
 
-# Choose default build
-all:      prints release
+####################################################################
+# BUILD                                                            #
+####################################################################
+all:      prints build
 
 prints:
-	@echo ===================================================
-	@echo  Build $(PROJECTNAME) for $(TARGET)
-	@echo ===================================================
+	@echo Building $(PROJECTNAME) for $(TARGET)
 
-debug:    CFLAGS += -DDEBUG -O$(OPTIMIZE) -g3
-debug:    $(EXE_DIR)/$(PROJECTNAME).bin
-
-release:  $(EXE_DIR)/$(PROJECTNAME).bin
+build:  $(EXE_DIR)/$(PROJECTNAME).bin
 
 # Create objects from C SRC files
 $(OBJ_DIR)/%.o: %.c
