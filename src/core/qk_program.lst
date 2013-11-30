@@ -1,0 +1,70 @@
+   1               		.file	"qk_program.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  19               	.Ltext0:
+ 1183               	.global	qk_main
+ 1185               	qk_main:
+ 1186               	.LFB45:
+ 1187               	.LM1:
+ 1188               	/* prologue: function */
+ 1189               	/* frame size = 0 */
+ 1190               	.LM2:
+ 1191 0000 0E94 0000 		call hal_init
+ 1192               	.LM3:
+ 1193 0004 81E0      		ldi r24,lo8(1)
+ 1194 0006 62E3      		ldi r22,lo8(50)
+ 1195 0008 70E0      		ldi r23,hi8(50)
+ 1196 000a 0E94 0000 		call _blinkLED
+ 1197               	.LM4:
+ 1198 000e 0E94 0000 		call qk_core_init
+ 1199               	.LM5:
+ 1200 0012 0E94 0000 		call qk_board_init
+ 1201               	.LM6:
+ 1202 0016 81E0      		ldi r24,lo8(1)
+ 1203 0018 62E3      		ldi r22,lo8(50)
+ 1204 001a 70E0      		ldi r23,hi8(50)
+ 1205 001c 0E94 0000 		call _blinkLED
+ 1206               	.LM7:
+ 1207 0020 0E94 0000 		call qk_setup
+ 1208               	.LM8:
+ 1209 0024 0E94 0000 		call qk_board_setup
+ 1210               	.LM9:
+ 1211 0028 82E0      		ldi r24,lo8(2)
+ 1212 002a 64E6      		ldi r22,lo8(100)
+ 1213 002c 70E0      		ldi r23,hi8(100)
+ 1214 002e 0E94 0000 		call _blinkLED
+ 1215               	.LM10:
+ 1216 0032 0E94 0000 		call qk_loop
+ 1217               	.LM11:
+ 1218 0036 80E0      		ldi r24,lo8(0)
+ 1219 0038 90E0      		ldi r25,hi8(0)
+ 1220               	/* epilogue start */
+ 1221 003a 0895      		ret
+ 1222               	.LFE45:
+ 1248               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 qk_program.c
+C:\Users\mribeiro\AppData\Local\Temp/ccVyijlx.s:2      *ABS*:0000003f __SREG__
+C:\Users\mribeiro\AppData\Local\Temp/ccVyijlx.s:3      *ABS*:0000003e __SP_H__
+C:\Users\mribeiro\AppData\Local\Temp/ccVyijlx.s:4      *ABS*:0000003d __SP_L__
+C:\Users\mribeiro\AppData\Local\Temp/ccVyijlx.s:5      *ABS*:00000034 __CCP__
+C:\Users\mribeiro\AppData\Local\Temp/ccVyijlx.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccVyijlx.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccVyijlx.s:1185   .text:00000000 qk_main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+hal_init
+_blinkLED
+qk_core_init
+qk_board_init
+qk_setup
+qk_board_setup
+qk_loop

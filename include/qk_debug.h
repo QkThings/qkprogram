@@ -11,6 +11,7 @@ extern char _qk_debug_str[_QK_DEBUGSTR_BUFSIZE];
 #define QK_DEBUG(...)
 #endif
 
+void _qk_debug(char *text, ...);
 void _qk_debug_sendString();
 
 #endif /* QK_DEBUG_H */

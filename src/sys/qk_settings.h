@@ -22,8 +22,8 @@
  *****************************************************************************/
 //#define _QK_FEAT_RTC_
 //#define _QK_FEAT_EEPROM_
-#define _QK_FEAT_POWER_MANAGEMENT_
-#define _QK_FEAT_CLOCK_SWITCHING_
+//#define _QK_FEAT_POWER_MANAGEMENT_
+//#define _QK_FEAT_CLOCK_SWITCHING_
 #define _QK_FEAT_FRAGMENTATION_
 
 /*****************************************************************************

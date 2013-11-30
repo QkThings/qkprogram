@@ -90,7 +90,7 @@ typedef volatile struct qk_comm_packet
   uint8_t  dataLen;
 } qk_packet_t;
 
-typedef struct qk_packet_descriptor_t
+typedef volatile struct qk_packet_descriptor_t
 {
   uint64_t address;
   uint8_t  code;

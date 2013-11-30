@@ -28,9 +28,10 @@ $(ROOT_DIR)/src/hal/arduino
 # FLAGS
 ###############################################################################
 CFLAGS += -mmcu=$(MCU) -DF_CPU=$(F_CPU) -I. 
-LDFLAGS = $(CFLAGS)
+LDFLAGS = -Wl,--gc-sections $(CFLAGS)
 #CEXTRA = -Wa,-adhlns=$(<:.c=.lst)
-#ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs 
+#ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
+CFLAGS += -std=gnu99 -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 
 ###############################################################################
 # AVRDUDE

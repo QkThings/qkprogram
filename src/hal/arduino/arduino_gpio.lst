@@ -1,0 +1,144 @@
+   1               		.file	"arduino_gpio.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  19               	.Ltext0:
+ 3925               	.global	hal_gpio_init
+ 3927               	hal_gpio_init:
+ 3928               	.LFB45:
+ 3929               	.LM1:
+ 3930               	/* prologue: function */
+ 3931               	/* frame size = 0 */
+ 3932               	.LM2:
+ 3933 0000 80E2      		ldi r24,lo8(32)
+ 3934 0002 84B9      		out 36-32,r24
+ 3935               	/* epilogue start */
+ 3936               	.LM3:
+ 3937 0004 0895      		ret
+ 3938               	.LFE45:
+ 3940               	.global	_getPB
+ 3942               	_getPB:
+ 3943               	.LFB46:
+ 3944               	.LM4:
+ 3945               	/* prologue: function */
+ 3946               	/* frame size = 0 */
+ 3947               	.LM5:
+ 3948 0006 81E0      		ldi r24,lo8(1)
+ 3949               	/* epilogue start */
+ 3950 0008 0895      		ret
+ 3951               	.LFE46:
+ 3953               	.global	_getDET
+ 3955               	_getDET:
+ 3956               	.LFB47:
+ 3957               	.LM6:
+ 3958               	/* prologue: function */
+ 3959               	/* frame size = 0 */
+ 3960               	.LM7:
+ 3961 000a 81E0      		ldi r24,lo8(1)
+ 3962               	/* epilogue start */
+ 3963 000c 0895      		ret
+ 3964               	.LFE47:
+ 3966               	.global	_getLED
+ 3968               	_getLED:
+ 3969               	.LFB48:
+ 3970               	.LM8:
+ 3971               	/* prologue: function */
+ 3972               	/* frame size = 0 */
+ 3973               	.LM9:
+ 3974 000e 85B1      		in r24,37-32
+ 3975 0010 90E0      		ldi r25,lo8(0)
+ 3976 0012 25E0      		ldi r18,5
+ 3977 0014 9695      	1:	lsr r25
+ 3978 0016 8795      		ror r24
+ 3979 0018 2A95      		dec r18
+ 3980 001a 01F4      		brne 1b
+ 3981               	.LM10:
+ 3982 001c 8170      		andi r24,lo8(1)
+ 3983               	/* epilogue start */
+ 3984 001e 0895      		ret
+ 3985               	.LFE48:
+ 3987               	.global	_setLED
+ 3989               	_setLED:
+ 3990               	.LFB49:
+ 3991               	.LM11:
+ 3992               	.LVL0:
+ 3993               	/* prologue: function */
+ 3994               	/* frame size = 0 */
+ 3995               	.LM12:
+ 3996 0020 8823      		tst r24
+ 3997 0022 01F0      		breq .L10
+ 3998               	.LM13:
+ 3999 0024 2D9A      		sbi 37-32,5
+ 4000 0026 0895      		ret
+ 4001               	.L10:
+ 4002               	.LM14:
+ 4003 0028 2D98      		cbi 37-32,5
+ 4004 002a 0895      		ret
+ 4005               	.LFE49:
+ 4007               	.global	_toggleLED
+ 4009               	_toggleLED:
+ 4010               	.LFB50:
+ 4011               	.LM15:
+ 4012               	/* prologue: function */
+ 4013               	/* frame size = 0 */
+ 4014               	.LBB6:
+ 4015               	.LBB7:
+ 4016               	.LM16:
+ 4017 002c 85B1      		in r24,37-32
+ 4018 002e 90E0      		ldi r25,lo8(0)
+ 4019 0030 35E0      		ldi r19,5
+ 4020 0032 9695      	1:	lsr r25
+ 4021 0034 8795      		ror r24
+ 4022 0036 3A95      		dec r19
+ 4023 0038 01F4      		brne 1b
+ 4024               	.LBE7:
+ 4025               	.LBE6:
+ 4026               	.LBB8:
+ 4027               	.LBB9:
+ 4028               	.LM17:
+ 4029 003a 982F      		mov r25,r24
+ 4030               	.LVL1:
+ 4031 003c 9170      		andi r25,lo8(1)
+ 4032 003e 80FD      		sbrc r24,0
+ 4033 0040 00C0      		rjmp .L14
+ 4034               	.LM18:
+ 4035 0042 2D9A      		sbi 37-32,5
+ 4036 0044 00C0      		rjmp .L15
+ 4037               	.L14:
+ 4038               	.LM19:
+ 4039 0046 2D98      		cbi 37-32,5
+ 4040               	.L15:
+ 4041               	.LBE9:
+ 4042               	.LBE8:
+ 4043               	.LM20:
+ 4044 0048 81E0      		ldi r24,lo8(1)
+ 4045 004a 8927      		eor r24,r25
+ 4046               	/* epilogue start */
+ 4047 004c 0895      		ret
+ 4048               	.LFE50:
+ 4050               		.comm _hal_gpio,3,1
+ 4115               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 arduino_gpio.c
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:2      *ABS*:0000003f __SREG__
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:3      *ABS*:0000003e __SP_H__
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:4      *ABS*:0000003d __SP_L__
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:5      *ABS*:00000034 __CCP__
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:3927   .text:00000000 hal_gpio_init
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:3942   .text:00000006 _getPB
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:3955   .text:0000000a _getDET
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:3968   .text:0000000e _getLED
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:3989   .text:00000020 _setLED
+C:\Users\mribeiro\AppData\Local\Temp/ccdGyVtb.s:4009   .text:0000002c _toggleLED
+                            *COM*:00000003 _hal_gpio
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

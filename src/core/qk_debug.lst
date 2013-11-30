@@ -1,0 +1,44 @@
+   1               		.file	"qk_debug.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  19               	.Ltext0:
+ 1197               	.global	_qk_debug_sendString
+ 1199               	_qk_debug_sendString:
+ 1200               	.LFB45:
+ 1201               	.LM1:
+ 1202               	/* prologue: function */
+ 1203               	/* frame size = 0 */
+ 1204               	.LM2:
+ 1205 0000 80E0      		ldi r24,lo8(_qk_debug_str)
+ 1206 0002 90E0      		ldi r25,hi8(_qk_debug_str)
+ 1207 0004 60E0      		ldi r22,lo8(_qk_comm)
+ 1208 0006 70E0      		ldi r23,hi8(_qk_comm)
+ 1209 0008 0E94 0000 		call _qk_comm_sendString
+ 1210               	/* epilogue start */
+ 1211               	.LM3:
+ 1212 000c 0895      		ret
+ 1213               	.LFE45:
+ 1215               		.comm _qk_debug_str,100,1
+ 1240               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 qk_debug.c
+C:\Users\mribeiro\AppData\Local\Temp/cc2wxmVe.s:2      *ABS*:0000003f __SREG__
+C:\Users\mribeiro\AppData\Local\Temp/cc2wxmVe.s:3      *ABS*:0000003e __SP_H__
+C:\Users\mribeiro\AppData\Local\Temp/cc2wxmVe.s:4      *ABS*:0000003d __SP_L__
+C:\Users\mribeiro\AppData\Local\Temp/cc2wxmVe.s:5      *ABS*:00000034 __CCP__
+C:\Users\mribeiro\AppData\Local\Temp/cc2wxmVe.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\mribeiro\AppData\Local\Temp/cc2wxmVe.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\mribeiro\AppData\Local\Temp/cc2wxmVe.s:1199   .text:00000000 _qk_debug_sendString
+                            *COM*:00000064 _qk_debug_str
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+_qk_comm
+_qk_comm_sendString

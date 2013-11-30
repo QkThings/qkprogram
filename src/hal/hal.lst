@@ -1,0 +1,56 @@
+   1               		.file	"hal.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  19               	.Ltext0:
+ 3987               	.global	hal_init
+ 3989               	hal_init:
+ 3990               	.LFB46:
+ 3991               	.LM1:
+ 3992               	/* prologue: function */
+ 3993               	/* frame size = 0 */
+ 3994               	.LBB4:
+ 3995               	.LBB5:
+ 3996               	.LM2:
+ 3997               	/* #APP */
+ 3998               	 ;  16 "../src/hal/arduino/hal_mcu.h" 1
+ 3999 0000 7894      		sei
+ 4000               	 ;  0 "" 2
+ 4001               	/* #NOAPP */
+ 4002               	.LBE5:
+ 4003               	.LBE4:
+ 4004               	.LM3:
+ 4005 0002 0E94 0000 		call hal_clock_init
+ 4006               	.LM4:
+ 4007 0006 0E94 0000 		call hal_gpio_init
+ 4008               	.LM5:
+ 4009 000a 0E94 0000 		call hal_timer_init
+ 4010               	.LM6:
+ 4011 000e 0E94 0000 		call hal_uart_init
+ 4012               	/* epilogue start */
+ 4013               	.LM7:
+ 4014 0012 0895      		ret
+ 4015               	.LFE46:
+ 4041               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 hal.c
+C:\Users\mribeiro\AppData\Local\Temp/ccCRq4Eg.s:2      *ABS*:0000003f __SREG__
+C:\Users\mribeiro\AppData\Local\Temp/ccCRq4Eg.s:3      *ABS*:0000003e __SP_H__
+C:\Users\mribeiro\AppData\Local\Temp/ccCRq4Eg.s:4      *ABS*:0000003d __SP_L__
+C:\Users\mribeiro\AppData\Local\Temp/ccCRq4Eg.s:5      *ABS*:00000034 __CCP__
+C:\Users\mribeiro\AppData\Local\Temp/ccCRq4Eg.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccCRq4Eg.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccCRq4Eg.s:3989   .text:00000000 hal_init
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+hal_clock_init
+hal_gpio_init
+hal_timer_init
+hal_uart_init

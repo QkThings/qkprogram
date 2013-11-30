@@ -1,7 +1,8 @@
-doc/
-gcc/lst
-gcc/exe
-gcc/build
+build/bin
+build/output
+build/lib
+*.*~
+*.a
 *.o
 *.d
 *.bin

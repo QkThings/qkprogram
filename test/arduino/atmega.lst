@@ -1,0 +1,259 @@
+   1               		.file	"atmega.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  19               	.Ltext0:
+ 1204               	.LC0:
+ 1205 0000 4172 6475 		.string	"ArduinoTest"
+ 1205      696E 6F54 
+ 1205      6573 7400 
+ 1206               	.LC1:
+ 1207 000c 434E 5400 		.string	"CNT"
+ 1208 0010 00        		.string	""
+ 1209               		.text
+ 1210               	.global	qk_setup
+ 1212               	qk_setup:
+ 1213               	.LFB46:
+ 1214               	.LM1:
+ 1215               	/* prologue: function */
+ 1216               	/* frame size = 0 */
+ 1217               	.LBB16:
+ 1218               	.LBB17:
+ 1219               	.LM2:
+ 1220 0000 8091 0000 		lds r24,_qk_board
+ 1221 0004 9091 0000 		lds r25,(_qk_board)+1
+ 1222 0008 0A96      		adiw r24,10
+ 1223 000a 60E0      		ldi r22,lo8(.LC0)
+ 1224 000c 70E0      		ldi r23,hi8(.LC0)
+ 1225 000e 0E94 0000 		call strcpy
+ 1226               	.LBE17:
+ 1227               	.LBE16:
+ 1228               	.LBB18:
+ 1229               	.LBB19:
+ 1230               	.LM3:
+ 1231 0012 E091 0000 		lds r30,_qk_board
+ 1232 0016 F091 0000 		lds r31,(_qk_board)+1
+ 1233 001a 84E3      		ldi r24,lo8(4660)
+ 1234 001c 92E1      		ldi r25,hi8(4660)
+ 1235 001e 9187      		std Z+9,r25
+ 1236 0020 8087      		std Z+8,r24
+ 1237               	.LBE19:
+ 1238               	.LBE18:
+ 1239               	.LBB20:
+ 1240               	.LBB21:
+ 1241               	.LM4:
+ 1242 0022 E091 0000 		lds r30,_qk_device
+ 1243 0026 F091 0000 		lds r31,(_qk_device)+1
+ 1244 002a 81E0      		ldi r24,lo8(1)
+ 1245 002c 90E0      		ldi r25,hi8(1)
+ 1246 002e A0E0      		ldi r26,hlo8(1)
+ 1247 0030 B0E0      		ldi r27,hhi8(1)
+ 1248 0032 8083      		st Z,r24
+ 1249 0034 9183      		std Z+1,r25
+ 1250 0036 A283      		std Z+2,r26
+ 1251 0038 B383      		std Z+3,r27
+ 1252               	.LBE21:
+ 1253               	.LBE20:
+ 1254               	.LBB22:
+ 1255               	.LBB23:
+ 1256               	.LM5:
+ 1257 003a 80E0      		ldi r24,lo8(dat_buf)
+ 1258 003c 90E0      		ldi r25,hi8(dat_buf)
+ 1259 003e 938B      		std Z+19,r25
+ 1260 0040 828B      		std Z+18,r24
+ 1261               	.LBE23:
+ 1262               	.LBE22:
+ 1263               	.LBB24:
+ 1264               	.LBB25:
+ 1265               	.LM6:
+ 1266 0042 118A      		std Z+17,__zero_reg__
+ 1267               	.LBE25:
+ 1268               	.LBE24:
+ 1269               	.LBB26:
+ 1270               	.LBB27:
+ 1271               	.LM7:
+ 1272 0044 0496      		adiw r24,4
+ 1273 0046 60E0      		ldi r22,lo8(.LC1)
+ 1274 0048 70E0      		ldi r23,hi8(.LC1)
+ 1275 004a 0E94 0000 		call strcpy
+ 1276               	.LBE27:
+ 1277               	.LBE26:
+ 1278               	.LBB28:
+ 1279               	.LBB29:
+ 1280               	.LM8:
+ 1281 004e E091 0000 		lds r30,_qk_device
+ 1282 0052 F091 0000 		lds r31,(_qk_device)+1
+ 1283 0056 80E0      		ldi r24,lo8(gs(test_sample))
+ 1284 0058 90E0      		ldi r25,hi8(gs(test_sample))
+ 1285 005a 918F      		std Z+25,r25
+ 1286 005c 808F      		std Z+24,r24
+ 1287               	/* epilogue start */
+ 1288               	.LBE29:
+ 1289               	.LBE28:
+ 1290               	.LM9:
+ 1291 005e 0895      		ret
+ 1292               	.LFE46:
+ 1294               	.global	main
+ 1296               	main:
+ 1297               	.LFB47:
+ 1298               	.LM10:
+ 1299               	/* prologue: function */
+ 1300               	/* frame size = 0 */
+ 1301               	.LM11:
+ 1302 0060 0E94 0000 		call qk_main
+ 1303               	.LM12:
+ 1304 0064 0E94 0000 		call hal_init
+ 1305               	.LM13:
+ 1306 0068 81E0      		ldi r24,lo8(1)
+ 1307 006a 64E1      		ldi r22,lo8(20)
+ 1308 006c 70E0      		ldi r23,hi8(20)
+ 1309 006e 0E94 0000 		call _blinkLED
+ 1310               	.LM14:
+ 1311 0072 0E94 0000 		call qk_core_init
+ 1312               	.LM15:
+ 1313 0076 0E94 0000 		call qk_board_init
+ 1314               	.LM16:
+ 1315 007a 81E0      		ldi r24,lo8(1)
+ 1316 007c 64E1      		ldi r22,lo8(20)
+ 1317 007e 70E0      		ldi r23,hi8(20)
+ 1318 0080 0E94 0000 		call _blinkLED
+ 1319               	.LM17:
+ 1320 0084 0E94 0000 		call qk_setup
+ 1321               	.LM18:
+ 1322 0088 0E94 0000 		call qk_board_setup
+ 1323               	.LM19:
+ 1324 008c 83E0      		ldi r24,lo8(3)
+ 1325 008e 6EE1      		ldi r22,lo8(30)
+ 1326 0090 70E0      		ldi r23,hi8(30)
+ 1327 0092 0E94 0000 		call _blinkLED
+ 1328               	.LM20:
+ 1329 0096 0E94 0000 		call qk_loop
+ 1330               	.LM21:
+ 1331 009a 88EE      		ldi r24,lo8(1000)
+ 1332 009c 93E0      		ldi r25,hi8(1000)
+ 1333 009e 0E94 0000 		call delay_ms
+ 1334               	.LM22:
+ 1335 00a2 81E0      		ldi r24,lo8(1)
+ 1336 00a4 0E94 0000 		call _setLED
+ 1337               	.L4:
+ 1338               	.LM23:
+ 1339 00a8 80E0      		ldi r24,lo8(0)
+ 1340 00aa 0E94 0000 		call _setLED
+ 1341               	.LM24:
+ 1342 00ae 86E9      		ldi r24,lo8(150)
+ 1343 00b0 90E0      		ldi r25,hi8(150)
+ 1344 00b2 0E94 0000 		call delay_ms
+ 1345               	.LM25:
+ 1346 00b6 81E0      		ldi r24,lo8(1)
+ 1347 00b8 0E94 0000 		call _setLED
+ 1348               	.LM26:
+ 1349 00bc 86E9      		ldi r24,lo8(150)
+ 1350 00be 90E0      		ldi r25,hi8(150)
+ 1351 00c0 0E94 0000 		call delay_ms
+ 1352 00c4 00C0      		rjmp .L4
+ 1353               	.LFE47:
+ 1355               		.data
+ 1356               	.LC2:
+ 1357 0011 7465 7374 		.string	"test_sample() [called %d times]"
+ 1357      5F73 616D 
+ 1357      706C 6528 
+ 1357      2920 5B63 
+ 1357      616C 6C65 
+ 1358               		.text
+ 1359               	.global	test_sample
+ 1361               	test_sample:
+ 1362               	.LFB45:
+ 1363               	.LM27:
+ 1364               	/* prologue: function */
+ 1365               	/* frame size = 0 */
+ 1366               	.LM28:
+ 1367 00c6 8091 0000 		lds r24,counter
+ 1368 00ca 9091 0000 		lds r25,(counter)+1
+ 1369 00ce 0196      		adiw r24,1
+ 1370 00d0 9093 0000 		sts (counter)+1,r25
+ 1371 00d4 8093 0000 		sts counter,r24
+ 1372 00d8 2091 0000 		lds r18,counter
+ 1373 00dc 3091 0000 		lds r19,(counter)+1
+ 1374 00e0 00D0      		rcall .
+ 1375 00e2 00D0      		rcall .
+ 1376 00e4 00D0      		rcall .
+ 1377 00e6 EDB7      		in r30,__SP_L__
+ 1378 00e8 FEB7      		in r31,__SP_H__
+ 1379 00ea 3196      		adiw r30,1
+ 1380 00ec 80E0      		ldi r24,lo8(_qk_debug_str)
+ 1381 00ee 90E0      		ldi r25,hi8(_qk_debug_str)
+ 1382 00f0 ADB7      		in r26,__SP_L__
+ 1383 00f2 BEB7      		in r27,__SP_H__
+ 1384 00f4 1296      		adiw r26,1+1
+ 1385 00f6 9C93      		st X,r25
+ 1386 00f8 8E93      		st -X,r24
+ 1387 00fa 1197      		sbiw r26,1
+ 1388 00fc 80E0      		ldi r24,lo8(.LC2)
+ 1389 00fe 90E0      		ldi r25,hi8(.LC2)
+ 1390 0100 9383      		std Z+3,r25
+ 1391 0102 8283      		std Z+2,r24
+ 1392 0104 3583      		std Z+5,r19
+ 1393 0106 2483      		std Z+4,r18
+ 1394 0108 0E94 0000 		call sprintf
+ 1395 010c 8DB7      		in r24,__SP_L__
+ 1396 010e 9EB7      		in r25,__SP_H__
+ 1397 0110 0696      		adiw r24,6
+ 1398 0112 0FB6      		in __tmp_reg__,__SREG__
+ 1399 0114 F894      		cli
+ 1400 0116 9EBF      		out __SP_H__,r25
+ 1401 0118 0FBE      		out __SREG__,__tmp_reg__
+ 1402 011a 8DBF      		out __SP_L__,r24
+ 1403 011c 0E94 0000 		call _qk_debug_sendString
+ 1404               	.L7:
+ 1405               	.LM29:
+ 1406 0120 0E94 0000 		call _toggleLED
+ 1407               	.LM30:
+ 1408 0124 84E6      		ldi r24,lo8(100)
+ 1409 0126 90E0      		ldi r25,hi8(100)
+ 1410 0128 0E94 0000 		call delay_ms
+ 1411 012c 00C0      		rjmp .L7
+ 1412               	.LFE45:
+ 1414               	.global	counter
+ 1415               		.data
+ 1418               	counter:
+ 1419 0031 0A00      		.word	10
+ 1420               		.comm dat_buf,24,1
+ 1461               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 atmega.c
+C:\Users\mribeiro\AppData\Local\Temp/ccNOLzSS.s:2      *ABS*:0000003f __SREG__
+C:\Users\mribeiro\AppData\Local\Temp/ccNOLzSS.s:3      *ABS*:0000003e __SP_H__
+C:\Users\mribeiro\AppData\Local\Temp/ccNOLzSS.s:4      *ABS*:0000003d __SP_L__
+C:\Users\mribeiro\AppData\Local\Temp/ccNOLzSS.s:5      *ABS*:00000034 __CCP__
+C:\Users\mribeiro\AppData\Local\Temp/ccNOLzSS.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccNOLzSS.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccNOLzSS.s:1212   .text:00000000 qk_setup
+                            *COM*:00000018 dat_buf
+C:\Users\mribeiro\AppData\Local\Temp/ccNOLzSS.s:1361   .text:000000c6 test_sample
+C:\Users\mribeiro\AppData\Local\Temp/ccNOLzSS.s:1296   .text:00000060 main
+C:\Users\mribeiro\AppData\Local\Temp/ccNOLzSS.s:1418   .data:00000031 counter
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+_qk_board
+strcpy
+_qk_device
+qk_main
+hal_init
+_blinkLED
+qk_core_init
+qk_board_init
+qk_board_setup
+qk_loop
+delay_ms
+_setLED
+_qk_debug_str
+sprintf
+_qk_debug_sendString
+_toggleLED

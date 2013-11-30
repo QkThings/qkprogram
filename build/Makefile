@@ -12,11 +12,11 @@ TARGET = arduino
 .PHONY: all debug release clean upload
 
 PROJECTNAME = qkprogram
-OBJ_DIR = build
+OBJ_DIR = output
 EXE_DIR = bin
 LIB_DIR = lib
 
-OPTIMIZE = s
+OPTIMIZE = 0
 FORMAT = binary
 
 # Try autodetecting the environment
