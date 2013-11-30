@@ -8,501 +8,501 @@
    8               		.global __do_copy_data
    9               		.global __do_clear_bss
   19               	.Ltext0:
- 1183               	.global	hal_uart_setReadWait
- 1185               	hal_uart_setReadWait:
- 1186               	.LFB46:
- 1187               	.LM1:
- 1188               	.LVL0:
- 1189               	/* prologue: function */
- 1190               	/* frame size = 0 */
- 1191               	.LM2:
- 1192 0000 8823      		tst r24
- 1193 0002 01F4      		brne .L4
- 1194               	.LM3:
- 1195 0004 6093 0000 		sts uart1_readWait,r22
- 1196               	.L4:
- 1197 0008 0895      		ret
- 1198               	.LFE46:
- 1200               	.global	hal_uart_bytesAvailable
- 1202               	hal_uart_bytesAvailable:
- 1203               	.LFB47:
- 1204               	.LM4:
- 1205               	.LVL1:
- 1206               	/* prologue: function */
- 1207               	/* frame size = 0 */
- 1208               	.LM5:
- 1209 000a 90E0      		ldi r25,lo8(0)
- 1210 000c 2EE8      		ldi r18,lo8(142)
- 1211 000e 30E0      		ldi r19,hi8(142)
- 1212 0010 829F      		mul r24,r18
- 1213 0012 F001      		movw r30,r0
- 1214 0014 839F      		mul r24,r19
- 1215 0016 F00D      		add r31,r0
- 1216 0018 929F      		mul r25,r18
- 1217 001a F00D      		add r31,r0
- 1218 001c 1124      		clr r1
- 1219               	.LVL2:
- 1220 001e E050      		subi r30,lo8(-(_hal_uart+138))
- 1221 0020 F040      		sbci r31,hi8(-(_hal_uart+138))
- 1222 0022 2081      		ld r18,Z
- 1223 0024 3181      		ldd r19,Z+1
- 1224               	.LM6:
- 1225 0026 C901      		movw r24,r18
- 1226               	/* epilogue start */
- 1227 0028 0895      		ret
- 1228               	.LFE47:
- 1230               	.global	hal_uart_readBytes
- 1232               	hal_uart_readBytes:
- 1233               	.LFB51:
- 1234               	.LM7:
- 1235               	.LVL3:
- 1236 002a CF92      		push r12
- 1237 002c DF92      		push r13
- 1238 002e EF92      		push r14
- 1239 0030 FF92      		push r15
- 1240 0032 0F93      		push r16
- 1241 0034 1F93      		push r17
- 1242 0036 CF93      		push r28
- 1243 0038 DF93      		push r29
- 1244               	/* prologue: function */
- 1245               	/* frame size = 0 */
- 1246 003a 6B01      		movw r12,r22
- 1247               	.LM8:
- 1248 003c E82E      		mov r14,r24
- 1249 003e FF24      		clr r15
- 1250               	.LM9:
- 1251 0040 E901      		movw r28,r18
- 1252               	.LVL4:
- 1253               	.LBB10:
- 1254               	.LBB11:
- 1255               	.LM10:
- 1256 0042 8823      		tst r24
- 1257 0044 01F4      		brne .L8
- 1258               	.LVL5:
- 1259               	.LBE11:
- 1260               	.LBE10:
- 1261               	.LBB12:
- 1262               	.LBB13:
- 1263               	.LM11:
- 1264 0046 8091 0000 		lds r24,uart1_readWait
- 1265               	.LVL6:
- 1266 004a 8823      		tst r24
- 1267 004c 01F0      		breq .L8
- 1268               	.LM12:
- 1269 004e 8EE8      		ldi r24,lo8(142)
- 1270 0050 90E0      		ldi r25,hi8(142)
- 1271 0052 E89E      		mul r14,r24
- 1272 0054 F001      		movw r30,r0
- 1273 0056 E99E      		mul r14,r25
- 1274 0058 F00D      		add r31,r0
- 1275 005a F89E      		mul r15,r24
- 1276 005c F00D      		add r31,r0
- 1277 005e 1124      		clr r1
- 1278 0060 E050      		subi r30,lo8(-(_hal_uart+138))
- 1279 0062 F040      		sbci r31,hi8(-(_hal_uart+138))
- 1280 0064 8081      		ld r24,Z
- 1281 0066 9181      		ldd r25,Z+1
- 1282 0068 8217      		cp r24,r18
- 1283 006a 9307      		cpc r25,r19
- 1284 006c 00F0      		brlo .L10
- 1285               	.LVL7:
- 1286 006e 00C0      		rjmp .L8
- 1287               	.LVL8:
- 1288               	.L11:
- 1289               	.LM13:
- 1290 0070 0E94 0000 		call hal_power_EM1
- 1291               	.LVL9:
- 1292 0074 00C0      		rjmp .L16
- 1293               	.LVL10:
- 1294               	.L10:
- 1295               	.LM14:
- 1296 0076 8F01      		movw r16,r30
- 1297               	.LVL11:
- 1298               	.L16:
- 1299 0078 F801      		movw r30,r16
- 1300 007a 8081      		ld r24,Z
- 1301 007c 9181      		ldd r25,Z+1
- 1302 007e 8C17      		cp r24,r28
- 1303 0080 9D07      		cpc r25,r29
- 1304 0082 00F0      		brlo .L11
- 1305               	.LVL12:
- 1306               	.L8:
- 1307               	.LM15:
- 1308 0084 2097      		sbiw r28,0
- 1309 0086 01F4      		brne .L12
- 1310               	.LM16:
- 1311 0088 8EE8      		ldi r24,lo8(142)
- 1312 008a 90E0      		ldi r25,hi8(142)
- 1313               	.LVL13:
- 1314 008c E89E      		mul r14,r24
- 1315 008e F001      		movw r30,r0
- 1316 0090 E99E      		mul r14,r25
- 1317 0092 F00D      		add r31,r0
- 1318 0094 F89E      		mul r15,r24
- 1319 0096 F00D      		add r31,r0
- 1320 0098 1124      		clr r1
- 1321 009a E050      		subi r30,lo8(-(_hal_uart+138))
- 1322 009c F040      		sbci r31,hi8(-(_hal_uart+138))
- 1323 009e C081      		ld r28,Z
- 1324 00a0 D181      		ldd r29,Z+1
- 1325               	.LVL14:
- 1326               	.L12:
- 1327 00a2 60E0      		ldi r22,lo8(0)
- 1328 00a4 70E0      		ldi r23,hi8(0)
- 1329               	.LVL15:
- 1330               	.LM17:
- 1331 00a6 8EE8      		ldi r24,lo8(142)
- 1332 00a8 90E0      		ldi r25,hi8(142)
- 1333               	.LVL16:
- 1334 00aa E89E      		mul r14,r24
- 1335 00ac A001      		movw r20,r0
- 1336 00ae E99E      		mul r14,r25
- 1337 00b0 500D      		add r21,r0
- 1338 00b2 F89E      		mul r15,r24
- 1339 00b4 500D      		add r21,r0
- 1340 00b6 1124      		clr r1
- 1341 00b8 4050      		subi r20,lo8(-(_hal_uart))
- 1342 00ba 5040      		sbci r21,hi8(-(_hal_uart))
- 1343 00bc DA01      		movw r26,r20
- 1344 00be AA57      		subi r26,lo8(-(134))
- 1345 00c0 BF4F      		sbci r27,hi8(-(134))
- 1346 00c2 00C0      		rjmp .L13
- 1347               	.LVL17:
- 1348               	.L14:
- 1349 00c4 8D91      		ld r24,X+
- 1350 00c6 9C91      		ld r25,X
- 1351 00c8 1197      		sbiw r26,1
- 1352               	.LM18:
- 1353 00ca FA01      		movw r30,r20
- 1354 00cc E80F      		add r30,r24
- 1355 00ce F91F      		adc r31,r25
- 1356 00d0 2681      		ldd r18,Z+6
- 1357               	.LVL18:
- 1358 00d2 F601      		movw r30,r12
- 1359 00d4 E60F      		add r30,r22
- 1360 00d6 F71F      		adc r31,r23
- 1361 00d8 2083      		st Z,r18
- 1362               	.LM19:
- 1363 00da 0196      		adiw r24,1
- 1364 00dc 8F77      		andi r24,lo8(127)
- 1365 00de 9070      		andi r25,hi8(127)
- 1366 00e0 1196      		adiw r26,1
- 1367 00e2 9C93      		st X,r25
- 1368 00e4 8E93      		st -X,r24
- 1369               	.LM20:
- 1370 00e6 6F5F      		subi r22,lo8(-(1))
- 1371 00e8 7F4F      		sbci r23,hi8(-(1))
- 1372               	.LVL19:
- 1373               	.L13:
- 1374 00ea 6C17      		cp r22,r28
- 1375 00ec 7D07      		cpc r23,r29
- 1376 00ee 00F0      		brlo .L14
- 1377               	.LM21:
- 1378 00f0 8EE8      		ldi r24,lo8(142)
- 1379 00f2 90E0      		ldi r25,hi8(142)
- 1380               	.LVL20:
- 1381 00f4 E89E      		mul r14,r24
- 1382 00f6 F001      		movw r30,r0
- 1383 00f8 E99E      		mul r14,r25
- 1384 00fa F00D      		add r31,r0
- 1385 00fc F89E      		mul r15,r24
- 1386 00fe F00D      		add r31,r0
- 1387 0100 1124      		clr r1
- 1388 0102 E050      		subi r30,lo8(-(_hal_uart+138))
- 1389 0104 F040      		sbci r31,hi8(-(_hal_uart+138))
- 1390 0106 8081      		ld r24,Z
- 1391 0108 9181      		ldd r25,Z+1
- 1392 010a 8C1B      		sub r24,r28
- 1393 010c 9D0B      		sbc r25,r29
- 1394 010e 9183      		std Z+1,r25
- 1395 0110 8083      		st Z,r24
- 1396               	.LBE13:
- 1397               	.LBE12:
- 1398               	.LM22:
- 1399 0112 CE01      		movw r24,r28
- 1400               	.LVL21:
- 1401               	/* epilogue start */
- 1402 0114 DF91      		pop r29
- 1403 0116 CF91      		pop r28
- 1404 0118 1F91      		pop r17
- 1405 011a 0F91      		pop r16
- 1406 011c FF90      		pop r15
- 1407 011e EF90      		pop r14
- 1408 0120 DF90      		pop r13
- 1409 0122 CF90      		pop r12
- 1410               	.LVL22:
- 1411 0124 0895      		ret
- 1412               	.LFE51:
- 1414               	.global	hal_uart_readByte
- 1416               	hal_uart_readByte:
- 1417               	.LFB50:
- 1418               	.LM23:
- 1419               	.LVL23:
- 1420 0126 FF92      		push r15
- 1421 0128 0F93      		push r16
- 1422 012a 1F93      		push r17
- 1423 012c CF93      		push r28
- 1424 012e DF93      		push r29
- 1425               	/* prologue: function */
- 1426               	/* frame size = 0 */
- 1427               	.LM24:
- 1428 0130 082F      		mov r16,r24
- 1429 0132 10E0      		ldi r17,lo8(0)
- 1430               	.LBB14:
- 1431               	.LBB15:
- 1432               	.LM25:
- 1433 0134 8823      		tst r24
- 1434 0136 01F0      		breq .L19
- 1435 0138 FF24      		clr r15
- 1436 013a 00C0      		rjmp .L20
- 1437               	.L19:
- 1438               	.LM26:
- 1439 013c F090 0000 		lds r15,uart1_readWait
- 1440               	.LBE15:
- 1441               	.LBE14:
- 1442               	.LBB16:
- 1443               	.LBB17:
- 1444               	.LM27:
- 1445 0140 FF20      		tst r15
- 1446 0142 01F0      		breq .L20
- 1447 0144 8EE8      		ldi r24,lo8(142)
- 1448 0146 90E0      		ldi r25,hi8(142)
- 1449               	.LVL24:
- 1450 0148 089F      		mul r16,r24
- 1451 014a F001      		movw r30,r0
- 1452 014c 099F      		mul r16,r25
- 1453 014e F00D      		add r31,r0
- 1454 0150 189F      		mul r17,r24
- 1455 0152 F00D      		add r31,r0
- 1456 0154 1124      		clr r1
- 1457 0156 E050      		subi r30,lo8(-(_hal_uart+138))
- 1458 0158 F040      		sbci r31,hi8(-(_hal_uart+138))
- 1459 015a 8081      		ld r24,Z
- 1460 015c 9181      		ldd r25,Z+1
- 1461 015e 892B      		or r24,r25
- 1462 0160 01F0      		breq .L21
- 1463 0162 00C0      		rjmp .L20
- 1464               	.L22:
- 1465               	.LM28:
- 1466 0164 0E94 0000 		call hal_power_EM1
- 1467 0168 00C0      		rjmp .L28
- 1468               	.L21:
- 1469               	.LM29:
- 1470 016a EF01      		movw r28,r30
- 1471               	.L28:
- 1472 016c 8881      		ld r24,Y
- 1473 016e 9981      		ldd r25,Y+1
- 1474 0170 892B      		or r24,r25
- 1475 0172 01F0      		breq .L22
- 1476               	.LVL25:
- 1477               	.L20:
- 1478               	.LM30:
- 1479 0174 8EE8      		ldi r24,lo8(142)
- 1480 0176 90E0      		ldi r25,hi8(142)
- 1481               	.LVL26:
- 1482 0178 089F      		mul r16,r24
- 1483 017a F001      		movw r30,r0
- 1484 017c 099F      		mul r16,r25
- 1485 017e F00D      		add r31,r0
- 1486 0180 189F      		mul r17,r24
- 1487 0182 F00D      		add r31,r0
- 1488 0184 1124      		clr r1
- 1489 0186 E050      		subi r30,lo8(-(_hal_uart+138))
- 1490 0188 F040      		sbci r31,hi8(-(_hal_uart+138))
- 1491 018a 8081      		ld r24,Z
- 1492 018c 9181      		ldd r25,Z+1
- 1493 018e 892B      		or r24,r25
- 1494 0190 01F4      		brne .L23
- 1495               	.LM31:
- 1496 0192 FF20      		tst r15
- 1497 0194 01F4      		brne .L24
- 1498 0196 40E0      		ldi r20,lo8(0)
- 1499               	.LVL27:
- 1500 0198 00C0      		rjmp .L25
- 1501               	.LVL28:
- 1502               	.L26:
- 1503               	.LM32:
- 1504 019a 0E94 0000 		call hal_power_EM1
- 1505 019e 00C0      		rjmp .L29
- 1506               	.L24:
- 1507               	.LM33:
- 1508 01a0 EF01      		movw r28,r30
- 1509               	.L29:
- 1510 01a2 8881      		ld r24,Y
- 1511 01a4 9981      		ldd r25,Y+1
- 1512 01a6 892B      		or r24,r25
- 1513 01a8 01F0      		breq .L26
- 1514               	.L23:
- 1515               	.LM34:
- 1516 01aa 8EE8      		ldi r24,lo8(142)
- 1517 01ac 90E0      		ldi r25,hi8(142)
- 1518 01ae 089F      		mul r16,r24
- 1519 01b0 F001      		movw r30,r0
- 1520 01b2 099F      		mul r16,r25
- 1521 01b4 F00D      		add r31,r0
- 1522 01b6 189F      		mul r17,r24
- 1523 01b8 F00D      		add r31,r0
- 1524 01ba 1124      		clr r1
- 1525 01bc E050      		subi r30,lo8(-(_hal_uart))
- 1526 01be F040      		sbci r31,hi8(-(_hal_uart))
- 1527 01c0 9F01      		movw r18,r30
- 1528 01c2 2A57      		subi r18,lo8(-(134))
- 1529 01c4 3F4F      		sbci r19,hi8(-(134))
- 1530 01c6 D901      		movw r26,r18
- 1531 01c8 8D91      		ld r24,X+
- 1532 01ca 9C91      		ld r25,X
- 1533               	.LVL29:
- 1534               	.LM35:
- 1535 01cc DF01      		movw r26,r30
- 1536 01ce A80F      		add r26,r24
- 1537 01d0 B91F      		adc r27,r25
- 1538 01d2 1696      		adiw r26,6
- 1539 01d4 4C91      		ld r20,X
- 1540               	.LVL30:
- 1541               	.LM36:
- 1542 01d6 0196      		adiw r24,1
- 1543 01d8 8F77      		andi r24,lo8(127)
- 1544 01da 9070      		andi r25,hi8(127)
- 1545 01dc D901      		movw r26,r18
- 1546 01de 1196      		adiw r26,1
- 1547 01e0 9C93      		st X,r25
- 1548 01e2 8E93      		st -X,r24
- 1549               	.LM37:
- 1550 01e4 E657      		subi r30,lo8(-(138))
- 1551 01e6 FF4F      		sbci r31,hi8(-(138))
- 1552 01e8 8081      		ld r24,Z
- 1553 01ea 9181      		ldd r25,Z+1
- 1554               	.LVL31:
- 1555 01ec 0197      		sbiw r24,1
- 1556 01ee 9183      		std Z+1,r25
- 1557 01f0 8083      		st Z,r24
- 1558               	.L25:
- 1559               	.LBE17:
- 1560               	.LBE16:
- 1561               	.LM38:
- 1562 01f2 842F      		mov r24,r20
- 1563               	/* epilogue start */
- 1564 01f4 DF91      		pop r29
- 1565 01f6 CF91      		pop r28
- 1566 01f8 1F91      		pop r17
- 1567 01fa 0F91      		pop r16
- 1568 01fc FF90      		pop r15
- 1569 01fe 0895      		ret
- 1570               	.LFE50:
- 1572               	.global	hal_uart_writeString
- 1574               	hal_uart_writeString:
- 1575               	.LFB49:
- 1576               	.LM39:
- 1577               	.LVL32:
- 1578 0200 1F93      		push r17
- 1579 0202 CF93      		push r28
- 1580 0204 DF93      		push r29
- 1581               	/* prologue: function */
- 1582               	/* frame size = 0 */
- 1583 0206 182F      		mov r17,r24
- 1584 0208 EB01      		movw r28,r22
- 1585 020a 00C0      		rjmp .L31
- 1586               	.LVL33:
- 1587               	.L32:
- 1588               	.LM40:
- 1589 020c 2196      		adiw r28,1
- 1590 020e 812F      		mov r24,r17
- 1591 0210 0E94 0000 		call hal_uart_writeByte
- 1592               	.LVL34:
- 1593               	.L31:
- 1594               	.LM41:
- 1595 0214 6881      		ld r22,Y
- 1596 0216 6623      		tst r22
- 1597 0218 01F4      		brne .L32
- 1598               	/* epilogue start */
- 1599               	.LM42:
- 1600 021a DF91      		pop r29
- 1601 021c CF91      		pop r28
- 1602               	.LVL35:
- 1603 021e 1F91      		pop r17
- 1604               	.LVL36:
- 1605 0220 0895      		ret
- 1606               	.LFE49:
- 1608               	.global	hal_uart_writeBytes
- 1610               	hal_uart_writeBytes:
- 1611               	.LFB48:
- 1612               	.LM43:
- 1613               	.LVL37:
- 1614 0222 DF92      		push r13
- 1615 0224 EF92      		push r14
- 1616 0226 FF92      		push r15
- 1617 0228 0F93      		push r16
- 1618 022a 1F93      		push r17
- 1619 022c CF93      		push r28
- 1620 022e DF93      		push r29
- 1621               	/* prologue: function */
- 1622               	/* frame size = 0 */
- 1623 0230 D82E      		mov r13,r24
- 1624 0232 EB01      		movw r28,r22
- 1625 0234 7901      		movw r14,r18
- 1626 0236 8A01      		movw r16,r20
- 1627 0238 00C0      		rjmp .L35
- 1628               	.LVL38:
- 1629               	.L36:
- 1630               	.LM44:
- 1631 023a 6991      		ld r22,Y+
- 1632 023c 8D2D      		mov r24,r13
- 1633 023e 0E94 0000 		call hal_uart_writeByte
- 1634 0242 0894      		sec
- 1635 0244 E108      		sbc r14,__zero_reg__
- 1636 0246 F108      		sbc r15,__zero_reg__
- 1637 0248 0109      		sbc r16,__zero_reg__
- 1638 024a 1109      		sbc r17,__zero_reg__
- 1639               	.LVL39:
- 1640               	.L35:
- 1641               	.LM45:
- 1642 024c E114      		cp r14,__zero_reg__
- 1643 024e F104      		cpc r15,__zero_reg__
- 1644 0250 0105      		cpc r16,__zero_reg__
- 1645 0252 1105      		cpc r17,__zero_reg__
- 1646 0254 01F4      		brne .L36
- 1647               	/* epilogue start */
- 1648               	.LM46:
- 1649 0256 DF91      		pop r29
- 1650 0258 CF91      		pop r28
- 1651               	.LVL40:
- 1652 025a 1F91      		pop r17
- 1653 025c 0F91      		pop r16
- 1654 025e FF90      		pop r15
- 1655 0260 EF90      		pop r14
- 1656               	.LVL41:
- 1657 0262 DF90      		pop r13
- 1658               	.LVL42:
- 1659 0264 0895      		ret
- 1660               	.LFE48:
- 1662               	.global	uart1_readWait
- 1663               	.global	uart1_readWait
- 1664               		.section .bss
- 1667               	uart1_readWait:
- 1668 0000 00        		.skip 1,0
- 1669               	.global	uart2_readWait
- 1670               	.global	uart2_readWait
- 1673               	uart2_readWait:
- 1674 0001 00        		.skip 1,0
- 1675               		.comm _hal_uart,142,1
- 1740               	.Letext0:
+ 1177               	.global	hal_uart_setReadWait
+ 1179               	hal_uart_setReadWait:
+ 1180               	.LFB46:
+ 1181               	.LM1:
+ 1182               	.LVL0:
+ 1183               	/* prologue: function */
+ 1184               	/* frame size = 0 */
+ 1185               	.LM2:
+ 1186 0000 8823      		tst r24
+ 1187 0002 01F4      		brne .L4
+ 1188               	.LM3:
+ 1189 0004 6093 0000 		sts uart1_readWait,r22
+ 1190               	.L4:
+ 1191 0008 0895      		ret
+ 1192               	.LFE46:
+ 1194               	.global	hal_uart_bytesAvailable
+ 1196               	hal_uart_bytesAvailable:
+ 1197               	.LFB47:
+ 1198               	.LM4:
+ 1199               	.LVL1:
+ 1200               	/* prologue: function */
+ 1201               	/* frame size = 0 */
+ 1202               	.LM5:
+ 1203 000a 90E0      		ldi r25,lo8(0)
+ 1204 000c 2EE8      		ldi r18,lo8(142)
+ 1205 000e 30E0      		ldi r19,hi8(142)
+ 1206 0010 829F      		mul r24,r18
+ 1207 0012 F001      		movw r30,r0
+ 1208 0014 839F      		mul r24,r19
+ 1209 0016 F00D      		add r31,r0
+ 1210 0018 929F      		mul r25,r18
+ 1211 001a F00D      		add r31,r0
+ 1212 001c 1124      		clr r1
+ 1213               	.LVL2:
+ 1214 001e E050      		subi r30,lo8(-(_hal_uart+138))
+ 1215 0020 F040      		sbci r31,hi8(-(_hal_uart+138))
+ 1216 0022 2081      		ld r18,Z
+ 1217 0024 3181      		ldd r19,Z+1
+ 1218               	.LM6:
+ 1219 0026 C901      		movw r24,r18
+ 1220               	/* epilogue start */
+ 1221 0028 0895      		ret
+ 1222               	.LFE47:
+ 1224               	.global	hal_uart_readBytes
+ 1226               	hal_uart_readBytes:
+ 1227               	.LFB51:
+ 1228               	.LM7:
+ 1229               	.LVL3:
+ 1230 002a CF92      		push r12
+ 1231 002c DF92      		push r13
+ 1232 002e EF92      		push r14
+ 1233 0030 FF92      		push r15
+ 1234 0032 0F93      		push r16
+ 1235 0034 1F93      		push r17
+ 1236 0036 CF93      		push r28
+ 1237 0038 DF93      		push r29
+ 1238               	/* prologue: function */
+ 1239               	/* frame size = 0 */
+ 1240 003a 6B01      		movw r12,r22
+ 1241               	.LM8:
+ 1242 003c E82E      		mov r14,r24
+ 1243 003e FF24      		clr r15
+ 1244               	.LM9:
+ 1245 0040 E901      		movw r28,r18
+ 1246               	.LVL4:
+ 1247               	.LBB10:
+ 1248               	.LBB11:
+ 1249               	.LM10:
+ 1250 0042 8823      		tst r24
+ 1251 0044 01F4      		brne .L8
+ 1252               	.LVL5:
+ 1253               	.LBE11:
+ 1254               	.LBE10:
+ 1255               	.LBB12:
+ 1256               	.LBB13:
+ 1257               	.LM11:
+ 1258 0046 8091 0000 		lds r24,uart1_readWait
+ 1259               	.LVL6:
+ 1260 004a 8823      		tst r24
+ 1261 004c 01F0      		breq .L8
+ 1262               	.LM12:
+ 1263 004e 8EE8      		ldi r24,lo8(142)
+ 1264 0050 90E0      		ldi r25,hi8(142)
+ 1265 0052 E89E      		mul r14,r24
+ 1266 0054 F001      		movw r30,r0
+ 1267 0056 E99E      		mul r14,r25
+ 1268 0058 F00D      		add r31,r0
+ 1269 005a F89E      		mul r15,r24
+ 1270 005c F00D      		add r31,r0
+ 1271 005e 1124      		clr r1
+ 1272 0060 E050      		subi r30,lo8(-(_hal_uart+138))
+ 1273 0062 F040      		sbci r31,hi8(-(_hal_uart+138))
+ 1274 0064 8081      		ld r24,Z
+ 1275 0066 9181      		ldd r25,Z+1
+ 1276 0068 8217      		cp r24,r18
+ 1277 006a 9307      		cpc r25,r19
+ 1278 006c 00F0      		brlo .L10
+ 1279               	.LVL7:
+ 1280 006e 00C0      		rjmp .L8
+ 1281               	.LVL8:
+ 1282               	.L11:
+ 1283               	.LM13:
+ 1284 0070 0E94 0000 		call hal_power_EM1
+ 1285               	.LVL9:
+ 1286 0074 00C0      		rjmp .L16
+ 1287               	.LVL10:
+ 1288               	.L10:
+ 1289               	.LM14:
+ 1290 0076 8F01      		movw r16,r30
+ 1291               	.LVL11:
+ 1292               	.L16:
+ 1293 0078 F801      		movw r30,r16
+ 1294 007a 8081      		ld r24,Z
+ 1295 007c 9181      		ldd r25,Z+1
+ 1296 007e 8C17      		cp r24,r28
+ 1297 0080 9D07      		cpc r25,r29
+ 1298 0082 00F0      		brlo .L11
+ 1299               	.LVL12:
+ 1300               	.L8:
+ 1301               	.LM15:
+ 1302 0084 2097      		sbiw r28,0
+ 1303 0086 01F4      		brne .L12
+ 1304               	.LM16:
+ 1305 0088 8EE8      		ldi r24,lo8(142)
+ 1306 008a 90E0      		ldi r25,hi8(142)
+ 1307               	.LVL13:
+ 1308 008c E89E      		mul r14,r24
+ 1309 008e F001      		movw r30,r0
+ 1310 0090 E99E      		mul r14,r25
+ 1311 0092 F00D      		add r31,r0
+ 1312 0094 F89E      		mul r15,r24
+ 1313 0096 F00D      		add r31,r0
+ 1314 0098 1124      		clr r1
+ 1315 009a E050      		subi r30,lo8(-(_hal_uart+138))
+ 1316 009c F040      		sbci r31,hi8(-(_hal_uart+138))
+ 1317 009e C081      		ld r28,Z
+ 1318 00a0 D181      		ldd r29,Z+1
+ 1319               	.LVL14:
+ 1320               	.L12:
+ 1321 00a2 60E0      		ldi r22,lo8(0)
+ 1322 00a4 70E0      		ldi r23,hi8(0)
+ 1323               	.LVL15:
+ 1324               	.LM17:
+ 1325 00a6 8EE8      		ldi r24,lo8(142)
+ 1326 00a8 90E0      		ldi r25,hi8(142)
+ 1327               	.LVL16:
+ 1328 00aa E89E      		mul r14,r24
+ 1329 00ac A001      		movw r20,r0
+ 1330 00ae E99E      		mul r14,r25
+ 1331 00b0 500D      		add r21,r0
+ 1332 00b2 F89E      		mul r15,r24
+ 1333 00b4 500D      		add r21,r0
+ 1334 00b6 1124      		clr r1
+ 1335 00b8 4050      		subi r20,lo8(-(_hal_uart))
+ 1336 00ba 5040      		sbci r21,hi8(-(_hal_uart))
+ 1337 00bc DA01      		movw r26,r20
+ 1338 00be AA57      		subi r26,lo8(-(134))
+ 1339 00c0 BF4F      		sbci r27,hi8(-(134))
+ 1340 00c2 00C0      		rjmp .L13
+ 1341               	.LVL17:
+ 1342               	.L14:
+ 1343 00c4 8D91      		ld r24,X+
+ 1344 00c6 9C91      		ld r25,X
+ 1345 00c8 1197      		sbiw r26,1
+ 1346               	.LM18:
+ 1347 00ca FA01      		movw r30,r20
+ 1348 00cc E80F      		add r30,r24
+ 1349 00ce F91F      		adc r31,r25
+ 1350 00d0 2681      		ldd r18,Z+6
+ 1351               	.LVL18:
+ 1352 00d2 F601      		movw r30,r12
+ 1353 00d4 E60F      		add r30,r22
+ 1354 00d6 F71F      		adc r31,r23
+ 1355 00d8 2083      		st Z,r18
+ 1356               	.LM19:
+ 1357 00da 0196      		adiw r24,1
+ 1358 00dc 8F77      		andi r24,lo8(127)
+ 1359 00de 9070      		andi r25,hi8(127)
+ 1360 00e0 1196      		adiw r26,1
+ 1361 00e2 9C93      		st X,r25
+ 1362 00e4 8E93      		st -X,r24
+ 1363               	.LM20:
+ 1364 00e6 6F5F      		subi r22,lo8(-(1))
+ 1365 00e8 7F4F      		sbci r23,hi8(-(1))
+ 1366               	.LVL19:
+ 1367               	.L13:
+ 1368 00ea 6C17      		cp r22,r28
+ 1369 00ec 7D07      		cpc r23,r29
+ 1370 00ee 00F0      		brlo .L14
+ 1371               	.LM21:
+ 1372 00f0 8EE8      		ldi r24,lo8(142)
+ 1373 00f2 90E0      		ldi r25,hi8(142)
+ 1374               	.LVL20:
+ 1375 00f4 E89E      		mul r14,r24
+ 1376 00f6 F001      		movw r30,r0
+ 1377 00f8 E99E      		mul r14,r25
+ 1378 00fa F00D      		add r31,r0
+ 1379 00fc F89E      		mul r15,r24
+ 1380 00fe F00D      		add r31,r0
+ 1381 0100 1124      		clr r1
+ 1382 0102 E050      		subi r30,lo8(-(_hal_uart+138))
+ 1383 0104 F040      		sbci r31,hi8(-(_hal_uart+138))
+ 1384 0106 8081      		ld r24,Z
+ 1385 0108 9181      		ldd r25,Z+1
+ 1386 010a 8C1B      		sub r24,r28
+ 1387 010c 9D0B      		sbc r25,r29
+ 1388 010e 9183      		std Z+1,r25
+ 1389 0110 8083      		st Z,r24
+ 1390               	.LBE13:
+ 1391               	.LBE12:
+ 1392               	.LM22:
+ 1393 0112 CE01      		movw r24,r28
+ 1394               	.LVL21:
+ 1395               	/* epilogue start */
+ 1396 0114 DF91      		pop r29
+ 1397 0116 CF91      		pop r28
+ 1398 0118 1F91      		pop r17
+ 1399 011a 0F91      		pop r16
+ 1400 011c FF90      		pop r15
+ 1401 011e EF90      		pop r14
+ 1402 0120 DF90      		pop r13
+ 1403 0122 CF90      		pop r12
+ 1404               	.LVL22:
+ 1405 0124 0895      		ret
+ 1406               	.LFE51:
+ 1408               	.global	hal_uart_readByte
+ 1410               	hal_uart_readByte:
+ 1411               	.LFB50:
+ 1412               	.LM23:
+ 1413               	.LVL23:
+ 1414 0126 FF92      		push r15
+ 1415 0128 0F93      		push r16
+ 1416 012a 1F93      		push r17
+ 1417 012c CF93      		push r28
+ 1418 012e DF93      		push r29
+ 1419               	/* prologue: function */
+ 1420               	/* frame size = 0 */
+ 1421               	.LM24:
+ 1422 0130 082F      		mov r16,r24
+ 1423 0132 10E0      		ldi r17,lo8(0)
+ 1424               	.LBB14:
+ 1425               	.LBB15:
+ 1426               	.LM25:
+ 1427 0134 8823      		tst r24
+ 1428 0136 01F0      		breq .L19
+ 1429 0138 FF24      		clr r15
+ 1430 013a 00C0      		rjmp .L20
+ 1431               	.L19:
+ 1432               	.LM26:
+ 1433 013c F090 0000 		lds r15,uart1_readWait
+ 1434               	.LBE15:
+ 1435               	.LBE14:
+ 1436               	.LBB16:
+ 1437               	.LBB17:
+ 1438               	.LM27:
+ 1439 0140 FF20      		tst r15
+ 1440 0142 01F0      		breq .L20
+ 1441 0144 8EE8      		ldi r24,lo8(142)
+ 1442 0146 90E0      		ldi r25,hi8(142)
+ 1443               	.LVL24:
+ 1444 0148 089F      		mul r16,r24
+ 1445 014a F001      		movw r30,r0
+ 1446 014c 099F      		mul r16,r25
+ 1447 014e F00D      		add r31,r0
+ 1448 0150 189F      		mul r17,r24
+ 1449 0152 F00D      		add r31,r0
+ 1450 0154 1124      		clr r1
+ 1451 0156 E050      		subi r30,lo8(-(_hal_uart+138))
+ 1452 0158 F040      		sbci r31,hi8(-(_hal_uart+138))
+ 1453 015a 8081      		ld r24,Z
+ 1454 015c 9181      		ldd r25,Z+1
+ 1455 015e 892B      		or r24,r25
+ 1456 0160 01F0      		breq .L21
+ 1457 0162 00C0      		rjmp .L20
+ 1458               	.L22:
+ 1459               	.LM28:
+ 1460 0164 0E94 0000 		call hal_power_EM1
+ 1461 0168 00C0      		rjmp .L28
+ 1462               	.L21:
+ 1463               	.LM29:
+ 1464 016a EF01      		movw r28,r30
+ 1465               	.L28:
+ 1466 016c 8881      		ld r24,Y
+ 1467 016e 9981      		ldd r25,Y+1
+ 1468 0170 892B      		or r24,r25
+ 1469 0172 01F0      		breq .L22
+ 1470               	.LVL25:
+ 1471               	.L20:
+ 1472               	.LM30:
+ 1473 0174 8EE8      		ldi r24,lo8(142)
+ 1474 0176 90E0      		ldi r25,hi8(142)
+ 1475               	.LVL26:
+ 1476 0178 089F      		mul r16,r24
+ 1477 017a F001      		movw r30,r0
+ 1478 017c 099F      		mul r16,r25
+ 1479 017e F00D      		add r31,r0
+ 1480 0180 189F      		mul r17,r24
+ 1481 0182 F00D      		add r31,r0
+ 1482 0184 1124      		clr r1
+ 1483 0186 E050      		subi r30,lo8(-(_hal_uart+138))
+ 1484 0188 F040      		sbci r31,hi8(-(_hal_uart+138))
+ 1485 018a 8081      		ld r24,Z
+ 1486 018c 9181      		ldd r25,Z+1
+ 1487 018e 892B      		or r24,r25
+ 1488 0190 01F4      		brne .L23
+ 1489               	.LM31:
+ 1490 0192 FF20      		tst r15
+ 1491 0194 01F4      		brne .L24
+ 1492 0196 40E0      		ldi r20,lo8(0)
+ 1493               	.LVL27:
+ 1494 0198 00C0      		rjmp .L25
+ 1495               	.LVL28:
+ 1496               	.L26:
+ 1497               	.LM32:
+ 1498 019a 0E94 0000 		call hal_power_EM1
+ 1499 019e 00C0      		rjmp .L29
+ 1500               	.L24:
+ 1501               	.LM33:
+ 1502 01a0 EF01      		movw r28,r30
+ 1503               	.L29:
+ 1504 01a2 8881      		ld r24,Y
+ 1505 01a4 9981      		ldd r25,Y+1
+ 1506 01a6 892B      		or r24,r25
+ 1507 01a8 01F0      		breq .L26
+ 1508               	.L23:
+ 1509               	.LM34:
+ 1510 01aa 8EE8      		ldi r24,lo8(142)
+ 1511 01ac 90E0      		ldi r25,hi8(142)
+ 1512 01ae 089F      		mul r16,r24
+ 1513 01b0 F001      		movw r30,r0
+ 1514 01b2 099F      		mul r16,r25
+ 1515 01b4 F00D      		add r31,r0
+ 1516 01b6 189F      		mul r17,r24
+ 1517 01b8 F00D      		add r31,r0
+ 1518 01ba 1124      		clr r1
+ 1519 01bc E050      		subi r30,lo8(-(_hal_uart))
+ 1520 01be F040      		sbci r31,hi8(-(_hal_uart))
+ 1521 01c0 9F01      		movw r18,r30
+ 1522 01c2 2A57      		subi r18,lo8(-(134))
+ 1523 01c4 3F4F      		sbci r19,hi8(-(134))
+ 1524 01c6 D901      		movw r26,r18
+ 1525 01c8 8D91      		ld r24,X+
+ 1526 01ca 9C91      		ld r25,X
+ 1527               	.LVL29:
+ 1528               	.LM35:
+ 1529 01cc DF01      		movw r26,r30
+ 1530 01ce A80F      		add r26,r24
+ 1531 01d0 B91F      		adc r27,r25
+ 1532 01d2 1696      		adiw r26,6
+ 1533 01d4 4C91      		ld r20,X
+ 1534               	.LVL30:
+ 1535               	.LM36:
+ 1536 01d6 0196      		adiw r24,1
+ 1537 01d8 8F77      		andi r24,lo8(127)
+ 1538 01da 9070      		andi r25,hi8(127)
+ 1539 01dc D901      		movw r26,r18
+ 1540 01de 1196      		adiw r26,1
+ 1541 01e0 9C93      		st X,r25
+ 1542 01e2 8E93      		st -X,r24
+ 1543               	.LM37:
+ 1544 01e4 E657      		subi r30,lo8(-(138))
+ 1545 01e6 FF4F      		sbci r31,hi8(-(138))
+ 1546 01e8 8081      		ld r24,Z
+ 1547 01ea 9181      		ldd r25,Z+1
+ 1548               	.LVL31:
+ 1549 01ec 0197      		sbiw r24,1
+ 1550 01ee 9183      		std Z+1,r25
+ 1551 01f0 8083      		st Z,r24
+ 1552               	.L25:
+ 1553               	.LBE17:
+ 1554               	.LBE16:
+ 1555               	.LM38:
+ 1556 01f2 842F      		mov r24,r20
+ 1557               	/* epilogue start */
+ 1558 01f4 DF91      		pop r29
+ 1559 01f6 CF91      		pop r28
+ 1560 01f8 1F91      		pop r17
+ 1561 01fa 0F91      		pop r16
+ 1562 01fc FF90      		pop r15
+ 1563 01fe 0895      		ret
+ 1564               	.LFE50:
+ 1566               	.global	hal_uart_writeString
+ 1568               	hal_uart_writeString:
+ 1569               	.LFB49:
+ 1570               	.LM39:
+ 1571               	.LVL32:
+ 1572 0200 1F93      		push r17
+ 1573 0202 CF93      		push r28
+ 1574 0204 DF93      		push r29
+ 1575               	/* prologue: function */
+ 1576               	/* frame size = 0 */
+ 1577 0206 182F      		mov r17,r24
+ 1578 0208 EB01      		movw r28,r22
+ 1579 020a 00C0      		rjmp .L31
+ 1580               	.LVL33:
+ 1581               	.L32:
+ 1582               	.LM40:
+ 1583 020c 2196      		adiw r28,1
+ 1584 020e 812F      		mov r24,r17
+ 1585 0210 0E94 0000 		call hal_uart_writeByte
+ 1586               	.LVL34:
+ 1587               	.L31:
+ 1588               	.LM41:
+ 1589 0214 6881      		ld r22,Y
+ 1590 0216 6623      		tst r22
+ 1591 0218 01F4      		brne .L32
+ 1592               	/* epilogue start */
+ 1593               	.LM42:
+ 1594 021a DF91      		pop r29
+ 1595 021c CF91      		pop r28
+ 1596               	.LVL35:
+ 1597 021e 1F91      		pop r17
+ 1598               	.LVL36:
+ 1599 0220 0895      		ret
+ 1600               	.LFE49:
+ 1602               	.global	hal_uart_writeBytes
+ 1604               	hal_uart_writeBytes:
+ 1605               	.LFB48:
+ 1606               	.LM43:
+ 1607               	.LVL37:
+ 1608 0222 DF92      		push r13
+ 1609 0224 EF92      		push r14
+ 1610 0226 FF92      		push r15
+ 1611 0228 0F93      		push r16
+ 1612 022a 1F93      		push r17
+ 1613 022c CF93      		push r28
+ 1614 022e DF93      		push r29
+ 1615               	/* prologue: function */
+ 1616               	/* frame size = 0 */
+ 1617 0230 D82E      		mov r13,r24
+ 1618 0232 EB01      		movw r28,r22
+ 1619 0234 7901      		movw r14,r18
+ 1620 0236 8A01      		movw r16,r20
+ 1621 0238 00C0      		rjmp .L35
+ 1622               	.LVL38:
+ 1623               	.L36:
+ 1624               	.LM44:
+ 1625 023a 6991      		ld r22,Y+
+ 1626 023c 8D2D      		mov r24,r13
+ 1627 023e 0E94 0000 		call hal_uart_writeByte
+ 1628 0242 0894      		sec
+ 1629 0244 E108      		sbc r14,__zero_reg__
+ 1630 0246 F108      		sbc r15,__zero_reg__
+ 1631 0248 0109      		sbc r16,__zero_reg__
+ 1632 024a 1109      		sbc r17,__zero_reg__
+ 1633               	.LVL39:
+ 1634               	.L35:
+ 1635               	.LM45:
+ 1636 024c E114      		cp r14,__zero_reg__
+ 1637 024e F104      		cpc r15,__zero_reg__
+ 1638 0250 0105      		cpc r16,__zero_reg__
+ 1639 0252 1105      		cpc r17,__zero_reg__
+ 1640 0254 01F4      		brne .L36
+ 1641               	/* epilogue start */
+ 1642               	.LM46:
+ 1643 0256 DF91      		pop r29
+ 1644 0258 CF91      		pop r28
+ 1645               	.LVL40:
+ 1646 025a 1F91      		pop r17
+ 1647 025c 0F91      		pop r16
+ 1648 025e FF90      		pop r15
+ 1649 0260 EF90      		pop r14
+ 1650               	.LVL41:
+ 1651 0262 DF90      		pop r13
+ 1652               	.LVL42:
+ 1653 0264 0895      		ret
+ 1654               	.LFE48:
+ 1656               	.global	uart1_readWait
+ 1657               	.global	uart1_readWait
+ 1658               		.section .bss
+ 1661               	uart1_readWait:
+ 1662 0000 00        		.skip 1,0
+ 1663               	.global	uart2_readWait
+ 1664               	.global	uart2_readWait
+ 1667               	uart2_readWait:
+ 1668 0001 00        		.skip 1,0
+ 1669               		.comm _hal_uart,142,1
+ 1734               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 hal_uart.c
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:2      *ABS*:0000003f __SREG__
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:3      *ABS*:0000003e __SP_H__
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:4      *ABS*:0000003d __SP_L__
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:5      *ABS*:00000034 __CCP__
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:1185   .text:00000000 hal_uart_setReadWait
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:1667   .bss:00000000 uart1_readWait
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:1202   .text:0000000a hal_uart_bytesAvailable
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:2      *ABS*:0000003f __SREG__
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:3      *ABS*:0000003e __SP_H__
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:4      *ABS*:0000003d __SP_L__
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:5      *ABS*:00000034 __CCP__
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:1179   .text:00000000 hal_uart_setReadWait
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:1661   .bss:00000000 uart1_readWait
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:1196   .text:0000000a hal_uart_bytesAvailable
                             *COM*:0000008e _hal_uart
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:1232   .text:0000002a hal_uart_readBytes
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:1416   .text:00000126 hal_uart_readByte
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:1574   .text:00000200 hal_uart_writeString
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:1610   .text:00000222 hal_uart_writeBytes
-C:\Users\mribeiro\AppData\Local\Temp/ccqPEKdn.s:1673   .bss:00000001 uart2_readWait
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:1226   .text:0000002a hal_uart_readBytes
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:1410   .text:00000126 hal_uart_readByte
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:1568   .text:00000200 hal_uart_writeString
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:1604   .text:00000222 hal_uart_writeBytes
+C:\Users\mribeiro\AppData\Local\Temp/ccfgyjmk.s:1667   .bss:00000001 uart2_readWait
 
 UNDEFINED SYMBOLS
 __do_copy_data

@@ -11,12 +11,12 @@
  383               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 qk_network.c
-C:\Users\mribeiro\AppData\Local\Temp/ccBmW3ar.s:2      *ABS*:0000003f __SREG__
-C:\Users\mribeiro\AppData\Local\Temp/ccBmW3ar.s:3      *ABS*:0000003e __SP_H__
-C:\Users\mribeiro\AppData\Local\Temp/ccBmW3ar.s:4      *ABS*:0000003d __SP_L__
-C:\Users\mribeiro\AppData\Local\Temp/ccBmW3ar.s:5      *ABS*:00000034 __CCP__
-C:\Users\mribeiro\AppData\Local\Temp/ccBmW3ar.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\mribeiro\AppData\Local\Temp/ccBmW3ar.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\mribeiro\AppData\Local\Temp/cc7KCGQi.s:2      *ABS*:0000003f __SREG__
+C:\Users\mribeiro\AppData\Local\Temp/cc7KCGQi.s:3      *ABS*:0000003e __SP_H__
+C:\Users\mribeiro\AppData\Local\Temp/cc7KCGQi.s:4      *ABS*:0000003d __SP_L__
+C:\Users\mribeiro\AppData\Local\Temp/cc7KCGQi.s:5      *ABS*:00000034 __CCP__
+C:\Users\mribeiro\AppData\Local\Temp/cc7KCGQi.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\mribeiro\AppData\Local\Temp/cc7KCGQi.s:7      *ABS*:00000001 __zero_reg__
 
 UNDEFINED SYMBOLS
 __do_copy_data

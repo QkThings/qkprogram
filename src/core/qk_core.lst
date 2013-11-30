@@ -8,703 +8,701 @@
    8               		.global __do_copy_data
    9               		.global __do_clear_bss
   19               	.Ltext0:
- 1183               	.global	_qk_requestStateChange
- 1185               	_qk_requestStateChange:
- 1186               	.LFB49:
- 1187               	.LM1:
- 1188               	.LVL0:
- 1189               	/* prologue: function */
- 1190               	/* frame size = 0 */
- 1191               	.LM2:
- 1192 0000 8093 0000 		sts _qk+1,r24
- 1193               	.LM3:
- 1194 0004 8091 0000 		lds r24,_qk+21
- 1195               	.LVL1:
- 1196 0008 8160      		ori r24,lo8(1)
- 1197 000a 8093 0000 		sts _qk+21,r24
- 1198               	/* epilogue start */
- 1199               	.LM4:
- 1200 000e 0895      		ret
- 1201               	.LFE49:
- 1203               	.global	_qk_handleStateChange
- 1205               	_qk_handleStateChange:
- 1206               	.LFB50:
- 1207               	.LM5:
- 1208               	/* prologue: function */
- 1209               	/* frame size = 0 */
- 1210               	.LM6:
- 1211 0010 8091 0000 		lds r24,_qk+21
- 1212 0014 80FF      		sbrs r24,0
- 1213 0016 00C0      		rjmp .L5
- 1214               	.LM7:
- 1215 0018 8091 0000 		lds r24,_qk+1
- 1216 001c 8093 0000 		sts _qk,r24
- 1217               	.LM8:
- 1218 0020 8091 0000 		lds r24,_qk+21
- 1219 0024 8E7F      		andi r24,lo8(-2)
- 1220 0026 8093 0000 		sts _qk+21,r24
- 1221               	.L5:
- 1222 002a 0895      		ret
- 1223               	.LFE50:
- 1225               	.global	qk_setSamplingPeriod
- 1227               	qk_setSamplingPeriod:
- 1228               	.LFB53:
- 1229               	.LM9:
- 1230               	.LVL2:
- 1231 002c EF92      		push r14
- 1232 002e FF92      		push r15
- 1233 0030 0F93      		push r16
- 1234 0032 1F93      		push r17
- 1235               	/* prologue: function */
- 1236               	/* frame size = 0 */
- 1237 0034 7B01      		movw r14,r22
- 1238 0036 8C01      		movw r16,r24
- 1239               	.LM10:
- 1240 0038 88EE      		ldi r24,lo8(1000)
- 1241 003a E816      		cp r14,r24
- 1242 003c 83E0      		ldi r24,hi8(1000)
- 1243 003e F806      		cpc r15,r24
- 1244 0040 80E0      		ldi r24,hlo8(1000)
- 1245 0042 0807      		cpc r16,r24
- 1246 0044 80E0      		ldi r24,hhi8(1000)
- 1247 0046 1807      		cpc r17,r24
- 1248 0048 00F0      		brlo .L7
- 1249               	.LVL3:
- 1250               	.LM11:
- 1251 004a C801      		movw r24,r16
- 1252 004c B701      		movw r22,r14
- 1253 004e 28EE      		ldi r18,lo8(1000)
- 1254 0050 33E0      		ldi r19,hi8(1000)
- 1255 0052 40E0      		ldi r20,hlo8(1000)
- 1256 0054 50E0      		ldi r21,hhi8(1000)
- 1257 0056 0E94 0000 		call __mulsi3
- 1258 005a AB01      		movw r20,r22
- 1259 005c BC01      		movw r22,r24
- 1260 005e 81E0      		ldi r24,lo8(1)
- 1261 0060 21E0      		ldi r18,lo8(1)
- 1262 0062 00C0      		rjmp .L10
- 1263               	.LVL4:
- 1264               	.L7:
- 1265               	.LM12:
- 1266 0064 81E0      		ldi r24,lo8(1)
- 1267 0066 B801      		movw r22,r16
- 1268 0068 A701      		movw r20,r14
- 1269 006a 22E0      		ldi r18,lo8(2)
- 1270               	.L10:
- 1271 006c 0E94 0000 		call hal_timer_setPeriod
- 1272               	.LM13:
- 1273 0070 E092 0000 		sts _qk+27,r14
- 1274 0074 F092 0000 		sts (_qk+27)+1,r15
- 1275 0078 0093 0000 		sts (_qk+27)+2,r16
- 1276 007c 1093 0000 		sts (_qk+27)+3,r17
- 1277               	.LM14:
- 1278 0080 C801      		movw r24,r16
- 1279 0082 B701      		movw r22,r14
- 1280 0084 0E94 0000 		call __floatunsisf
- 1281 0088 9B01      		movw r18,r22
- 1282 008a AC01      		movw r20,r24
- 1283 008c 60E0      		ldi r22,lo8(0x49742400)
- 1284 008e 74E2      		ldi r23,hi8(0x49742400)
- 1285 0090 84E7      		ldi r24,hlo8(0x49742400)
- 1286 0092 99E4      		ldi r25,hhi8(0x49742400)
- 1287 0094 0E94 0000 		call __divsf3
- 1288 0098 0E94 0000 		call __fixunssfsi
- 1289 009c 6093 0000 		sts _qk+31,r22
- 1290 00a0 7093 0000 		sts (_qk+31)+1,r23
- 1291 00a4 8093 0000 		sts (_qk+31)+2,r24
- 1292 00a8 9093 0000 		sts (_qk+31)+3,r25
- 1293               	/* epilogue start */
- 1294               	.LM15:
- 1295 00ac 1F91      		pop r17
- 1296 00ae 0F91      		pop r16
- 1297 00b0 FF90      		pop r15
- 1298 00b2 EF90      		pop r14
- 1299               	.LVL5:
- 1300 00b4 0895      		ret
- 1301               	.LFE53:
- 1303               	.global	qk_setSamplingFrequency
- 1305               	qk_setSamplingFrequency:
- 1306               	.LFB52:
- 1307               	.LM16:
- 1308               	.LVL6:
- 1309 00b6 EF92      		push r14
- 1310 00b8 FF92      		push r15
- 1311 00ba 0F93      		push r16
- 1312 00bc 1F93      		push r17
- 1313               	/* prologue: function */
- 1314               	/* frame size = 0 */
- 1315 00be 7B01      		movw r14,r22
- 1316 00c0 8C01      		movw r16,r24
- 1317               	.LM17:
- 1318 00c2 6115      		cp r22,__zero_reg__
- 1319 00c4 7105      		cpc r23,__zero_reg__
- 1320 00c6 8105      		cpc r24,__zero_reg__
- 1321 00c8 9105      		cpc r25,__zero_reg__
- 1322 00ca 01F0      		breq .L13
- 1323 00cc 8091 0000 		lds r24,_qk+31
- 1324 00d0 9091 0000 		lds r25,(_qk+31)+1
- 1325 00d4 A091 0000 		lds r26,(_qk+31)+2
- 1326 00d8 B091 0000 		lds r27,(_qk+31)+3
- 1327 00dc E816      		cp r14,r24
- 1328 00de F906      		cpc r15,r25
- 1329 00e0 0A07      		cpc r16,r26
- 1330 00e2 1B07      		cpc r17,r27
- 1331 00e4 01F0      		breq .L13
- 1332               	.LVL7:
- 1333               	.LM18:
- 1334 00e6 81E0      		ldi r24,lo8(1)
- 1335 00e8 B801      		movw r22,r16
- 1336 00ea A701      		movw r20,r14
- 1337 00ec 0E94 0000 		call hal_timer_setFrequency
- 1338               	.LM19:
- 1339 00f0 E092 0000 		sts _qk+31,r14
- 1340 00f4 F092 0000 		sts (_qk+31)+1,r15
- 1341 00f8 0093 0000 		sts (_qk+31)+2,r16
- 1342 00fc 1093 0000 		sts (_qk+31)+3,r17
- 1343               	.LM20:
- 1344 0100 C801      		movw r24,r16
- 1345 0102 B701      		movw r22,r14
- 1346 0104 0E94 0000 		call __floatunsisf
- 1347 0108 9B01      		movw r18,r22
- 1348 010a AC01      		movw r20,r24
- 1349 010c 60E0      		ldi r22,lo8(0x49742400)
- 1350 010e 74E2      		ldi r23,hi8(0x49742400)
- 1351 0110 84E7      		ldi r24,hlo8(0x49742400)
- 1352 0112 99E4      		ldi r25,hhi8(0x49742400)
- 1353 0114 0E94 0000 		call __divsf3
- 1354 0118 0E94 0000 		call __fixunssfsi
- 1355 011c 6093 0000 		sts _qk+27,r22
- 1356 0120 7093 0000 		sts (_qk+27)+1,r23
- 1357 0124 8093 0000 		sts (_qk+27)+2,r24
- 1358 0128 9093 0000 		sts (_qk+27)+3,r25
- 1359               	.LVL8:
- 1360               	.L13:
- 1361               	/* epilogue start */
- 1362               	.LM21:
- 1363 012c 1F91      		pop r17
- 1364 012e 0F91      		pop r16
- 1365 0130 FF90      		pop r15
- 1366 0132 EF90      		pop r14
- 1367               	.LVL9:
- 1368 0134 0895      		ret
- 1369               	.LFE52:
- 1371               	.global	qk_setBaudRate
- 1373               	qk_setBaudRate:
- 1374               	.LFB51:
- 1375               	.LM22:
- 1376               	.LVL10:
- 1377 0136 EF92      		push r14
- 1378 0138 FF92      		push r15
- 1379 013a 0F93      		push r16
- 1380 013c 1F93      		push r17
- 1381               	/* prologue: function */
- 1382               	/* frame size = 0 */
- 1383 013e 7B01      		movw r14,r22
- 1384 0140 8C01      		movw r16,r24
- 1385               	.LM23:
- 1386 0142 80E0      		ldi r24,lo8(0)
- 1387 0144 B801      		movw r22,r16
- 1388 0146 A701      		movw r20,r14
- 1389 0148 0E94 0000 		call hal_uart_setBaudRate
- 1390               	.LVL11:
- 1391               	.LM24:
- 1392 014c E092 0000 		sts _qk+2,r14
- 1393 0150 F092 0000 		sts (_qk+2)+1,r15
- 1394 0154 0093 0000 		sts (_qk+2)+2,r16
- 1395 0158 1093 0000 		sts (_qk+2)+3,r17
- 1396               	/* epilogue start */
- 1397               	.LM25:
- 1398 015c 1F91      		pop r17
- 1399 015e 0F91      		pop r16
- 1400 0160 FF90      		pop r15
- 1401 0162 EF90      		pop r14
- 1402               	.LVL12:
- 1403 0164 0895      		ret
- 1404               	.LFE51:
- 1407               	handleBoardDetection:
- 1408               	.LFB54:
- 1409               	.LM26:
- 1410               	/* prologue: function */
- 1411               	/* frame size = 0 */
- 1412               	.LM27:
- 1413 0166 0E94 0000 		call _getDET
- 1414 016a 41E0      		ldi r20,lo8(1)
- 1415 016c 4827      		eor r20,r24
- 1416               	.LM28:
- 1417 016e 8091 0000 		lds r24,_qk+15
- 1418 0172 9091 0000 		lds r25,(_qk+15)+1
- 1419 0176 9695      		lsr r25
- 1420 0178 8795      		ror r24
- 1421 017a 8170      		andi r24,lo8(1)
- 1422 017c 9070      		andi r25,hi8(1)
- 1423 017e 242F      		mov r18,r20
- 1424 0180 30E0      		ldi r19,lo8(0)
- 1425 0182 8217      		cp r24,r18
- 1426 0184 9307      		cpc r25,r19
- 1427 0186 01F4      		brne .+2
- 1428 0188 00C0      		rjmp .L19
- 1429               	.LM29:
- 1430 018a 4423      		tst r20
- 1431 018c 01F0      		breq .L18
- 1432               	.LM30:
- 1433 018e 82E0      		ldi r24,lo8(2)
- 1434 0190 62E3      		ldi r22,lo8(50)
- 1435 0192 70E0      		ldi r23,hi8(50)
- 1436 0194 0E94 0000 		call _blinkLED
- 1437               	.LM31:
- 1438 0198 8091 0000 		lds r24,_qk+15
- 1439 019c 9091 0000 		lds r25,(_qk+15)+1
- 1440 01a0 8260      		ori r24,lo8(2)
- 1441 01a2 9093 0000 		sts (_qk+15)+1,r25
- 1442 01a6 8093 0000 		sts _qk+15,r24
- 1443               	.LM32:
- 1444 01aa 4091 0000 		lds r20,_qk+2
- 1445 01ae 5091 0000 		lds r21,(_qk+2)+1
- 1446 01b2 6091 0000 		lds r22,(_qk+2)+2
- 1447 01b6 7091 0000 		lds r23,(_qk+2)+3
- 1448 01ba 80E0      		ldi r24,lo8(0)
- 1449 01bc 0E94 0000 		call hal_uart_setBaudRate
- 1450               	.LM33:
- 1451 01c0 E091 0000 		lds r30,_qk+7
- 1452 01c4 F091 0000 		lds r31,(_qk+7)+1
- 1453 01c8 3097      		sbiw r30,0
- 1454 01ca 01F0      		breq .L19
- 1455               	.LM34:
- 1456 01cc 0995      		icall
- 1457 01ce 0895      		ret
- 1458               	.L18:
- 1459               	.LM35:
- 1460 01d0 81E0      		ldi r24,lo8(1)
- 1461 01d2 62E3      		ldi r22,lo8(50)
- 1462 01d4 70E0      		ldi r23,hi8(50)
- 1463 01d6 0E94 0000 		call _blinkLED
- 1464               	.LM36:
- 1465 01da 8091 0000 		lds r24,_qk+15
- 1466 01de 9091 0000 		lds r25,(_qk+15)+1
- 1467 01e2 8D7F      		andi r24,lo8(-3)
- 1468 01e4 9093 0000 		sts (_qk+15)+1,r25
- 1469 01e8 8093 0000 		sts _qk+15,r24
- 1470               	.LM37:
- 1471 01ec 80E0      		ldi r24,lo8(0)
- 1472 01ee 40E0      		ldi r20,lo8(38400)
- 1473 01f0 56E9      		ldi r21,hi8(38400)
- 1474 01f2 60E0      		ldi r22,hlo8(38400)
- 1475 01f4 70E0      		ldi r23,hhi8(38400)
- 1476 01f6 0E94 0000 		call hal_uart_setBaudRate
- 1477               	.LM38:
- 1478 01fa E091 0000 		lds r30,_qk+9
- 1479 01fe F091 0000 		lds r31,(_qk+9)+1
- 1480 0202 3097      		sbiw r30,0
- 1481 0204 01F0      		breq .L19
- 1482               	.LM39:
- 1483 0206 0995      		icall
- 1484               	.L19:
- 1485 0208 0895      		ret
- 1486               	.LFE54:
- 1489               	handleInputChanged:
- 1490               	.LFB55:
- 1491               	.LM40:
- 1492               	/* prologue: function */
- 1493               	/* frame size = 0 */
- 1494               	.LM41:
- 1495 020a 0E94 0000 		call handleBoardDetection
- 1496               	.LM42:
- 1497 020e E091 0000 		lds r30,_qk+11
- 1498 0212 F091 0000 		lds r31,(_qk+11)+1
- 1499 0216 3097      		sbiw r30,0
- 1500 0218 01F0      		breq .L22
- 1501               	.LM43:
- 1502 021a 0995      		icall
- 1503               	.L22:
- 1504 021c 0895      		ret
- 1505               	.LFE55:
- 1507               	.global	qk_run
- 1509               	qk_run:
- 1510               	.LFB47:
- 1511               	.LM44:
- 1512 021e CF92      		push r12
- 1513 0220 DF92      		push r13
- 1514 0222 EF92      		push r14
- 1515 0224 FF92      		push r15
- 1516 0226 0F93      		push r16
- 1517 0228 1F93      		push r17
- 1518 022a DF93      		push r29
- 1519 022c CF93      		push r28
- 1520 022e CDB7      		in r28,__SP_L__
- 1521 0230 DEB7      		in r29,__SP_H__
- 1522 0232 E897      		sbiw r28,56
- 1523 0234 0FB6      		in __tmp_reg__,__SREG__
- 1524 0236 F894      		cli
- 1525 0238 DEBF      		out __SP_H__,r29
- 1526 023a 0FBE      		out __SREG__,__tmp_reg__
- 1527 023c CDBF      		out __SP_L__,r28
- 1528               	/* prologue: function */
- 1529               	/* frame size = 56 */
- 1530               	.LM45:
- 1531 023e 8091 0000 		lds r24,_hal_gpio+2
- 1532 0242 80FF      		sbrs r24,0
- 1533 0244 00C0      		rjmp .L24
- 1534               	.LM46:
- 1535 0246 0E94 0000 		call handleInputChanged
- 1536               	.LM47:
- 1537 024a 8091 0000 		lds r24,_hal_gpio+2
- 1538 024e 8E7F      		andi r24,lo8(-2)
- 1539 0250 8093 0000 		sts _hal_gpio+2,r24
- 1540               	.L24:
- 1541               	.LM48:
- 1542 0254 E091 0000 		lds r30,_qk_comm+158
- 1543 0258 F091 0000 		lds r31,(_qk_comm+158)+1
- 1544 025c 3097      		sbiw r30,0
- 1545 025e 01F0      		breq .L25
- 1546               	.LM49:
- 1547 0260 0995      		icall
- 1548               	.L25:
- 1549               	.LM50:
- 1550 0262 8091 0000 		lds r24,_qk_comm+152
- 1551 0266 9091 0000 		lds r25,(_qk_comm+152)+1
- 1552 026a 85FF      		sbrs r24,5
- 1553 026c 00C0      		rjmp .L26
- 1554               	.LM51:
- 1555 026e E091 0000 		lds r30,_qk_comm+160
- 1556 0272 F091 0000 		lds r31,(_qk_comm+160)+1
- 1557 0276 3097      		sbiw r30,0
- 1558 0278 01F0      		breq .L27
- 1559               	.LM52:
- 1560 027a 0995      		icall
- 1561               	.L27:
- 1562               	.LM53:
- 1563 027c 8091 0000 		lds r24,_qk_comm+152
- 1564 0280 9091 0000 		lds r25,(_qk_comm+152)+1
- 1565 0284 8F7D      		andi r24,lo8(-33)
- 1566 0286 9093 0000 		sts (_qk_comm+152)+1,r25
- 1567 028a 8093 0000 		sts _qk_comm+152,r24
- 1568               	.L26:
- 1569               	.LM54:
- 1570 028e E091 0000 		lds r30,_qk_device
- 1571 0292 F091 0000 		lds r31,(_qk_device)+1
- 1572 0296 8089      		ldd r24,Z+16
- 1573 0298 E82E      		mov r14,r24
- 1574               	.LVL13:
- 1575 029a FF24      		clr r15
- 1576               	.LVL14:
- 1577 029c 00E0      		ldi r16,lo8(0)
- 1578 029e 10E0      		ldi r17,hi8(0)
- 1579               	.LVL15:
- 1580               	.LBB7:
- 1581               	.LM55:
- 1582 02a0 6E01      		movw r12,r28
- 1583 02a2 0894      		sec
- 1584 02a4 C11C      		adc r12,__zero_reg__
- 1585 02a6 D11C      		adc r13,__zero_reg__
- 1586 02a8 00C0      		rjmp .L28
- 1587               	.L30:
- 1588               	.LBE7:
- 1589               	.LM56:
- 1590 02aa 0894      		sec
- 1591 02ac E108      		sbc r14,__zero_reg__
- 1592 02ae F108      		sbc r15,__zero_reg__
- 1593 02b0 0109      		sbc r16,__zero_reg__
- 1594 02b2 1109      		sbc r17,__zero_reg__
- 1595               	.LVL16:
- 1596               	.LBB8:
- 1597               	.LM57:
- 1598 02b4 80E0      		ldi r24,lo8(_pendingEvents)
- 1599 02b6 90E0      		ldi r25,hi8(_pendingEvents)
- 1600 02b8 B601      		movw r22,r12
- 1601 02ba 0E94 0000 		call qk_cb_read
- 1602               	.LM58:
- 1603 02be C601      		movw r24,r12
- 1604 02c0 60E0      		ldi r22,lo8(_qk_comm)
- 1605 02c2 70E0      		ldi r23,hi8(_qk_comm)
- 1606 02c4 0E94 0000 		call _qk_comm_sendEvent
- 1607               	.L28:
- 1608               	.LBE8:
- 1609               	.LM59:
- 1610 02c8 80E0      		ldi r24,lo8(_pendingEvents)
- 1611 02ca 90E0      		ldi r25,hi8(_pendingEvents)
- 1612 02cc 0E94 0000 		call qk_cb_isEmpty
- 1613 02d0 8823      		tst r24
- 1614 02d2 01F4      		brne .L29
- 1615 02d4 E114      		cp r14,__zero_reg__
- 1616 02d6 F104      		cpc r15,__zero_reg__
- 1617 02d8 0105      		cpc r16,__zero_reg__
- 1618 02da 1105      		cpc r17,__zero_reg__
- 1619 02dc 01F4      		brne .L30
- 1620               	.L29:
- 1621               	.LBB9:
- 1622               	.LBB10:
- 1623               	.LM60:
- 1624 02de 8091 0000 		lds r24,_qk+21
- 1625               	.LBE10:
- 1626 02e2 80FF      		sbrs r24,0
- 1627 02e4 00C0      		rjmp .L31
- 1628               	.LBB11:
- 1629               	.LM61:
- 1630 02e6 8091 0000 		lds r24,_qk+1
- 1631 02ea 8093 0000 		sts _qk,r24
- 1632               	.LM62:
- 1633 02ee 8091 0000 		lds r24,_qk+21
- 1634 02f2 8E7F      		andi r24,lo8(-2)
- 1635 02f4 8093 0000 		sts _qk+21,r24
- 1636               	.L31:
- 1637               	.LBE11:
- 1638               	.LBE9:
- 1639               	.LM63:
- 1640 02f8 8091 0000 		lds r24,_qk
- 1641 02fc 8230      		cpi r24,lo8(2)
- 1642 02fe 01F0      		breq .L35
- 1643 0300 8330      		cpi r24,lo8(3)
- 1644 0302 00F4      		brsh .L38
- 1645 0304 8823      		tst r24
- 1646 0306 01F4      		brne .+2
- 1647 0308 00C0      		rjmp .L33
- 1648 030a 8130      		cpi r24,lo8(1)
- 1649 030c 01F0      		breq .+2
- 1650 030e 00C0      		rjmp .L32
- 1651 0310 00C0      		rjmp .L44
- 1652               	.L38:
- 1653 0312 8430      		cpi r24,lo8(4)
- 1654 0314 01F4      		brne .+2
- 1655 0316 00C0      		rjmp .L33
- 1656 0318 8430      		cpi r24,lo8(4)
- 1657 031a 00F0      		brlo .L36
- 1658 031c 8530      		cpi r24,lo8(5)
- 1659 031e 01F4      		brne .L32
- 1660 0320 00C0      		rjmp .L45
- 1661               	.L44:
- 1662               	.LM64:
- 1663 0322 81E0      		ldi r24,lo8(1)
- 1664 0324 0E94 0000 		call hal_timer_stop
- 1665 0328 00C0      		rjmp .L33
- 1666               	.L35:
- 1667               	.LM65:
- 1668 032a E091 0000 		lds r30,_qk_device
- 1669 032e F091 0000 		lds r31,(_qk_device)+1
- 1670 0332 028C      		ldd __tmp_reg__,Z+26
- 1671 0334 F38D      		ldd r31,Z+27
- 1672 0336 E02D      		mov r30,__tmp_reg__
- 1673 0338 3097      		sbiw r30,0
- 1674 033a 01F0      		breq .L39
- 1675               	.LM66:
- 1676 033c 0995      		icall
- 1677               	.L39:
- 1678               	.LM67:
- 1679 033e 81E0      		ldi r24,lo8(1)
- 1680 0340 0E94 0000 		call hal_timer_reset
- 1681               	.LM68:
- 1682 0344 81E0      		ldi r24,lo8(1)
- 1683 0346 0E94 0000 		call hal_timer_start
- 1684               	.LM69:
- 1685 034a 83E0      		ldi r24,lo8(3)
- 1686 034c 00C0      		rjmp .L43
- 1687               	.L36:
- 1688               	.LM70:
- 1689 034e 8091 0000 		lds r24,_hal_timer+23
- 1690 0352 80FF      		sbrs r24,0
- 1691 0354 00C0      		rjmp .L33
- 1692               	.LM71:
- 1693 0356 E091 0000 		lds r30,_qk_device
- 1694 035a F091 0000 		lds r31,(_qk_device)+1
- 1695 035e 008C      		ldd __tmp_reg__,Z+24
- 1696 0360 F18D      		ldd r31,Z+25
- 1697 0362 E02D      		mov r30,__tmp_reg__
- 1698 0364 3097      		sbiw r30,0
- 1699 0366 01F0      		breq .L40
- 1700               	.LM72:
- 1701 0368 0995      		icall
- 1702               	.L40:
- 1703               	.LM73:
- 1704 036a 80ED      		ldi r24,lo8(208)
- 1705 036c 90E0      		ldi r25,hi8(208)
- 1706 036e 60E0      		ldi r22,lo8(_qk_comm)
- 1707 0370 70E0      		ldi r23,hi8(_qk_comm)
- 1708 0372 0E94 0000 		call _qk_comm_sendCode
- 1709               	.LM74:
- 1710 0376 8091 0000 		lds r24,_hal_timer+23
- 1711 037a 8E7F      		andi r24,lo8(-2)
- 1712 037c 8093 0000 		sts _hal_timer+23,r24
- 1713 0380 00C0      		rjmp .L33
- 1714               	.L45:
- 1715               	.LM75:
- 1716 0382 E091 0000 		lds r30,_qk_device
- 1717 0386 F091 0000 		lds r31,(_qk_device)+1
- 1718 038a 048C      		ldd __tmp_reg__,Z+28
- 1719 038c F58D      		ldd r31,Z+29
- 1720 038e E02D      		mov r30,__tmp_reg__
- 1721 0390 3097      		sbiw r30,0
- 1722 0392 01F0      		breq .L32
- 1723               	.LM76:
- 1724 0394 0995      		icall
- 1725               	.L32:
- 1726               	.LM77:
- 1727 0396 81E0      		ldi r24,lo8(1)
- 1728               	.L43:
- 1729 0398 8093 0000 		sts _qk,r24
- 1730               	.L33:
- 1731               	.LM78:
- 1732 039c 0E94 0000 		call hal_power_EM1
- 1733               	/* epilogue start */
- 1734               	.LM79:
- 1735 03a0 E896      		adiw r28,56
- 1736 03a2 0FB6      		in __tmp_reg__,__SREG__
- 1737 03a4 F894      		cli
- 1738 03a6 DEBF      		out __SP_H__,r29
- 1739 03a8 0FBE      		out __SREG__,__tmp_reg__
- 1740 03aa CDBF      		out __SP_L__,r28
- 1741 03ac CF91      		pop r28
- 1742 03ae DF91      		pop r29
- 1743 03b0 1F91      		pop r17
- 1744 03b2 0F91      		pop r16
- 1745               	.LVL17:
- 1746 03b4 FF90      		pop r15
- 1747               	.LVL18:
- 1748 03b6 EF90      		pop r14
- 1749               	.LVL19:
- 1750 03b8 DF90      		pop r13
- 1751 03ba CF90      		pop r12
- 1752 03bc 0895      		ret
- 1753               	.LFE47:
- 1755               	.global	qk_loop
- 1757               	qk_loop:
- 1758               	.LFB48:
- 1759               	.LM80:
- 1760               	/* prologue: function */
- 1761               	/* frame size = 0 */
- 1762               	.L47:
- 1763               	.LM81:
- 1764 03be 0E94 0000 		call qk_run
- 1765 03c2 00C0      		rjmp .L47
- 1766               	.LFE48:
- 1768               	.global	qk_setClockMode
- 1770               	qk_setClockMode:
- 1771               	.LFB46:
- 1772               	.LM82:
- 1773               	.LVL20:
- 1774 03c4 1F93      		push r17
- 1775               	/* prologue: function */
- 1776               	/* frame size = 0 */
- 1777 03c6 182F      		mov r17,r24
- 1778               	.LM83:
- 1779 03c8 8230      		cpi r24,lo8(2)
- 1780 03ca 01F0      		breq .L55
- 1781 03cc 8330      		cpi r24,lo8(3)
- 1782 03ce 00F4      		brsh .L56
- 1783 03d0 8823      		tst r24
- 1784 03d2 01F0      		breq .L55
- 1785 03d4 8130      		cpi r24,lo8(1)
- 1786 03d6 01F4      		brne .L50
- 1787 03d8 00C0      		rjmp .L55
- 1788               	.L56:
- 1789 03da 8330      		cpi r24,lo8(3)
- 1790 03dc 01F0      		breq .L55
- 1791 03de 8430      		cpi r24,lo8(4)
- 1792 03e0 01F0      		breq .L55
- 1793               	.L50:
- 1794 03e2 80E0      		ldi r24,lo8(0)
- 1795               	.LVL21:
- 1796 03e4 00C0      		rjmp .L57
- 1797               	.LVL22:
- 1798               	.L55:
- 1799               	.LM84:
- 1800 03e6 80E0      		ldi r24,lo8(0)
- 1801               	.LVL23:
- 1802 03e8 0E94 0000 		call hal_clock_setFrequency
- 1803               	.LM85:
- 1804 03ec 8823      		tst r24
- 1805               	.LVL24:
- 1806 03ee 01F0      		breq .L57
- 1807               	.LM86:
- 1808 03f0 1093 0000 		sts _qk+6,r17
- 1809               	.L57:
- 1810               	.LVL25:
- 1811               	/* epilogue start */
- 1812               	.LM87:
- 1813 03f4 1F91      		pop r17
- 1814               	.LVL26:
- 1815 03f6 0895      		ret
- 1816               	.LFE46:
- 1818               	.global	qk_core_init
- 1820               	qk_core_init:
- 1821               	.LFB45:
- 1822               	.LM88:
- 1823               	/* prologue: function */
- 1824               	/* frame size = 0 */
+ 1177               	.global	_qk_requestStateChange
+ 1179               	_qk_requestStateChange:
+ 1180               	.LFB49:
+ 1181               	.LM1:
+ 1182               	.LVL0:
+ 1183               	/* prologue: function */
+ 1184               	/* frame size = 0 */
+ 1185               	.LM2:
+ 1186 0000 8093 0000 		sts _qk+1,r24
+ 1187               	.LM3:
+ 1188 0004 8091 0000 		lds r24,_qk+21
+ 1189               	.LVL1:
+ 1190 0008 8160      		ori r24,lo8(1)
+ 1191 000a 8093 0000 		sts _qk+21,r24
+ 1192               	/* epilogue start */
+ 1193               	.LM4:
+ 1194 000e 0895      		ret
+ 1195               	.LFE49:
+ 1197               	.global	_qk_handleStateChange
+ 1199               	_qk_handleStateChange:
+ 1200               	.LFB50:
+ 1201               	.LM5:
+ 1202               	/* prologue: function */
+ 1203               	/* frame size = 0 */
+ 1204               	.LM6:
+ 1205 0010 8091 0000 		lds r24,_qk+21
+ 1206 0014 80FF      		sbrs r24,0
+ 1207 0016 00C0      		rjmp .L5
+ 1208               	.LM7:
+ 1209 0018 8091 0000 		lds r24,_qk+1
+ 1210 001c 8093 0000 		sts _qk,r24
+ 1211               	.LM8:
+ 1212 0020 8091 0000 		lds r24,_qk+21
+ 1213 0024 8E7F      		andi r24,lo8(-2)
+ 1214 0026 8093 0000 		sts _qk+21,r24
+ 1215               	.L5:
+ 1216 002a 0895      		ret
+ 1217               	.LFE50:
+ 1219               	.global	qk_setSamplingPeriod
+ 1221               	qk_setSamplingPeriod:
+ 1222               	.LFB53:
+ 1223               	.LM9:
+ 1224               	.LVL2:
+ 1225 002c EF92      		push r14
+ 1226 002e FF92      		push r15
+ 1227 0030 0F93      		push r16
+ 1228 0032 1F93      		push r17
+ 1229               	/* prologue: function */
+ 1230               	/* frame size = 0 */
+ 1231 0034 7B01      		movw r14,r22
+ 1232 0036 8C01      		movw r16,r24
+ 1233               	.LM10:
+ 1234 0038 88EE      		ldi r24,lo8(1000)
+ 1235 003a E816      		cp r14,r24
+ 1236 003c 83E0      		ldi r24,hi8(1000)
+ 1237 003e F806      		cpc r15,r24
+ 1238 0040 80E0      		ldi r24,hlo8(1000)
+ 1239 0042 0807      		cpc r16,r24
+ 1240 0044 80E0      		ldi r24,hhi8(1000)
+ 1241 0046 1807      		cpc r17,r24
+ 1242 0048 00F0      		brlo .L7
+ 1243               	.LVL3:
+ 1244               	.LM11:
+ 1245 004a C801      		movw r24,r16
+ 1246 004c B701      		movw r22,r14
+ 1247 004e 28EE      		ldi r18,lo8(1000)
+ 1248 0050 33E0      		ldi r19,hi8(1000)
+ 1249 0052 40E0      		ldi r20,hlo8(1000)
+ 1250 0054 50E0      		ldi r21,hhi8(1000)
+ 1251 0056 0E94 0000 		call __mulsi3
+ 1252 005a AB01      		movw r20,r22
+ 1253 005c BC01      		movw r22,r24
+ 1254 005e 81E0      		ldi r24,lo8(1)
+ 1255 0060 21E0      		ldi r18,lo8(1)
+ 1256 0062 00C0      		rjmp .L10
+ 1257               	.LVL4:
+ 1258               	.L7:
+ 1259               	.LM12:
+ 1260 0064 81E0      		ldi r24,lo8(1)
+ 1261 0066 B801      		movw r22,r16
+ 1262 0068 A701      		movw r20,r14
+ 1263 006a 22E0      		ldi r18,lo8(2)
+ 1264               	.L10:
+ 1265 006c 0E94 0000 		call hal_timer_setPeriod
+ 1266               	.LM13:
+ 1267 0070 E092 0000 		sts _qk+27,r14
+ 1268 0074 F092 0000 		sts (_qk+27)+1,r15
+ 1269 0078 0093 0000 		sts (_qk+27)+2,r16
+ 1270 007c 1093 0000 		sts (_qk+27)+3,r17
+ 1271               	.LM14:
+ 1272 0080 C801      		movw r24,r16
+ 1273 0082 B701      		movw r22,r14
+ 1274 0084 0E94 0000 		call __floatunsisf
+ 1275 0088 9B01      		movw r18,r22
+ 1276 008a AC01      		movw r20,r24
+ 1277 008c 60E0      		ldi r22,lo8(0x49742400)
+ 1278 008e 74E2      		ldi r23,hi8(0x49742400)
+ 1279 0090 84E7      		ldi r24,hlo8(0x49742400)
+ 1280 0092 99E4      		ldi r25,hhi8(0x49742400)
+ 1281 0094 0E94 0000 		call __divsf3
+ 1282 0098 0E94 0000 		call __fixunssfsi
+ 1283 009c 6093 0000 		sts _qk+31,r22
+ 1284 00a0 7093 0000 		sts (_qk+31)+1,r23
+ 1285 00a4 8093 0000 		sts (_qk+31)+2,r24
+ 1286 00a8 9093 0000 		sts (_qk+31)+3,r25
+ 1287               	/* epilogue start */
+ 1288               	.LM15:
+ 1289 00ac 1F91      		pop r17
+ 1290 00ae 0F91      		pop r16
+ 1291 00b0 FF90      		pop r15
+ 1292 00b2 EF90      		pop r14
+ 1293               	.LVL5:
+ 1294 00b4 0895      		ret
+ 1295               	.LFE53:
+ 1297               	.global	qk_setSamplingFrequency
+ 1299               	qk_setSamplingFrequency:
+ 1300               	.LFB52:
+ 1301               	.LM16:
+ 1302               	.LVL6:
+ 1303 00b6 EF92      		push r14
+ 1304 00b8 FF92      		push r15
+ 1305 00ba 0F93      		push r16
+ 1306 00bc 1F93      		push r17
+ 1307               	/* prologue: function */
+ 1308               	/* frame size = 0 */
+ 1309 00be 7B01      		movw r14,r22
+ 1310 00c0 8C01      		movw r16,r24
+ 1311               	.LM17:
+ 1312 00c2 6115      		cp r22,__zero_reg__
+ 1313 00c4 7105      		cpc r23,__zero_reg__
+ 1314 00c6 8105      		cpc r24,__zero_reg__
+ 1315 00c8 9105      		cpc r25,__zero_reg__
+ 1316 00ca 01F0      		breq .L13
+ 1317 00cc 8091 0000 		lds r24,_qk+31
+ 1318 00d0 9091 0000 		lds r25,(_qk+31)+1
+ 1319 00d4 A091 0000 		lds r26,(_qk+31)+2
+ 1320 00d8 B091 0000 		lds r27,(_qk+31)+3
+ 1321 00dc E816      		cp r14,r24
+ 1322 00de F906      		cpc r15,r25
+ 1323 00e0 0A07      		cpc r16,r26
+ 1324 00e2 1B07      		cpc r17,r27
+ 1325 00e4 01F0      		breq .L13
+ 1326               	.LVL7:
+ 1327               	.LM18:
+ 1328 00e6 81E0      		ldi r24,lo8(1)
+ 1329 00e8 B801      		movw r22,r16
+ 1330 00ea A701      		movw r20,r14
+ 1331 00ec 0E94 0000 		call hal_timer_setFrequency
+ 1332               	.LM19:
+ 1333 00f0 E092 0000 		sts _qk+31,r14
+ 1334 00f4 F092 0000 		sts (_qk+31)+1,r15
+ 1335 00f8 0093 0000 		sts (_qk+31)+2,r16
+ 1336 00fc 1093 0000 		sts (_qk+31)+3,r17
+ 1337               	.LM20:
+ 1338 0100 C801      		movw r24,r16
+ 1339 0102 B701      		movw r22,r14
+ 1340 0104 0E94 0000 		call __floatunsisf
+ 1341 0108 9B01      		movw r18,r22
+ 1342 010a AC01      		movw r20,r24
+ 1343 010c 60E0      		ldi r22,lo8(0x49742400)
+ 1344 010e 74E2      		ldi r23,hi8(0x49742400)
+ 1345 0110 84E7      		ldi r24,hlo8(0x49742400)
+ 1346 0112 99E4      		ldi r25,hhi8(0x49742400)
+ 1347 0114 0E94 0000 		call __divsf3
+ 1348 0118 0E94 0000 		call __fixunssfsi
+ 1349 011c 6093 0000 		sts _qk+27,r22
+ 1350 0120 7093 0000 		sts (_qk+27)+1,r23
+ 1351 0124 8093 0000 		sts (_qk+27)+2,r24
+ 1352 0128 9093 0000 		sts (_qk+27)+3,r25
+ 1353               	.LVL8:
+ 1354               	.L13:
+ 1355               	/* epilogue start */
+ 1356               	.LM21:
+ 1357 012c 1F91      		pop r17
+ 1358 012e 0F91      		pop r16
+ 1359 0130 FF90      		pop r15
+ 1360 0132 EF90      		pop r14
+ 1361               	.LVL9:
+ 1362 0134 0895      		ret
+ 1363               	.LFE52:
+ 1365               	.global	qk_setBaudRate
+ 1367               	qk_setBaudRate:
+ 1368               	.LFB51:
+ 1369               	.LM22:
+ 1370               	.LVL10:
+ 1371 0136 EF92      		push r14
+ 1372 0138 FF92      		push r15
+ 1373 013a 0F93      		push r16
+ 1374 013c 1F93      		push r17
+ 1375               	/* prologue: function */
+ 1376               	/* frame size = 0 */
+ 1377 013e 7B01      		movw r14,r22
+ 1378 0140 8C01      		movw r16,r24
+ 1379               	.LM23:
+ 1380 0142 80E0      		ldi r24,lo8(0)
+ 1381 0144 B801      		movw r22,r16
+ 1382 0146 A701      		movw r20,r14
+ 1383 0148 0E94 0000 		call hal_uart_setBaudRate
+ 1384               	.LVL11:
+ 1385               	.LM24:
+ 1386 014c E092 0000 		sts _qk+2,r14
+ 1387 0150 F092 0000 		sts (_qk+2)+1,r15
+ 1388 0154 0093 0000 		sts (_qk+2)+2,r16
+ 1389 0158 1093 0000 		sts (_qk+2)+3,r17
+ 1390               	/* epilogue start */
+ 1391               	.LM25:
+ 1392 015c 1F91      		pop r17
+ 1393 015e 0F91      		pop r16
+ 1394 0160 FF90      		pop r15
+ 1395 0162 EF90      		pop r14
+ 1396               	.LVL12:
+ 1397 0164 0895      		ret
+ 1398               	.LFE51:
+ 1401               	handleBoardDetection:
+ 1402               	.LFB54:
+ 1403               	.LM26:
+ 1404               	/* prologue: function */
+ 1405               	/* frame size = 0 */
+ 1406               	.LM27:
+ 1407 0166 0E94 0000 		call _getDET
+ 1408 016a 41E0      		ldi r20,lo8(1)
+ 1409 016c 4827      		eor r20,r24
+ 1410               	.LM28:
+ 1411 016e 8091 0000 		lds r24,_qk+15
+ 1412 0172 9091 0000 		lds r25,(_qk+15)+1
+ 1413 0176 9695      		lsr r25
+ 1414 0178 8795      		ror r24
+ 1415 017a 8170      		andi r24,lo8(1)
+ 1416 017c 9070      		andi r25,hi8(1)
+ 1417 017e 242F      		mov r18,r20
+ 1418 0180 30E0      		ldi r19,lo8(0)
+ 1419 0182 8217      		cp r24,r18
+ 1420 0184 9307      		cpc r25,r19
+ 1421 0186 01F4      		brne .+2
+ 1422 0188 00C0      		rjmp .L19
+ 1423               	.LM29:
+ 1424 018a 4423      		tst r20
+ 1425 018c 01F0      		breq .L18
+ 1426               	.LM30:
+ 1427 018e 82E0      		ldi r24,lo8(2)
+ 1428 0190 62E3      		ldi r22,lo8(50)
+ 1429 0192 70E0      		ldi r23,hi8(50)
+ 1430 0194 0E94 0000 		call _blinkLED
+ 1431               	.LM31:
+ 1432 0198 8091 0000 		lds r24,_qk+15
+ 1433 019c 9091 0000 		lds r25,(_qk+15)+1
+ 1434 01a0 8260      		ori r24,lo8(2)
+ 1435 01a2 9093 0000 		sts (_qk+15)+1,r25
+ 1436 01a6 8093 0000 		sts _qk+15,r24
+ 1437               	.LM32:
+ 1438 01aa 4091 0000 		lds r20,_qk+2
+ 1439 01ae 5091 0000 		lds r21,(_qk+2)+1
+ 1440 01b2 6091 0000 		lds r22,(_qk+2)+2
+ 1441 01b6 7091 0000 		lds r23,(_qk+2)+3
+ 1442 01ba 80E0      		ldi r24,lo8(0)
+ 1443 01bc 0E94 0000 		call hal_uart_setBaudRate
+ 1444               	.LM33:
+ 1445 01c0 E091 0000 		lds r30,_qk+7
+ 1446 01c4 F091 0000 		lds r31,(_qk+7)+1
+ 1447 01c8 3097      		sbiw r30,0
+ 1448 01ca 01F0      		breq .L19
+ 1449               	.LM34:
+ 1450 01cc 0995      		icall
+ 1451 01ce 0895      		ret
+ 1452               	.L18:
+ 1453               	.LM35:
+ 1454 01d0 81E0      		ldi r24,lo8(1)
+ 1455 01d2 62E3      		ldi r22,lo8(50)
+ 1456 01d4 70E0      		ldi r23,hi8(50)
+ 1457 01d6 0E94 0000 		call _blinkLED
+ 1458               	.LM36:
+ 1459 01da 8091 0000 		lds r24,_qk+15
+ 1460 01de 9091 0000 		lds r25,(_qk+15)+1
+ 1461 01e2 8D7F      		andi r24,lo8(-3)
+ 1462 01e4 9093 0000 		sts (_qk+15)+1,r25
+ 1463 01e8 8093 0000 		sts _qk+15,r24
+ 1464               	.LM37:
+ 1465 01ec 80E0      		ldi r24,lo8(0)
+ 1466 01ee 40E0      		ldi r20,lo8(38400)
+ 1467 01f0 56E9      		ldi r21,hi8(38400)
+ 1468 01f2 60E0      		ldi r22,hlo8(38400)
+ 1469 01f4 70E0      		ldi r23,hhi8(38400)
+ 1470 01f6 0E94 0000 		call hal_uart_setBaudRate
+ 1471               	.LM38:
+ 1472 01fa E091 0000 		lds r30,_qk+9
+ 1473 01fe F091 0000 		lds r31,(_qk+9)+1
+ 1474 0202 3097      		sbiw r30,0
+ 1475 0204 01F0      		breq .L19
+ 1476               	.LM39:
+ 1477 0206 0995      		icall
+ 1478               	.L19:
+ 1479 0208 0895      		ret
+ 1480               	.LFE54:
+ 1483               	handleInputChanged:
+ 1484               	.LFB55:
+ 1485               	.LM40:
+ 1486               	/* prologue: function */
+ 1487               	/* frame size = 0 */
+ 1488               	.LM41:
+ 1489 020a 0E94 0000 		call handleBoardDetection
+ 1490               	.LM42:
+ 1491 020e E091 0000 		lds r30,_qk+11
+ 1492 0212 F091 0000 		lds r31,(_qk+11)+1
+ 1493 0216 3097      		sbiw r30,0
+ 1494 0218 01F0      		breq .L22
+ 1495               	.LM43:
+ 1496 021a 0995      		icall
+ 1497               	.L22:
+ 1498 021c 0895      		ret
+ 1499               	.LFE55:
+ 1501               	.global	qk_run
+ 1503               	qk_run:
+ 1504               	.LFB47:
+ 1505               	.LM44:
+ 1506 021e CF92      		push r12
+ 1507 0220 DF92      		push r13
+ 1508 0222 EF92      		push r14
+ 1509 0224 FF92      		push r15
+ 1510 0226 0F93      		push r16
+ 1511 0228 1F93      		push r17
+ 1512 022a DF93      		push r29
+ 1513 022c CF93      		push r28
+ 1514 022e CDB7      		in r28,__SP_L__
+ 1515 0230 DEB7      		in r29,__SP_H__
+ 1516 0232 E897      		sbiw r28,56
+ 1517 0234 0FB6      		in __tmp_reg__,__SREG__
+ 1518 0236 F894      		cli
+ 1519 0238 DEBF      		out __SP_H__,r29
+ 1520 023a 0FBE      		out __SREG__,__tmp_reg__
+ 1521 023c CDBF      		out __SP_L__,r28
+ 1522               	/* prologue: function */
+ 1523               	/* frame size = 56 */
+ 1524               	.LM45:
+ 1525 023e 8091 0000 		lds r24,_hal_gpio+2
+ 1526 0242 80FF      		sbrs r24,0
+ 1527 0244 00C0      		rjmp .L24
+ 1528               	.LM46:
+ 1529 0246 0E94 0000 		call handleInputChanged
+ 1530               	.LM47:
+ 1531 024a 8091 0000 		lds r24,_hal_gpio+2
+ 1532 024e 8E7F      		andi r24,lo8(-2)
+ 1533 0250 8093 0000 		sts _hal_gpio+2,r24
+ 1534               	.L24:
+ 1535               	.LM48:
+ 1536 0254 E091 0000 		lds r30,_qk_comm+158
+ 1537 0258 F091 0000 		lds r31,(_qk_comm+158)+1
+ 1538 025c 3097      		sbiw r30,0
+ 1539 025e 01F0      		breq .L25
+ 1540               	.LM49:
+ 1541 0260 0995      		icall
+ 1542               	.L25:
+ 1543               	.LM50:
+ 1544 0262 8091 0000 		lds r24,_qk_comm+152
+ 1545 0266 9091 0000 		lds r25,(_qk_comm+152)+1
+ 1546 026a 85FF      		sbrs r24,5
+ 1547 026c 00C0      		rjmp .L26
+ 1548               	.LM51:
+ 1549 026e E091 0000 		lds r30,_qk_comm+160
+ 1550 0272 F091 0000 		lds r31,(_qk_comm+160)+1
+ 1551 0276 3097      		sbiw r30,0
+ 1552 0278 01F0      		breq .L27
+ 1553               	.LM52:
+ 1554 027a 0995      		icall
+ 1555               	.L27:
+ 1556               	.LM53:
+ 1557 027c 8091 0000 		lds r24,_qk_comm+152
+ 1558 0280 9091 0000 		lds r25,(_qk_comm+152)+1
+ 1559 0284 8F7D      		andi r24,lo8(-33)
+ 1560 0286 9093 0000 		sts (_qk_comm+152)+1,r25
+ 1561 028a 8093 0000 		sts _qk_comm+152,r24
+ 1562               	.L26:
+ 1563               	.LM54:
+ 1564 028e E091 0000 		lds r30,_qk_device
+ 1565 0292 F091 0000 		lds r31,(_qk_device)+1
+ 1566 0296 8089      		ldd r24,Z+16
+ 1567 0298 E82E      		mov r14,r24
+ 1568               	.LVL13:
+ 1569 029a FF24      		clr r15
+ 1570               	.LVL14:
+ 1571 029c 00E0      		ldi r16,lo8(0)
+ 1572 029e 10E0      		ldi r17,hi8(0)
+ 1573               	.LVL15:
+ 1574               	.LBB7:
+ 1575               	.LM55:
+ 1576 02a0 6E01      		movw r12,r28
+ 1577 02a2 0894      		sec
+ 1578 02a4 C11C      		adc r12,__zero_reg__
+ 1579 02a6 D11C      		adc r13,__zero_reg__
+ 1580 02a8 00C0      		rjmp .L28
+ 1581               	.L30:
+ 1582               	.LBE7:
+ 1583               	.LM56:
+ 1584 02aa 0894      		sec
+ 1585 02ac E108      		sbc r14,__zero_reg__
+ 1586 02ae F108      		sbc r15,__zero_reg__
+ 1587 02b0 0109      		sbc r16,__zero_reg__
+ 1588 02b2 1109      		sbc r17,__zero_reg__
+ 1589               	.LVL16:
+ 1590               	.LBB8:
+ 1591               	.LM57:
+ 1592 02b4 80E0      		ldi r24,lo8(_pendingEvents)
+ 1593 02b6 90E0      		ldi r25,hi8(_pendingEvents)
+ 1594 02b8 B601      		movw r22,r12
+ 1595 02ba 0E94 0000 		call qk_cb_read
+ 1596               	.LM58:
+ 1597 02be C601      		movw r24,r12
+ 1598 02c0 60E0      		ldi r22,lo8(_qk_comm)
+ 1599 02c2 70E0      		ldi r23,hi8(_qk_comm)
+ 1600 02c4 0E94 0000 		call _qk_comm_sendEvent
+ 1601               	.L28:
+ 1602               	.LBE8:
+ 1603               	.LM59:
+ 1604 02c8 80E0      		ldi r24,lo8(_pendingEvents)
+ 1605 02ca 90E0      		ldi r25,hi8(_pendingEvents)
+ 1606 02cc 0E94 0000 		call qk_cb_isEmpty
+ 1607 02d0 8823      		tst r24
+ 1608 02d2 01F4      		brne .L29
+ 1609 02d4 E114      		cp r14,__zero_reg__
+ 1610 02d6 F104      		cpc r15,__zero_reg__
+ 1611 02d8 0105      		cpc r16,__zero_reg__
+ 1612 02da 1105      		cpc r17,__zero_reg__
+ 1613 02dc 01F4      		brne .L30
+ 1614               	.L29:
+ 1615               	.LBB9:
+ 1616               	.LBB10:
+ 1617               	.LM60:
+ 1618 02de 8091 0000 		lds r24,_qk+21
+ 1619               	.LBE10:
+ 1620 02e2 80FF      		sbrs r24,0
+ 1621 02e4 00C0      		rjmp .L31
+ 1622               	.LBB11:
+ 1623               	.LM61:
+ 1624 02e6 8091 0000 		lds r24,_qk+1
+ 1625 02ea 8093 0000 		sts _qk,r24
+ 1626               	.LM62:
+ 1627 02ee 8091 0000 		lds r24,_qk+21
+ 1628 02f2 8E7F      		andi r24,lo8(-2)
+ 1629 02f4 8093 0000 		sts _qk+21,r24
+ 1630               	.L31:
+ 1631               	.LBE11:
+ 1632               	.LBE9:
+ 1633               	.LM63:
+ 1634 02f8 8091 0000 		lds r24,_qk
+ 1635 02fc 8230      		cpi r24,lo8(2)
+ 1636 02fe 01F0      		breq .L35
+ 1637 0300 8330      		cpi r24,lo8(3)
+ 1638 0302 00F4      		brsh .L38
+ 1639 0304 8823      		tst r24
+ 1640 0306 01F4      		brne .+2
+ 1641 0308 00C0      		rjmp .L42
+ 1642 030a 8130      		cpi r24,lo8(1)
+ 1643 030c 01F0      		breq .+2
+ 1644 030e 00C0      		rjmp .L32
+ 1645 0310 00C0      		rjmp .L44
+ 1646               	.L38:
+ 1647 0312 8430      		cpi r24,lo8(4)
+ 1648 0314 01F4      		brne .+2
+ 1649 0316 00C0      		rjmp .L42
+ 1650 0318 8430      		cpi r24,lo8(4)
+ 1651 031a 00F0      		brlo .L36
+ 1652 031c 8530      		cpi r24,lo8(5)
+ 1653 031e 01F4      		brne .L32
+ 1654 0320 00C0      		rjmp .L45
+ 1655               	.L44:
+ 1656               	.LM64:
+ 1657 0322 81E0      		ldi r24,lo8(1)
+ 1658 0324 0E94 0000 		call hal_timer_stop
+ 1659 0328 00C0      		rjmp .L42
+ 1660               	.L35:
+ 1661               	.LM65:
+ 1662 032a E091 0000 		lds r30,_qk_device
+ 1663 032e F091 0000 		lds r31,(_qk_device)+1
+ 1664 0332 028C      		ldd __tmp_reg__,Z+26
+ 1665 0334 F38D      		ldd r31,Z+27
+ 1666 0336 E02D      		mov r30,__tmp_reg__
+ 1667 0338 3097      		sbiw r30,0
+ 1668 033a 01F0      		breq .L39
+ 1669               	.LM66:
+ 1670 033c 0995      		icall
+ 1671               	.L39:
+ 1672               	.LM67:
+ 1673 033e 81E0      		ldi r24,lo8(1)
+ 1674 0340 0E94 0000 		call hal_timer_reset
+ 1675               	.LM68:
+ 1676 0344 81E0      		ldi r24,lo8(1)
+ 1677 0346 0E94 0000 		call hal_timer_start
+ 1678               	.LM69:
+ 1679 034a 83E0      		ldi r24,lo8(3)
+ 1680 034c 00C0      		rjmp .L43
+ 1681               	.L36:
+ 1682               	.LM70:
+ 1683 034e 8091 0000 		lds r24,_hal_timer+23
+ 1684 0352 80FF      		sbrs r24,0
+ 1685 0354 00C0      		rjmp .L42
+ 1686               	.LM71:
+ 1687 0356 E091 0000 		lds r30,_qk_device
+ 1688 035a F091 0000 		lds r31,(_qk_device)+1
+ 1689 035e 008C      		ldd __tmp_reg__,Z+24
+ 1690 0360 F18D      		ldd r31,Z+25
+ 1691 0362 E02D      		mov r30,__tmp_reg__
+ 1692 0364 3097      		sbiw r30,0
+ 1693 0366 01F0      		breq .L40
+ 1694               	.LM72:
+ 1695 0368 0995      		icall
+ 1696               	.L40:
+ 1697               	.LM73:
+ 1698 036a 80ED      		ldi r24,lo8(208)
+ 1699 036c 90E0      		ldi r25,hi8(208)
+ 1700 036e 60E0      		ldi r22,lo8(_qk_comm)
+ 1701 0370 70E0      		ldi r23,hi8(_qk_comm)
+ 1702 0372 0E94 0000 		call _qk_comm_sendCode
+ 1703               	.LM74:
+ 1704 0376 8091 0000 		lds r24,_hal_timer+23
+ 1705 037a 8E7F      		andi r24,lo8(-2)
+ 1706 037c 8093 0000 		sts _hal_timer+23,r24
+ 1707 0380 00C0      		rjmp .L42
+ 1708               	.L45:
+ 1709               	.LM75:
+ 1710 0382 E091 0000 		lds r30,_qk_device
+ 1711 0386 F091 0000 		lds r31,(_qk_device)+1
+ 1712 038a 048C      		ldd __tmp_reg__,Z+28
+ 1713 038c F58D      		ldd r31,Z+29
+ 1714 038e E02D      		mov r30,__tmp_reg__
+ 1715 0390 3097      		sbiw r30,0
+ 1716 0392 01F0      		breq .L32
+ 1717               	.LM76:
+ 1718 0394 0995      		icall
+ 1719               	.L32:
+ 1720               	.LM77:
+ 1721 0396 81E0      		ldi r24,lo8(1)
+ 1722               	.L43:
+ 1723 0398 8093 0000 		sts _qk,r24
+ 1724               	.L42:
+ 1725               	/* epilogue start */
+ 1726               	.LM78:
+ 1727 039c E896      		adiw r28,56
+ 1728 039e 0FB6      		in __tmp_reg__,__SREG__
+ 1729 03a0 F894      		cli
+ 1730 03a2 DEBF      		out __SP_H__,r29
+ 1731 03a4 0FBE      		out __SREG__,__tmp_reg__
+ 1732 03a6 CDBF      		out __SP_L__,r28
+ 1733 03a8 CF91      		pop r28
+ 1734 03aa DF91      		pop r29
+ 1735 03ac 1F91      		pop r17
+ 1736 03ae 0F91      		pop r16
+ 1737               	.LVL17:
+ 1738 03b0 FF90      		pop r15
+ 1739               	.LVL18:
+ 1740 03b2 EF90      		pop r14
+ 1741               	.LVL19:
+ 1742 03b4 DF90      		pop r13
+ 1743 03b6 CF90      		pop r12
+ 1744 03b8 0895      		ret
+ 1745               	.LFE47:
+ 1747               	.global	qk_loop
+ 1749               	qk_loop:
+ 1750               	.LFB48:
+ 1751               	.LM79:
+ 1752               	/* prologue: function */
+ 1753               	/* frame size = 0 */
+ 1754               	.L47:
+ 1755               	.LM80:
+ 1756 03ba 0E94 0000 		call qk_run
+ 1757 03be 00C0      		rjmp .L47
+ 1758               	.LFE48:
+ 1760               	.global	qk_setClockMode
+ 1762               	qk_setClockMode:
+ 1763               	.LFB46:
+ 1764               	.LM81:
+ 1765               	.LVL20:
+ 1766 03c0 1F93      		push r17
+ 1767               	/* prologue: function */
+ 1768               	/* frame size = 0 */
+ 1769 03c2 182F      		mov r17,r24
+ 1770               	.LM82:
+ 1771 03c4 8230      		cpi r24,lo8(2)
+ 1772 03c6 01F0      		breq .L55
+ 1773 03c8 8330      		cpi r24,lo8(3)
+ 1774 03ca 00F4      		brsh .L56
+ 1775 03cc 8823      		tst r24
+ 1776 03ce 01F0      		breq .L55
+ 1777 03d0 8130      		cpi r24,lo8(1)
+ 1778 03d2 01F4      		brne .L50
+ 1779 03d4 00C0      		rjmp .L55
+ 1780               	.L56:
+ 1781 03d6 8330      		cpi r24,lo8(3)
+ 1782 03d8 01F0      		breq .L55
+ 1783 03da 8430      		cpi r24,lo8(4)
+ 1784 03dc 01F0      		breq .L55
+ 1785               	.L50:
+ 1786 03de 80E0      		ldi r24,lo8(0)
+ 1787               	.LVL21:
+ 1788 03e0 00C0      		rjmp .L57
+ 1789               	.LVL22:
+ 1790               	.L55:
+ 1791               	.LM83:
+ 1792 03e2 80E0      		ldi r24,lo8(0)
+ 1793               	.LVL23:
+ 1794 03e4 0E94 0000 		call hal_clock_setFrequency
+ 1795               	.LM84:
+ 1796 03e8 8823      		tst r24
+ 1797               	.LVL24:
+ 1798 03ea 01F0      		breq .L57
+ 1799               	.LM85:
+ 1800 03ec 1093 0000 		sts _qk+6,r17
+ 1801               	.L57:
+ 1802               	.LVL25:
+ 1803               	/* epilogue start */
+ 1804               	.LM86:
+ 1805 03f0 1F91      		pop r17
+ 1806               	.LVL26:
+ 1807 03f2 0895      		ret
+ 1808               	.LFE46:
+ 1810               	.global	qk_core_init
+ 1812               	qk_core_init:
+ 1813               	.LFB45:
+ 1814               	.LM87:
+ 1815               	/* prologue: function */
+ 1816               	/* frame size = 0 */
+ 1817               	.LM88:
+ 1818 03f4 86E2      		ldi r24,lo8(38)
+ 1819 03f6 E0E0      		ldi r30,lo8(_qk)
+ 1820 03f8 F0E0      		ldi r31,hi8(_qk)
+ 1821 03fa DF01      		movw r26,r30
+ 1822 03fc 1D92      		st X+,__zero_reg__
+ 1823 03fe 8A95      	        dec r24
+ 1824 0400 01F4      		brne .-6
  1825               	.LM89:
- 1826 03f8 86E2      		ldi r24,lo8(38)
- 1827 03fa E0E0      		ldi r30,lo8(_qk)
- 1828 03fc F0E0      		ldi r31,hi8(_qk)
- 1829 03fe DF01      		movw r26,r30
- 1830 0400 1D92      		st X+,__zero_reg__
- 1831 0402 8A95      	        dec r24
- 1832 0404 01F4      		brne .-6
- 1833               	.LM90:
- 1834 0406 21E0      		ldi r18,lo8(1)
- 1835 0408 2093 0000 		sts _qk,r18
- 1836               	.LM91:
- 1837 040c 80E0      		ldi r24,lo8(38400)
- 1838 040e 96E9      		ldi r25,hi8(38400)
- 1839 0410 A0E0      		ldi r26,hlo8(38400)
- 1840 0412 B0E0      		ldi r27,hhi8(38400)
- 1841 0414 8093 0000 		sts _qk+2,r24
- 1842 0418 9093 0000 		sts (_qk+2)+1,r25
- 1843 041c A093 0000 		sts (_qk+2)+2,r26
- 1844 0420 B093 0000 		sts (_qk+2)+3,r27
- 1845               	.LM92:
- 1846 0424 1092 0000 		sts _qk+31,__zero_reg__
- 1847 0428 1092 0000 		sts (_qk+31)+1,__zero_reg__
- 1848 042c 1092 0000 		sts (_qk+31)+2,__zero_reg__
- 1849 0430 1092 0000 		sts (_qk+31)+3,__zero_reg__
- 1850               	.LM93:
- 1851 0434 2093 0000 		sts _qk+35,r18
- 1852               	.LM94:
- 1853 0438 2093 0000 		sts _qk+36,r18
- 1854               	.LM95:
- 1855 043c 2093 0000 		sts _qk+37,r18
- 1856               	.LM96:
- 1857 0440 8AE0      		ldi r24,lo8(10)
- 1858 0442 90E0      		ldi r25,hi8(10)
- 1859 0444 A0E0      		ldi r26,hlo8(10)
- 1860 0446 B0E0      		ldi r27,hhi8(10)
- 1861 0448 8093 0000 		sts _qk+23,r24
- 1862 044c 9093 0000 		sts (_qk+23)+1,r25
- 1863 0450 A093 0000 		sts (_qk+23)+2,r26
- 1864 0454 B093 0000 		sts (_qk+23)+3,r27
- 1865               	.LM97:
- 1866 0458 65E0      		ldi r22,lo8(5)
- 1867 045a 70E0      		ldi r23,hi8(5)
- 1868 045c 80E0      		ldi r24,hlo8(5)
- 1869 045e 90E0      		ldi r25,hhi8(5)
- 1870 0460 0E94 0000 		call qk_setSamplingFrequency
- 1871               	.LM98:
- 1872 0464 0E94 0000 		call handleBoardDetection
- 1873               	.LM99:
- 1874 0468 0E94 0000 		call handleInputChanged
- 1875               	/* epilogue start */
- 1876               	.LM100:
- 1877 046c 0895      		ret
- 1878               	.LFE45:
- 1880               		.comm _qk,38,1
- 1985               	.Letext0:
+ 1826 0402 21E0      		ldi r18,lo8(1)
+ 1827 0404 2093 0000 		sts _qk,r18
+ 1828               	.LM90:
+ 1829 0408 80E0      		ldi r24,lo8(38400)
+ 1830 040a 96E9      		ldi r25,hi8(38400)
+ 1831 040c A0E0      		ldi r26,hlo8(38400)
+ 1832 040e B0E0      		ldi r27,hhi8(38400)
+ 1833 0410 8093 0000 		sts _qk+2,r24
+ 1834 0414 9093 0000 		sts (_qk+2)+1,r25
+ 1835 0418 A093 0000 		sts (_qk+2)+2,r26
+ 1836 041c B093 0000 		sts (_qk+2)+3,r27
+ 1837               	.LM91:
+ 1838 0420 1092 0000 		sts _qk+31,__zero_reg__
+ 1839 0424 1092 0000 		sts (_qk+31)+1,__zero_reg__
+ 1840 0428 1092 0000 		sts (_qk+31)+2,__zero_reg__
+ 1841 042c 1092 0000 		sts (_qk+31)+3,__zero_reg__
+ 1842               	.LM92:
+ 1843 0430 2093 0000 		sts _qk+35,r18
+ 1844               	.LM93:
+ 1845 0434 2093 0000 		sts _qk+36,r18
+ 1846               	.LM94:
+ 1847 0438 2093 0000 		sts _qk+37,r18
+ 1848               	.LM95:
+ 1849 043c 8AE0      		ldi r24,lo8(10)
+ 1850 043e 90E0      		ldi r25,hi8(10)
+ 1851 0440 A0E0      		ldi r26,hlo8(10)
+ 1852 0442 B0E0      		ldi r27,hhi8(10)
+ 1853 0444 8093 0000 		sts _qk+23,r24
+ 1854 0448 9093 0000 		sts (_qk+23)+1,r25
+ 1855 044c A093 0000 		sts (_qk+23)+2,r26
+ 1856 0450 B093 0000 		sts (_qk+23)+3,r27
+ 1857               	.LM96:
+ 1858 0454 65E0      		ldi r22,lo8(5)
+ 1859 0456 70E0      		ldi r23,hi8(5)
+ 1860 0458 80E0      		ldi r24,hlo8(5)
+ 1861 045a 90E0      		ldi r25,hhi8(5)
+ 1862 045c 0E94 0000 		call qk_setSamplingFrequency
+ 1863               	.LM97:
+ 1864 0460 0E94 0000 		call handleBoardDetection
+ 1865               	.LM98:
+ 1866 0464 0E94 0000 		call handleInputChanged
+ 1867               	/* epilogue start */
+ 1868               	.LM99:
+ 1869 0468 0895      		ret
+ 1870               	.LFE45:
+ 1872               		.comm _qk,38,1
+ 1977               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 qk_core.c
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:2      *ABS*:0000003f __SREG__
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:3      *ABS*:0000003e __SP_H__
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:4      *ABS*:0000003d __SP_L__
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:5      *ABS*:00000034 __CCP__
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1185   .text:00000000 _qk_requestStateChange
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:2      *ABS*:0000003f __SREG__
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:3      *ABS*:0000003e __SP_H__
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:4      *ABS*:0000003d __SP_L__
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:5      *ABS*:00000034 __CCP__
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1179   .text:00000000 _qk_requestStateChange
                             *COM*:00000026 _qk
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1205   .text:00000010 _qk_handleStateChange
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1227   .text:0000002c qk_setSamplingPeriod
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1305   .text:000000b6 qk_setSamplingFrequency
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1373   .text:00000136 qk_setBaudRate
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1407   .text:00000166 handleBoardDetection
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1489   .text:0000020a handleInputChanged
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1509   .text:0000021e qk_run
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1757   .text:000003be qk_loop
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1770   .text:000003c4 qk_setClockMode
-C:\Users\mribeiro\AppData\Local\Temp/ccKXPLm6.s:1820   .text:000003f8 qk_core_init
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1199   .text:00000010 _qk_handleStateChange
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1221   .text:0000002c qk_setSamplingPeriod
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1299   .text:000000b6 qk_setSamplingFrequency
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1367   .text:00000136 qk_setBaudRate
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1401   .text:00000166 handleBoardDetection
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1483   .text:0000020a handleInputChanged
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1503   .text:0000021e qk_run
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1749   .text:000003ba qk_loop
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1762   .text:000003c0 qk_setClockMode
+C:\Users\mribeiro\AppData\Local\Temp/ccuFhZIT.s:1812   .text:000003f4 qk_core_init
 
 UNDEFINED SYMBOLS
 __do_copy_data
@@ -730,5 +728,4 @@ hal_timer_reset
 hal_timer_start
 _hal_timer
 _qk_comm_sendCode
-hal_power_EM1
 hal_clock_setFrequency
