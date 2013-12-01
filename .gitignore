@@ -2,6 +2,7 @@ build/bin
 build/output
 build/lib
 *.*~
+*~
 *.a
 *.o
 *.d
