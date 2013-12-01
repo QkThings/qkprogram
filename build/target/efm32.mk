@@ -2,22 +2,24 @@
 # QkThings. EFM32 Makefile
 ###############################################################################
 
-ENERGYMICRO = $(TOOLCHAIN_DIR)\common\energymicro
-WINDOWSCS  ?= GNU Tools ARM Embedded\4.7 2013q1
-LINUXCS    ?= /home/mribeiro/gcc-arm-none-eabi-4_7-2013q1
+ENERGYMICRO = $(TOOLCHAIN_DIR)/common/energymicro
+#WINDOWSCS  ?= GNU Tools ARM Embedded\4.7 2013q1
+#LINUXCS    ?= /home/mribeiro/gcc-arm-none-eabi-4_7-2013q1
 DEVICE = EFM32G890F128
 
 # Try autodetecting the environment
 ifeq ($(SHELLNAMES),)
   # Assume we are making on a Linux platform
-  TOOLDIR := $(LINUXCS)
+  #TOOLDIR := $(LINUXCS)
+  TOOLDIR := $(TOOLCHAIN_DIR)/linux/arm/gcc
 else
   QUOTE :="
   ifneq ($(COMSPEC),)
     # Assume we are making on a mingw/msys/cygwin platform running on Windows
     # This is a convenient place to override TOOLDIR, DO NOT add trailing
     # whitespace chars, they do matter !
-    TOOLDIR := $(PROGRAMFILES)/$(WINDOWSCS)
+    #TOOLDIR := $(PROGRAMFILES)/$(WINDOWSCS)
+    TOOLDIR := $(TOOLCHAIN_DIR)/win/arm/gcc
     ifeq ($(findstring cygdrive,$(shell set)),)
       # We were not on a cygwin platform
       NULLDEVICE := NUL
@@ -27,7 +29,8 @@ else
     # This is a convenient place to override TOOLDIR, DO NOT add trailing
     # whitespace chars, they do matter !
     SHELL      := $(SHELLNAMES)
-    TOOLDIR    := $(ProgramFiles)/$(WINDOWSCS)
+    #TOOLDIR    := $(ProgramFiles)/$(WINDOWSCS)
+    TOOLDIR := $(TOOLCHAIN_DIR)/win/arm/gcc
     RMDIRS     := rd /s /q
     RMFILES    := del /s /q
     ALLFILES   := \*.*
