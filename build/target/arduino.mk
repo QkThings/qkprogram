@@ -2,10 +2,10 @@
 # QkThings. Arduino Makefile
 ###############################################################################
 
-CC      = ..\..\toolchain\win\avr\bin\avr-gcc
-OBJCOPY = ..\..\toolchain\win\avr\bin\avr-objcopy
-DUMP    = ..\..\toolchain\win\avr\bin\avr-objdump
-PSIZE	= ..\..\toolchain\win\avr\bin\avr-size
+CC      = $(TOOLCHAIN_DIR)\win\avr\bin\avr-gcc
+OBJCOPY = $(TOOLCHAIN_DIR)\win\avr\bin\avr-objcopy
+DUMP    = $(TOOLCHAIN_DIR)\win\avr\bin\avr-objdump
+PSIZE	= $(TOOLCHAIN_DIR)\win\avr\bin\avr-size
 
 OPTIMIZE = s
 FORMAT = ihex
@@ -38,8 +38,8 @@ CFLAGS += -std=gnu99 -Wall -funsigned-char -funsigned-bitfields -fpack-struct -f
 ###############################################################################
 PORT = COM19
 UPLOAD_RATE = 57600
-AVRDUDE = ..\..\toolchain\win\avr\bin\avrdude
-AVRDUDE_CONF = ..\..\toolchain\common\arduino
+AVRDUDE = $(TOOLCHAIN_DIR)\win\avr\bin\avrdude
+AVRDUDE_CONF = $(TOOLCHAIN_DIR)\common\arduino
 AVRDUDE_PROGRAMMER = stk500
 AVRDUDE_PORT = $(PORT)
 AVRDUDE_WRITE_FLASH = -U flash:w:$(EXE_DIR)/$(PROJECTNAME).bin:i

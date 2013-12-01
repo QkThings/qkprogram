@@ -2,7 +2,7 @@
 # QkThings. EFM32 Makefile
 ###############################################################################
 
-ENERGYMICRO = ..\..\toolchain\common\energymicro
+ENERGYMICRO = $(TOOLCHAIN_DIR)\common\energymicro
 WINDOWSCS  ?= GNU Tools ARM Embedded\4.7 2013q1
 LINUXCS    ?= /home/mribeiro/gcc-arm-none-eabi-4_7-2013q1
 DEVICE = EFM32G890F128
