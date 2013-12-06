@@ -7,6 +7,7 @@
  */
 
 #include "../sys/qk_system.h"
+
 /******************************************************************************/
 static uint8_t readByte(hal_uart_cb_t *cb, bool wait);
 static uint16_t readBytes(hal_uart_cb_t *cb, uint8_t *buf, uint16_t count, bool wait);
@@ -16,6 +17,14 @@ hal_uart_t _hal_uart[HAL_UART_COUNT];
 
 bool uart1_readWait = false;
 bool uart2_readWait = false;
+
+void _hal_uart_init()
+{
+//  memset(&_hal_uart[HAL_UART_ID_1], 0, sizeof(hal_uart_t));
+//#ifdef HAL_USE_UART2
+//  memset(&_hal_uart[HAL_UART_ID_2], 0, sizeof(hal_uart_t));
+//#endif
+}
 
 static bool getReadWait(hal_uart_id_t uart)
 {

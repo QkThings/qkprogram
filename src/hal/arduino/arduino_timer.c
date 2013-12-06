@@ -11,20 +11,13 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-hal_timer_t _hal_timer[2];
-
 #define _TOP      16
 #define _PRE      1024
 #define _PRE_BITS ((1 << CS12) | (1 << CS10))
 
-/******************************************************************************/
-bool _delay_bw = false;
-
+//-----------------------------------------------------------------------------
 void hal_timer_init()
 {
-  memset(&_hal_timer[HAL_TIMER_ID_1], 0, sizeof(hal_timer_t));
-  memset(&_hal_timer[HAL_TIMER_ID_2], 0, sizeof(hal_timer_t));
-
   cli();
   OCR1A = _TOP * 1000; // ~1s
   TCCR1B |= (1 << WGM12);  // (mode 4)
@@ -81,10 +74,10 @@ void hal_timer_setCallback(hal_timer_id_t tmr, void (*c)(void))
   _hal_timer[tmr].callbacks.timeout = c;
 }
 
-/******************************************************************************/
+//-----------------------------------------------------------------------------
 void delay_setBusyWaiting(bool en)
 {
-  _delay_bw = en;
+  // not implemented: always busy waiting
 }
 
 void delay_ms(uint16_t value)
@@ -97,14 +90,14 @@ void delay_us(uint16_t value)
   _delay_us(value);
 }
 
-// ----
+//-----------------------------------------------------------------------------
 ISR(TIMER1_COMPA_vect)
 {
-  hal_timer_t *tmrHAL = _hal_timer_2;
-  if(tmrHAL->flags.timeout == 1)
-    tmrHAL->flags.overlap = 1;
-  tmrHAL->flags.timeout = 1;
+  if(_hal_timer_2->flags.timeout == 1)
+    _hal_timer_2->flags.overlap = 1;
+  _hal_timer_2->flags.timeout = 1;
 
-  if(tmrHAL->callbacks.timeout != 0)
-    tmrHAL->callbacks.timeout();
+//  if(_hal_timer_2->callbacks.timeout != 0){
+//    //_hal_timer_2->callbacks.timeout(); //FIXME not working (segfault?): shouldn't reach this!
+//  }
 }

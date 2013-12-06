@@ -12,6 +12,12 @@
 void hal_init()
 {
   hal_mcu_init();
+
+//  _hal_clock_init();
+//  _hal_gpio_init();
+//  _hal_timer_init();
+//  //_hal_uart_init();
+
   hal_clock_init();
   hal_gpio_init();
   hal_timer_init();

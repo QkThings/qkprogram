@@ -74,7 +74,8 @@ void qk_run()
    * PROCESSING
    ************************************/
 
-  if(_hal_gpio.flags.inputChanged == 1) {
+  if(_hal_gpio.flags.inputChanged == 1)
+  {
     handleInputChanged();
     _hal_gpio.flags.inputChanged = 0;
   }
@@ -97,15 +98,14 @@ void qk_run()
   }
 
 #if defined( QK_IS_DEVICE )
-  count = _qk_maxFiredEvents();
-  while(!qk_cb_isEmpty(&_pendingEvents) && count--)
-  {
-    qk_event_t firedEvent;
-    qk_cb_read(&_pendingEvents, &firedEvent);
-    _qk_comm_sendEvent(&firedEvent, _comm_board);
-  }
+//  count = _qk_maxFiredEvents();
+//  while(!qk_cb_isEmpty(&_pendingEvents) && count--)
+//  {
+//    qk_event_t firedEvent;
+//    qk_cb_read(&_pendingEvents, &firedEvent);
+//    _qk_comm_sendEvent(&firedEvent, _comm_board);
+//  }
 #endif
-
 
   _qk_handleStateChange();
 

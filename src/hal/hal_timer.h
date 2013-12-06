@@ -31,15 +31,15 @@ typedef enum hal_timer_scale
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
-typedef struct hal_timer_callbacks
+typedef volatile struct hal_timer_callbacks
 {
   void (*timeout)(void);
 } hal_timer_callbacks_t;
 
 typedef volatile struct hal_timer_flags
 {
-  unsigned timeout : 1;
-  unsigned overlap : 1;
+  volatile unsigned timeout : 1;
+  volatile unsigned overlap : 1;
 } hal_timer_flags_t;
 
 typedef struct hal_timer
@@ -69,16 +69,16 @@ extern hal_timer_t _hal_timer[2];
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
+void _hal_timer_init();
+/******************************************************************************/
 void hal_timer_init();
 void hal_timer_reinit();
-
 void hal_timer_start(hal_timer_id_t tmr);
 void hal_timer_stop(hal_timer_id_t tmr);
 void hal_timer_reset(hal_timer_id_t tmr);
 void hal_timer_setPeriod(hal_timer_id_t tmr, uint32_t per, hal_timer_scale_t s);
 void hal_timer_setFrequency(hal_timer_id_t tmr, uint32_t freq);
 void hal_timer_setCallback(hal_timer_id_t tmr, void (*c)(void));
-
 void delay_setBusyWaiting(bool enable);
 void delay_us(uint16_t value);
 void delay_ms(uint16_t value);

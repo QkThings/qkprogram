@@ -46,6 +46,7 @@ extern hal_clock_t _hal_clock;
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
+void _hal_clock_init();
 void hal_clock_init();
 bool hal_clock_setFrequency(hal_clock_freq_t freq);
 hal_clock_freq_t hal_clock_getFreqEnum(uint32_t value);

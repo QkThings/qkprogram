@@ -9,8 +9,6 @@
 #include "../sys/qk_system.h"
 #include <avr/io.h>
 
-hal_gpio_t _hal_gpio;
-
 void hal_gpio_init()
 {
   DDRB = (1<<5); // Define data direction on porto b, 5 bit for Led

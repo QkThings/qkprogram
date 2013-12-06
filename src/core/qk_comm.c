@@ -207,11 +207,11 @@ void qk_comm_buildPacket(qk_packet_t *packet, qk_packet_descriptor_t *desc, qk_c
       }
     }
     break;
+#endif
   case QK_PACKET_CODE_STRING:
     packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_NOTIF;
     packet_fillString(desc->string_ptr, &frag);
     break;
-#endif
   default: ;
   }
 }

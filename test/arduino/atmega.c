@@ -15,6 +15,8 @@ void test_sample()
   //}
   //_qk_debug("hello");
  // _qk_debug("test_sample() [called %d times]", counter);
+
+  //_qk_comm_sendString("asdas\0", _comm_board);
 }
 
 void qk_setup()
@@ -34,25 +36,26 @@ int main(void)
 {
   qk_main();
 
-  hal_init();
-  _blinkLED(1, 20);
-  qk_core_init();
-  qk_board_init();
-  _blinkLED(1, 20);
-  qk_setup();
-  qk_board_setup();
-  _blinkLED(3, 30);
-  qk_loop();
-
-  delay_ms(1000);
-	_setLED(true);
-  while (1)
-  {
-    _setLED(false);
-    delay_ms(150);
-    _setLED(true);
-    delay_ms(150);
-  }
+//  hal_init();
+//  _blinkLED(1, 20);
+//  qk_core_init();
+//  qk_board_init();
+//  _blinkLED(1, 20);
+//  qk_setup();
+//  qk_board_setup();
+//  _blinkLED(3, 30);
+//
+//  qk_loop();
+//
+//  delay_ms(1000);
+//	_setLED(true);
+//  while (1)
+//  {
+//    _setLED(false);
+//    delay_ms(150);
+//    _setLED(true);
+//    delay_ms(150);
+//  }
 
   return 0;
 }
