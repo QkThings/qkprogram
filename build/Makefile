@@ -1,24 +1,26 @@
 ####################################################################
-# QkThings. QkProgram Makefile                                                         
+# QkThings                                                         
 ####################################################################
 
 TARGET = arduino
 TOOLCHAIN_DIR = ../../shared/toolchain
 
 ####################################################################
-# Definitions                                                      
+# DEFINITIONS                                                      
 ####################################################################
 
 .SUFFIXES:
 .PHONY: all debug release clean upload
 
 PROJECTNAME = qkprogram
-OBJ_DIR = output
-EXE_DIR = bin
+OBJ_DIR = obj
+BIN_DIR = bin
 LIB_DIR = lib
 
 OPTIMIZE = 0
 FORMAT = binary
+
+include vars.mk
 
 # Try autodetecting the environment
 ifeq ($(SHELLNAMES),)
@@ -51,11 +53,12 @@ ALLFILES   := /*.*
 NULLDEVICE := /dev/null
 SHELLNAMES := $(ComSpec)$(COMSPEC)
 
-ROOT_DIR = ..
+####################################################################
+# DIRS AND FLAGS                     
+####################################################################
 
-####################################################################
-# SOURCE                                                      
-####################################################################
+ROOT_DIR = ..
+TEST_DIR = $(ROOT_DIR)/test
 
 INCLUDE_DIR += \
 $(ROOT_DIR)/include \
@@ -66,35 +69,37 @@ $(ROOT_DIR)/src/utils
 
 C_SRC_DIR += \
 $(ROOT_DIR)/src/hal \
-$(ROOT_DIR)/src/core \
-$(ROOT_DIR)/test/arduino
+$(ROOT_DIR)/src/core #\
+#$(ROOT_DIR)/test/arduino
 
 s_SRC += 
 S_SRC += 
 
 C_SRC = $(wildcard $(addsuffix /*.c, $(C_SRC_DIR)))
+C_SRC += $(MAIN)
 
 include target/$(TARGET).mk
 
-CFLAGS += -O$(OPTIMIZE) -g3
+CFLAGS += -O$(OPTIMIZE) -g3 -Wall
+ARFLAGS = rc
 
 INCLUDEPATHS = $(addprefix -I, $(INCLUDE_DIR))
 
 # Create directories and do a clean which is compatible with parallell make
 $(shell mkdir $(OBJ_DIR)>$(NULLDEVICE) 2>&1)
-$(shell mkdir $(EXE_DIR)>$(NULLDEVICE) 2>&1)
-$(shell mkdir $(LST_DIR)>$(NULLDEVICE) 2>&1)
+$(shell mkdir $(BIN_DIR)>$(NULLDEVICE) 2>&1)
+$(shell mkdir $(LIB_DIR)>$(NULLDEVICE) 2>&1)
 ifeq (clean,$(findstring clean, $(MAKECMDGOALS)))
   ifneq ($(filter $(MAKECMDGOALS),all debug release),)
     $(shell $(RMFILES) $(OBJ_DIR)$(ALLFILES)>$(NULLDEVICE) 2>&1)
-    $(shell $(RMFILES) $(EXE_DIR)$(ALLFILES)>$(NULLDEVICE) 2>&1)
+    $(shell $(RMFILES) $(BIN_DIR)$(ALLFILES)>$(NULLDEVICE) 2>&1)
     $(shell $(RMFILES) $(LST_DIR)$(ALLFILES)>$(NULLDEVICE) 2>&1)
   endif
 endif
 
-####################################################################
-# Rules                                                            #
-####################################################################
+###############################################################################
+# FILES
+###############################################################################
 
 C_FILES = $(notdir $(C_SRC) )
 S_FILES = $(notdir $(S_SRC) $(s_SRC) )
@@ -113,12 +118,19 @@ vpath %.S $(S_PATHS)
 ###############################################################################
 # BUILD
 ###############################################################################
-all:      prints build
+all: lib
 
-prints:
-	@echo Building $(PROJECTNAME) for $(TARGET)
+lib:	print_header print_lib  $(LIB_DIR)/$(PROJECTNAME).a print_done
+test:	print_header print_test $(BIN_DIR)/$(PROJECTNAME).bin print_done
 
-build:  $(EXE_DIR)/$(PROJECTNAME).bin
+print_header:
+	@echo "QkThings (qk-things.com)"
+print_lib:
+	@echo "Building $(PROJECTNAME) $(VERSION) for $(TARGET)"	
+print_test:
+	@echo "Creating a test for $(MAIN)"
+print_done:
+	@echo "Done"
 
 # Create objects from C SRC files
 $(OBJ_DIR)/%.o: %.c
@@ -135,25 +147,26 @@ $(OBJ_DIR)/%.o: %.S
 	$(CC) $(ASMFLAGS) $(INCLUDEPATHS) -c -o $@ $<
 
 # Link
-$(EXE_DIR)/$(PROJECTNAME).out: $(OBJS)
+$(BIN_DIR)/$(PROJECTNAME).out: $(OBJS)
 	@echo Linking target: $@
-	$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $(EXE_DIR)/$(PROJECTNAME).out
+	$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $(BIN_DIR)/$(PROJECTNAME).out
 	
 # Create static library
-$(LIB_DIR)/lib$(PROJECTNAME).a: $(OBJS)
-	$(AR) $(ARFLAGS) 
+$(LIB_DIR)/$(PROJECTNAME).a: $(OBJS)
+	@echo Creating static library: $@
+	$(AR) $(ARFLAGS) $(LIB_DIR)/$(PROJECTNAME).a $(OBJS)
 
 # Create binary file
-$(EXE_DIR)/$(PROJECTNAME).bin: $(EXE_DIR)/$(PROJECTNAME).out
+$(BIN_DIR)/$(PROJECTNAME).bin: $(BIN_DIR)/$(PROJECTNAME).out
 	@echo Creating binary file
-	$(OBJCOPY) -O $(FORMAT) $(EXE_DIR)/$(PROJECTNAME).out $(EXE_DIR)/$(PROJECTNAME).bin
-	$(PSIZE) $(EXE_DIR)/$(PROJECTNAME).out
+	$(OBJCOPY) -O $(FORMAT) $(BIN_DIR)/$(PROJECTNAME).out $(BIN_DIR)/$(PROJECTNAME).bin
+	$(PSIZE) $(BIN_DIR)/$(PROJECTNAME).out
 # Uncomment next line to produce assembly listing of entire program
-#	$(DUMP) -h -S -C $(EXE_DIR)/$(PROJECTNAME).out>$(LST_DIR)/$(PROJECTNAME)out.lst
+#	$(DUMP) -h -S -C $(BIN_DIR)/$(PROJECTNAME).out>$(LST_DIR)/$(PROJECTNAME)out.lst
 
 clean:
 ifeq ($(filter $(MAKECMDGOALS),all debug release),)
-	$(RMDIRS) $(OBJ_DIR) $(EXE_DIR) $(LIB_DIR)
+	$(RMDIRS) $(OBJ_DIR) $(BIN_DIR) $(LIB_DIR)
 endif
 
 # include auto-generated dependency files (explicit rules)
@@ -165,6 +178,7 @@ endif
 # UPLOAD
 ###############################################################################
 PORT ?= COM19
+FILE ?= $(BIN_DIR)/$(PROJECTNAME).bin
 upload:
 	$(UPLOAD_CMD)
 
