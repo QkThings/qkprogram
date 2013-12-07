@@ -50,9 +50,9 @@ CFLAGS += -std=gnu99 -Wall -funsigned-char -funsigned-bitfields -fpack-struct -f
 PORT = COM19
 UPLOAD_RATE = 57600
 ifeq ($(SHELLNAMES),)
-AVRDUDE = $(TOOLCHAIN_DIR)/linux/avr/bin/avrdude
+AVRDUDE = $(TOOLCHAIN_DIR)/linux/avr/avrdude
 else
-AVRDUDE = $(TOOLCHAIN_DIR)/win/avr/bin/avrdude
+AVRDUDE = $(TOOLCHAIN_DIR)/win/avr/avrdude
 endif
 AVRDUDE_CONF = $(TOOLCHAIN_DIR)/common/arduino
 AVRDUDE_PROGRAMMER = stk500

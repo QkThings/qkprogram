@@ -72,15 +72,15 @@
    STRUCTS
  ******************************************************************************/
 
-typedef volatile struct qk_comm_packet_flags
+typedef volatile struct qk_packet_flags
 {
   uint16_t ctrl;
   uint8_t network;
-} qk_comm_packet_flags;
+} qk_packet_flags;
 
-typedef volatile struct qk_comm_packet
+typedef volatile struct qk_packet
 {
-  qk_comm_packet_flags flags;
+  qk_packet_flags flags;
   uint64_t address;
   uint8_t  id;
   uint8_t  code;
@@ -90,7 +90,7 @@ typedef volatile struct qk_comm_packet
   uint8_t  dataLen;
 } qk_packet_t;
 
-typedef volatile struct qk_packet_descriptor_t
+typedef volatile struct qk_packet_descriptor
 {
   uint64_t address;
   uint8_t  code;
@@ -112,7 +112,7 @@ typedef volatile struct qk_packet_descriptor_t
       const char *string_ptr;
     };
   };
-} qk_packet_descriptor_t;
+} qk_packet_descriptor;
 
 /******************************************************************************
    PROTOTYPES

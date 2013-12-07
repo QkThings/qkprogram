@@ -11,7 +11,7 @@
 /*****************************************************************************
  *  Circular Buffers
  *****************************************************************************/
-void qk_cb_init(qk_cb_t *cb, void *buf, uint32_t capacity, uint32_t itemSize, bool overwrite)
+void qk_cb_init(qk_cb *cb, void *buf, uint32_t capacity, uint32_t itemSize, bool overwrite)
 {
   cb->buf = buf;
   cb->bufEnd = buf + (capacity*itemSize);
@@ -22,7 +22,7 @@ void qk_cb_init(qk_cb_t *cb, void *buf, uint32_t capacity, uint32_t itemSize, bo
   cb->tail = buf;
   cb->overwrite = overwrite;
 }
-void qk_cb_write(qk_cb_t *cb, const void *item)
+void qk_cb_write(qk_cb *cb, const void *item)
 {
   if(qk_cb_isFull(cb) && cb->overwrite == false)
     return;
@@ -33,7 +33,7 @@ void qk_cb_write(qk_cb_t *cb, const void *item)
   cb->count++;
 }
 
-void qk_cb_read(qk_cb_t *cb, void *item)
+void qk_cb_read(qk_cb *cb, void *item)
 {
   if(qk_cb_isEmpty(cb))
     return;
@@ -43,11 +43,11 @@ void qk_cb_read(qk_cb_t *cb, void *item)
       cb->tail = cb->buf;
   cb->count--;
 }
-bool qk_cb_isFull(qk_cb_t *cb)
+bool qk_cb_isFull(qk_cb *cb)
 {
   return (cb->count == cb->capacity ? true : false);
 }
-bool qk_cb_isEmpty(qk_cb_t *cb)
+bool qk_cb_isEmpty(qk_cb *cb)
 {
   return (cb->count == 0 ? true : false);
 }

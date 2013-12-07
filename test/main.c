@@ -29,11 +29,11 @@ enum
   EVT_SAMPLE
 };
 
-qk_config_t cfg_buf[CFG_COUNT];
+qk_config cfg_buf[CFG_COUNT];
 
 #if defined( QK_IS_DEVICE )
-qk_data_t dat_buf[DAT_COUNT];
-qk_event_t evt_buf[EVT_COUNT];
+qk_data dat_buf[DAT_COUNT];
+qk_event evt_buf[EVT_COUNT];
 #endif
 
 void test_init()
@@ -147,7 +147,7 @@ void qk_setup()
   qk_setConfigType(CFG_TEST_FLOAT, QK_CONFIG_TYPE_FLOAT);
   qk_setConfigValueF(CFG_TEST_FLOAT, 10.123);
 
-  qk_datetime_t dateTime;
+  qk_datetime dateTime;
   dateTime.year = 13;
   dateTime.month = 8;
   dateTime.day = 17;

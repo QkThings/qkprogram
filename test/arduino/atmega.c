@@ -1,7 +1,7 @@
 #include <qk_program.h>
 #include <qk_debug.h>
 
-qk_data_t dat_buf[1];
+qk_data dat_buf[1];
 
 volatile uint16_t counter = 10;
 

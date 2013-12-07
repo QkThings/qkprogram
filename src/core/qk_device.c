@@ -9,22 +9,22 @@
 #include "../sys/qk_system.h"
 
 #if defined(QK_IS_DEVICE)
-qk_cb_t _pendingEvents;
+qk_cb _pendingEvents;
 
-qk_event_t peBuf[QK_MAX_PENDING_EVENTS];
+qk_event peBuf[QK_MAX_PENDING_EVENTS];
 
 void _qk_device_init()
 {
-  memset(_qk_device, 0, sizeof(qk_device_t));
+  memset(_qk_device, 0, sizeof(qk_device));
   _qk_device->info.dataType = QK_DATA_TYPE_INT;
   _qk_device->info._maxFiredEvents = QK_DEFAULT_MAX_FIRED_EVENTS;
-  qk_cb_init(&_pendingEvents, peBuf, QK_MAX_PENDING_EVENTS, sizeof(qk_event_t), false);
+  qk_cb_init(&_pendingEvents, peBuf, QK_MAX_PENDING_EVENTS, sizeof(qk_event), false);
 }
 
 void _qk_device_setup()
 {
   uint32_t i;
-  qk_event_t *e;
+  qk_event *e;
   for(i = 0; i < _qk_device->info._nevt; i++)
   {
     e = &(_qk_device->buffers.event[i]);
@@ -50,7 +50,7 @@ bool qk_fireEvent(uint8_t idx, float *values, uint8_t count, char *message)
     return false;
 
   uint8_t i;
-  qk_event_t *e = &(_qk_device->buffers.event[idx]);
+  qk_event *e = &(_qk_device->buffers.event[idx]);
 
   if(count > QK_EVENT_MAX_ARGS)
     count = QK_EVENT_MAX_ARGS;
