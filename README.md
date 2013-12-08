@@ -4,7 +4,7 @@ QkProgram is the embedded framework of QkThings.
 
 ## Building Instructions
 
-* Building as a static library:
+### Building as a static library:
 
 	make TARGET=<targetname>
 
@@ -14,7 +14,7 @@ You can also save the default target so you don't need to specify it later.
 	make savetarget <targetname>
 	make
 
-* Compiling the library with a test file that provides the main() function:
+### Compiling the library with a test file that provides the main() function:
 
 	make test MAIN=<testname>.c TARGET=<targetname>
 	make upload PORT=<portname>
@@ -36,7 +36,5 @@ Hardware-dependend code is part of the _Hardware Abstraction Layer_ (HAL) and ca
 That's the only code that needs to be changed/created when porting QkProgram to another target. 
 See the files under that folder to understand how they are organized and which functions need to be implemented. Actually, if you really want to know which functions must be implemented you shoud take a look at the corresponding header files on _src/hal_ folder (one header file for each peripheral).
 
-## Contribute
 
-When cloning this repository, make sure you clone the **develop** branch so you get the latest changes. Do whatever changes you want and if you can improve the code or add new features don't hesitate to make a **pull request**. Need some ideas? See the following TODO list.
 
