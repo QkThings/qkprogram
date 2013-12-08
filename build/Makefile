@@ -21,6 +21,7 @@ OPTIMIZE = 0
 FORMAT = binary
 
 include vars.mk
+VERSION_STR = "$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)"
 
 # Try autodetecting the environment
 ifeq ($(SHELLNAMES),)
@@ -120,17 +121,8 @@ vpath %.S $(S_PATHS)
 ###############################################################################
 all: lib
 
-lib:	print_header print_lib  $(LIB_DIR)/$(PROJECTNAME).a print_done
-test:	print_header print_test $(BIN_DIR)/$(PROJECTNAME).bin print_done
-
-print_header:
-	@echo "QkThings (qk-things.com)"
-print_lib:
-	@echo "Building $(PROJECTNAME) $(VERSION) for $(TARGET)"	
-print_test:
-	@echo "Creating a test for $(MAIN)"
-print_done:
-	@echo "Done"
+lib:	$(LIB_DIR)/$(PROJECTNAME).a
+test:	$(BIN_DIR)/$(PROJECTNAME).bin
 
 # Create objects from C SRC files
 $(OBJ_DIR)/%.o: %.c

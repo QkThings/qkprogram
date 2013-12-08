@@ -9,6 +9,10 @@ QkProgram is the embedded framework of QkThings.
 	make TARGET=<targetname>
 
 See _build/target_ folder to get the available targets.
+You can also save the default target so you don't need to specify it later.
+
+	make savetarget <targetname>
+	make
 
 * Compiling the library with a test file that provides the main() function:
 
