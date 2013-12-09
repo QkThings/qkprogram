@@ -110,17 +110,17 @@ extern qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
-void qk_protocol_init(qk_protocol *comm);
-void qk_protocol_sendPacket(qk_packet_t *packet, qk_protocol *comm);
-void qk_protocol_processByte(uint8_t b, qk_protocol *comm);
-void qk_protocol_processPacket(qk_protocol *comm);
+void qk_protocol_init(qk_protocol *protocol);
+void qk_protocol_sendPacket(qk_packet_t *packet, qk_protocol *protocol);
+void qk_protocol_processByte(uint8_t b, qk_protocol *protocol);
+void qk_protocol_processPacket(qk_protocol *protocol);
 
-void qk_protocol_buildPacket(qk_packet_t *packet, qk_packet_descriptor *desc, qk_protocol *comm);
-void _qk_protocol_sendCode(int code, qk_protocol *comm);
-void _qk_protocol_sendString(const char *str, qk_protocol *comm);
+void qk_protocol_buildPacket(qk_packet_t *packet, qk_packet_descriptor *desc, qk_protocol *protocol);
+void _qk_protocol_sendCode(int code, qk_protocol *protocol);
+void _qk_protocol_sendString(const char *str, qk_protocol *protocol);
 
 #if defined( QK_IS_DEVICE )
-void _qk_protocol_sendEvent(qk_event *e, qk_protocol *comm);
+void _qk_protocol_sendEvent(qk_event *e, qk_protocol *protocol);
 #endif
 /******************************************************************************/
 

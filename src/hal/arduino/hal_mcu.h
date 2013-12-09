@@ -13,6 +13,11 @@
 
 static inline void hal_mcu_init()
 {
+
+}
+
+static inline void hal_finalize()
+{
   sei();
 }
 

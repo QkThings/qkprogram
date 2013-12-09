@@ -12,3 +12,4 @@ build/lib
 *.zip
 *.tar.gz
 *.rar
+saved.*

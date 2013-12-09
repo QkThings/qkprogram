@@ -54,6 +54,7 @@ void qk_cb_write(qk_cb *cb, const void *item);
 void qk_cb_read(qk_cb *cb, void *item);
 bool qk_cb_isFull(qk_cb *cb);
 bool qk_cb_isEmpty(qk_cb *cb);
+uint32_t qk_cb_available(qk_cb *cb);
 
 /*****************************************************************************
  *  Lightweight STDIO functions

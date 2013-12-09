@@ -51,6 +51,10 @@ bool qk_cb_isEmpty(qk_cb *cb)
 {
   return (cb->count == 0 ? true : false);
 }
+uint32_t qk_cb_available(qk_cb *cb)
+{
+  return cb->count;
+}
 
 /*****************************************************************************
  *  Lightweight STDIO functions

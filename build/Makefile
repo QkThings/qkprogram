@@ -2,7 +2,6 @@
 # QkThings                                                         
 ####################################################################
 
-TARGET = arduino
 TOOLCHAIN_DIR = ../../shared/toolchain
 
 ####################################################################
@@ -11,6 +10,16 @@ TOOLCHAIN_DIR = ../../shared/toolchain
 
 .SUFFIXES:
 .PHONY: all debug release clean upload
+
+ifeq ($(TARGET),)
+  -include saved.target
+  ifeq ($(TARGET),)
+    ${info TARGET not defined, using target 'arduino'}
+    TARGET=arduino
+  else
+    ${info using saved target '$(TARGET)'}
+  endif
+endif
 
 PROJECTNAME = qkprogram
 OBJ_DIR = obj
@@ -165,6 +174,11 @@ endif
 ifneq (clean,$(findstring clean, $(MAKECMDGOALS)))
 -include $(C_DEPS)
 endif
+
+savetarget:
+	-@rm -f saved.target
+	@echo "saving target"
+	@echo >saved.target "TARGET = $(TARGET)"
 
 ###############################################################################
 # UPLOAD

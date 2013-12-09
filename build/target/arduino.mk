@@ -50,7 +50,7 @@ CFLAGS += -std=gnu99 -Wall -funsigned-char -funsigned-bitfields -fpack-struct -f
 # AVRDUDE
 ###############################################################################
 PORT = COM19
-UPLOAD_RATE = 57600
+UPLOAD_RATE = 115200
 ifeq ($(SHELLNAMES),)
 AVRDUDE = $(TOOLCHAIN_DIR)/linux/avr/avrdude
 else
