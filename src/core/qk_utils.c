@@ -35,14 +35,17 @@ void qk_cb_write(qk_cb *cb, const void *item)
 
 void qk_cb_read(qk_cb *cb, void *item)
 {
-  if(qk_cb_isEmpty(cb))
-    return;
   memcpy(item, cb->tail, cb->itemSize);
   cb->tail = (char*)cb->tail + cb->itemSize;
   if(cb->tail == cb->bufEnd)
       cb->tail = cb->buf;
   cb->count--;
 }
+void *qk_cb_pick(qk_cb *cb)
+{
+  return cb->tail;
+}
+
 bool qk_cb_isFull(qk_cb *cb)
 {
   return (cb->count == cb->capacity ? true : false);

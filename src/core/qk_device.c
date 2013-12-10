@@ -17,7 +17,6 @@ void _qk_device_init()
 {
   memset(_qk_device, 0, sizeof(qk_device));
   _qk_device->info.dataType = QK_DATA_TYPE_INT;
-  _qk_device->info._maxFiredEvents = QK_DEFAULT_MAX_FIRED_EVENTS;
   qk_cb_init(&_pendingEvents, peBuf, QK_MAX_PENDING_EVENTS, sizeof(qk_event), false);
 }
 

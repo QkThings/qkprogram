@@ -34,7 +34,7 @@ typedef enum qk_action_type
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
-typedef struct qk_data_value
+typedef volatile struct qk_data_value
 {
   union
   {
@@ -48,14 +48,14 @@ typedef struct qk_data_prop
   char label[QK_LABEL_SIZE];
 } qk_data_prop;
 
-typedef struct qk_data
+typedef volatile struct qk_data
 {
   //qk_data_type_t  type;
   qk_data_value value;
   qk_data_prop  proprieties;
 } qk_data;
 
-typedef struct qk_event_value
+typedef volatile struct qk_event_value
 {
   uint8_t argc;
   float argv[QK_EVENT_MAX_ARGS];
@@ -67,7 +67,7 @@ typedef struct qk_event_prop
   char label[QK_LABEL_SIZE];
 } qk_event_prop;
 
-typedef struct qk_event
+typedef volatile struct qk_event
 {
   uint8_t _id;
   qk_event_value value;
@@ -100,31 +100,30 @@ typedef struct qk_action_t
   qk_action_prop      proprieties;
 } qk_action;
 
-typedef struct qk_device_buffers
+typedef volatile struct qk_device_buffers
 {
   qk_data *data;
   qk_event *event;
   qk_action *action;
 } qk_device_buffers;
 
-typedef struct qk_device_callbacks
+typedef volatile struct qk_device_callbacks
 {
   void (*sample)(void);
   void (*start)(void);
   void (*stop)(void);
 } qk_device_callbacks;
 
-typedef struct qk_device_info_t
+typedef volatile struct qk_device_info
 {
   uint32_t _ndat;
   uint32_t _nact;
   uint32_t _nevt;
   uint32_t _ncfg;
-  uint8_t _maxFiredEvents;
   qk_data_type dataType;
 } qk_device_info;
 
-typedef struct qk_device_t
+typedef struct qk_device
 {
   qk_device_info      info;
   qk_device_buffers   buffers;
@@ -225,15 +224,9 @@ void qk_setEventMessage(uint8_t idx, char *message)
 }*/
 
 static inline
-void qk_setMaxFiredEvents(uint8_t count)
+qk_cb* qk_pendingEvents()
 {
-  _qk_device->info._maxFiredEvents = count;
-}
-
-static inline
-uint8_t _qk_maxFiredEvents()
-{
-  return _qk_device->info._maxFiredEvents;
+  return &_pendingEvents;
 }
 
 
