@@ -100,25 +100,15 @@ void qk_run()
   }
 
 #if defined( QK_IS_DEVICE )
-//  count = QK_MAX_FIRED_EVENTS;
-//  qk_cb *pendingEvents = qk_pendingEvents();
-//  while(qk_cb_available(pendingEvents) > 0 && count--)
-//  {
-//    QK_DEBUG("pendingEvents count=%d",qk_cb_available(pendingEvents));
-//    //qk_event firedEvent;
-//    //qk_cb_read(pendingEvents, &firedEvent);
-//
-//    qk_event *firedEvent = qk_cb_pick(pendingEvents);
-//    QK_DEBUG("firedEvent label=%s",firedEvent->proprieties.label);
-//  }
-
-  //  count = _qk_maxFiredEvents();
-//  while(qk_cb_available(&_pendingEvents) > 0 && count--)
-//  {
-//    qk_event firedEvent;
-//    qk_cb_read(&_pendingEvents, &firedEvent);
-//    _qk_comm_sendEvent(&firedEvent, _protocol_board);
-//  }
+  count = QK_MAX_FIRED_EVENTS;
+  qk_cb *pendingEvents = qk_pendingEvents();
+  while(qk_cb_available(pendingEvents) > 0 && count--)
+  {
+    //qk_event firedEvent;
+    //qk_cb_read(pendingEvents, &firedEvent);
+    qk_event *firedEvent = (qk_event*)qk_cb_pick(pendingEvents);
+    _qk_comm_sendEvent(&firedEvent, _protocol_board);
+  }
 #endif
 
   _qk_handleStateChange();
