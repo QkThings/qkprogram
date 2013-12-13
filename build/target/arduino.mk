@@ -38,7 +38,7 @@ $(ROOT_DIR)/src/hal/arduino
 # FLAGS
 ###############################################################################
 BOOTLOADER_ADDRESS=1F800
-CFLAGS += -mmcu=$(MCU) -DF_CPU=$(F_CPU) -I. -ffunction-sections #-fdata-sections 
+CFLAGS += -mmcu=$(MCU) -DF_CPU=$(F_CPU) -I. -ffunction-sections -fdata-sections 
 LDFLAGS = -Wl,--gc-sections $(CFLAGS) 
 LDFLAGS += -Wl,-u,vfprintf -lprintf_min # enable printf
 #LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm # printf with floating point support
