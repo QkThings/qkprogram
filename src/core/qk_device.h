@@ -159,14 +159,16 @@ qk_data_type qk_dataType()
 }
 
 static inline
-void qk_setDataCount(uint8_t count)
-{
-  _qk_device->info._ndat = count;
-}
-static inline
-void qk_setDataBuffer(qk_data *buf)
+void qk_setDataBuffer(qk_data *buf, uint32_t count)
 {
   _qk_device->buffers.data = buf;
+  _qk_device->info._ndat = count;
+}
+
+static inline
+void qk_setDataCount(uint32_t count)
+{
+  _qk_device->info._ndat = count;
 }
 
 static inline
@@ -194,19 +196,14 @@ void qk_setDataValueF(uint8_t idx, float value)
 }
 
 static inline
-void qk_setEventCount(uint8_t count)
+void qk_setEventBuffer(qk_event *buf, uint32_t count)
 {
+  _qk_device->buffers.event = buf;
   _qk_device->info._nevt = count;
 }
 
 static inline
-void qk_setEventBuffer(qk_event *buf)
-{
-  _qk_device->buffers.event = buf;
-}
-
-static inline
-void qk_setEventLabel(uint8_t idx, char *label)
+void qk_setEventLabel(uint8_t idx, const char *label)
 {
   strcpy(_qk_device->buffers.event[idx].proprieties.label, label);
 }

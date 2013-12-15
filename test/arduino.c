@@ -1,14 +1,19 @@
 #include <qk_program.h>
 #include <qk_debug.h>
 
-qk_data dat_buf[1];
+#define DAT_COUNT 1
+#define EVT_COUNT 1
+
+qk_data dat_buf[DAT_COUNT];
+qk_event evt_buf[EVT_COUNT];
 
 volatile uint16_t counter = 10;
+volatile float args[2];
 
 void test_sample()
 {
   _toggleLED();
-  //QK_DEBUG("test_sample() [called %d times]", ++counter);
+  QK_DEBUG("test_sample() [called %d times]", counter);
   qk_setDataValueI(0, counter++);
   //while(1) {
     //_toggleLED();
@@ -17,6 +22,16 @@ void test_sample()
  // _qk_debug("test_sample() [called %d times]", counter);
 
   //_qk_comm_sendString("asdas\0", _comm_board);
+
+  args[0] = 123.123;
+  args[1] = 456.456;
+
+  qk_fireEvent(0, args, 2, "tuntz");
+
+//  args[0] = 1.123;
+//  args[1] = 2.456;
+//
+//  qk_fireEvent(0, args, 2, "sample event fired! %0 %1");
 }
 
 void qk_setup()
@@ -24,10 +39,12 @@ void qk_setup()
   qk_setBoardName("ArduinoTest");
   qk_setBoardVersion(0x1234);
 
-  qk_setDataCount(1);
-  qk_setDataBuffer(dat_buf);
+  qk_setDataBuffer(dat_buf, DAT_COUNT);
   qk_setDataType(QK_DATA_TYPE_INT);
-  qk_setDataLabel(0, "CNT\0");
+  qk_setDataLabel(0, "CNT");
+
+  qk_setEventBuffer(evt_buf, EVT_COUNT);
+  qk_setEventLabel(0, "SAMPLE");
 
   qk_setSampleCallback(test_sample);
 }

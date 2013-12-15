@@ -104,9 +104,9 @@ void qk_run()
   qk_cb *pendingEvents = qk_pendingEvents();
   while(qk_cb_available(pendingEvents) > 0 && count--)
   {
-    //qk_event firedEvent;
-    //qk_cb_read(pendingEvents, &firedEvent);
-    qk_event *firedEvent = (qk_event*)qk_cb_pick(pendingEvents);
+    qk_event firedEvent;
+    qk_cb_read(pendingEvents, &firedEvent);
+    //qk_event *firedEvent = (qk_event*)qk_cb_pick(pendingEvents);
     _qk_comm_sendEvent(&firedEvent, _protocol_board);
   }
 #endif

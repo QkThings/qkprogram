@@ -165,8 +165,7 @@ void qk_setup()
 
 #if defined( QK_IS_DEVICE )
   // Data
-  qk_setDataCount(DAT_COUNT);
-  qk_setDataBuffer(dat_buf);
+  qk_setDataBuffer(dat_buf, DAT_COUNT);
 #ifdef FLOAT
   qk_setDataType(QK_DATA_TYPE_FLOAT);
 #else
@@ -178,8 +177,7 @@ void qk_setup()
   qk_setDataLabel(DAT_TEST_2, "DAT2");
 
   // Events
-  qk_setEventCount(EVT_COUNT);
-  qk_setEventBuffer(evt_buf);
+  qk_setEventBuffer(evt_buf, EVT_COUNT);
 
   qk_setEventLabel(EVT_SAMPLE, "SAMPLE");
 #endif
@@ -202,14 +200,14 @@ void qk_setup()
 
 int main(void)
 {
-  hal_gpio_init();
+  /*hal_gpio_init();
   while(1)
   {
     _setLED(false);
     delay_ms(100);
     _setLED(true);
     delay_ms(100);
-  }
+  }*/
 
   return qk_main();
 }

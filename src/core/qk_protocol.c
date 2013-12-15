@@ -155,9 +155,7 @@ void qk_protocol_buildPacket(qk_packet_t *packet, qk_packet_descriptor *desc, qk
     packet_fillValue(_qk_device->info._ndat, 1, &frag);
     packet_fillValue(_qk_device->info.dataType, 1, &frag);
     for(i=0; i<_qk_device->info._ndat; i++)
-    {
       packet_fillArray((uint8_t*)p_data[i].proprieties.label, QK_LABEL_SIZE, &frag);
-    }
     break;
   case QK_PACKET_CODE_DATA:
     packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_NOTIF;
@@ -165,17 +163,13 @@ void qk_protocol_buildPacket(qk_packet_t *packet, qk_packet_descriptor *desc, qk
     packet_fillValue(_qk_device->info._ndat, 1, &frag);
     packet_fillValue(_qk_device->info.dataType, 1, &frag);
     for(i=0; i<_qk_device->info._ndat; i++)
-    {
       packet_fillValue(p_data[i].value.i, 4, &frag);
-    }
     break;
   case QK_PACKET_CODE_INFOEVENT:
     p_event = _qk_device->buffers.event;
     packet_fillValue(_qk_device->info._nevt, 1, &frag);
     for(i=0; i<_qk_device->info._nevt; i++)
-    {
       packet_fillArray((uint8_t*)p_event[i].proprieties.label, QK_LABEL_SIZE, &frag);
-    }
     break;
   case QK_PACKET_CODE_EVENT:
     packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_NOTIF;
@@ -183,9 +177,7 @@ void qk_protocol_buildPacket(qk_packet_t *packet, qk_packet_descriptor *desc, qk
     packet_fillValue(p_event->_id, 1, &frag);
     packet_fillValue(p_event->value.argc, 1, &frag);
     for(i=0; i<p_event->value.argc; i++)
-    {
       packet_fillValue(_bytesFromFloat(p_event->value.argv[i]), 4, &frag);
-    }
     packet_fillString(p_event->value.text, &frag);
     break;
   case QK_PACKET_CODE_INFOACTION:
