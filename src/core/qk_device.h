@@ -120,7 +120,6 @@ typedef struct qk_device_info_t
   uint32_t _nact;
   uint32_t _nevt;
   uint32_t _ncfg;
-  uint8_t _maxFiredEvents;
   qk_data_type_t dataType;
 } qk_device_info_t;
 
@@ -139,7 +138,7 @@ typedef struct qk_device_t
 /******************************************************************************
    GLOBAL VARIABLES
  ******************************************************************************/
-extern qk_cb_t _pendingEvents;
+extern volatile qk_cb_t _pendingEvents;
 extern qk_device_t *_qk_device;
 
 /******************************************************************************
@@ -223,20 +222,6 @@ void qk_setEventMessage(uint8_t idx, char *message)
 {
   _qk_device->buffers.event[idx].value.text = message;
 }*/
-
-static inline
-void qk_setMaxFiredEvents(uint8_t count)
-{
-  _qk_device->info._maxFiredEvents = count;
-}
-
-static inline
-uint8_t _qk_maxFiredEvents()
-{
-  return _qk_device->info._maxFiredEvents;
-}
-
-
 static inline
 void qk_setSampleCallback(void (*fnc)(void))
 {

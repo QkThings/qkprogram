@@ -7,6 +7,7 @@
  */
 
 #include "../sys/qk_system.h"
+#include "qk_debug.h"
 
 //#include "em_emu.h"
 
@@ -83,6 +84,45 @@ void qk_run()
   //TODO Status notifications
   //TODO Events
 
+//#if defined( QK_IS_DEVICE )
+
+//  count = QK_MAX_FIRED_EVENTS;
+//  QK_DEBUG("1. count=%d empty?%d available=%d\n",count,qk_cb_isEmpty(&_pendingEvents),qk_cb_available(&_pendingEvents));
+//  QK_DEBUG("2. count=%d empty?%d available=%d\n",count,qk_cb_isEmpty(&_pendingEvents),qk_cb_available(&_pendingEvents));
+
+//  while(qk_cb_available(&_pendingEvents))
+//  {
+//    qk_event_t *firedEvent = (qk_event_t *) qk_cb_pick(&_pendingEvents);
+//    _qk_comm_sendEvent(firedEvent, _comm_board);
+//  }
+
+  //for(count = QK_MAX_FIRED_EVENTS; qk_cb_available(&_pendingEvents) > 0 && count > 0; count--)
+
+//  qk_cb_t pe;
+//  volatile qk_cb_t pendingEvents;
+//  volatile qk_event_t buf[QK_MAX_PENDING_EVENTS];
+//
+//  qk_cb_init(&pendingEvents, buf, QK_MAX_PENDING_EVENTS, sizeof(qk_event_t), false);
+//
+//  pendingEvents.count = 0;
+//  qk_cb_t *pendingEvents = qk_device_pendingEvents();
+//  //if(pendingEvents->count > 0)
+//  if(qk_device_test())
+//  //if(qk_cb_available(&_pendingEvents))
+//  {
+////    while(1) {
+////      _blinkLED(3, 100);
+////
+////    }
+//    //qk_event_t firedEvent;
+//    qk_event_t *firedEvent = (qk_event_t *) qk_cb_pick(&_pendingEvents);
+//    _blinkLED(2,100);
+//    _qk_comm_sendEvent(firedEvent, _comm_board);
+//    //qk_cb_read(&_pendingEvents, &firedEvent);
+//    //_qk_comm_sendEvent(&firedEvent, _comm_board);
+//  }
+////#endif
+
   for(i = 0; i < QK_COMM_STRUCT_COUNT; i++)
   {
     if(_qk_comm[i].callbacks.processBytes != 0)
@@ -96,16 +136,6 @@ void qk_run()
       _qk_comm[i].flags.reg &= ~QK_COMM_FLAGMASK_NEWPACKET;
     }
   }
-
-#if defined( QK_IS_DEVICE )
-//  count = _qk_maxFiredEvents();
-//  while(!qk_cb_isEmpty(&_pendingEvents) && count--)
-//  {
-//    qk_event_t firedEvent;
-//    qk_cb_read(&_pendingEvents, &firedEvent);
-//    _qk_comm_sendEvent(&firedEvent, _comm_board);
-//  }
-#endif
 
   _qk_handleStateChange();
 

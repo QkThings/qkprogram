@@ -30,7 +30,7 @@
  * CONSTANTS
  *****************************************************************************/
 #define QK_DEFAULT_SAMPFREQ         (5)
-#define QK_DEFAULT_MAX_FIRED_EVENTS (16)
+#define QK_MAX_FIRED_EVENTS         (16)
 #define QK_MAX_PENDING_EVENTS       (16)
 #define QK_EVENT_MAX_ARGS           (8)
 #define QK_PACKET_DATBUF_SIZE       (128)

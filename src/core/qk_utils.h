@@ -37,7 +37,7 @@ typedef qk_datetime_t qk_time_t;
 /*****************************************************************************
  *  Circular Buffers
  *****************************************************************************/
-typedef struct qk_cb
+typedef volatile struct qk_cb
 {
   void     *buf;
   void     *bufEnd;
@@ -54,6 +54,8 @@ void qk_cb_write(qk_cb_t *cb, const void *item);
 void qk_cb_read(qk_cb_t *cb, void *item);
 bool qk_cb_isFull(qk_cb_t *cb);
 bool qk_cb_isEmpty(qk_cb_t *cb);
+void *qk_cb_pick(qk_cb_t *cb);
+uint32_t qk_cb_available(qk_cb_t *cb);
 
 /*****************************************************************************
  *  Lightweight STDIO functions

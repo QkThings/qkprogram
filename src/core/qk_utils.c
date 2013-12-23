@@ -7,6 +7,7 @@
  */
 
 #include "../sys/qk_system.h"
+#include <string.h>
 
 /*****************************************************************************
  *  Circular Buffers
@@ -35,13 +36,20 @@ void qk_cb_write(qk_cb_t *cb, const void *item)
 
 void qk_cb_read(qk_cb_t *cb, void *item)
 {
-  if(qk_cb_isEmpty(cb))
-    return;
   memcpy(item, cb->tail, cb->itemSize);
   cb->tail = (char*)cb->tail + cb->itemSize;
   if(cb->tail == cb->bufEnd)
       cb->tail = cb->buf;
   cb->count--;
+}
+void *qk_cb_pick(qk_cb_t *cb)
+{
+  void *tail = cb->tail;
+  cb->tail = (char*)cb->tail + cb->itemSize;
+  if(cb->tail == cb->bufEnd)
+      cb->tail = cb->buf;
+  cb->count--;
+  return tail;
 }
 bool qk_cb_isFull(qk_cb_t *cb)
 {
@@ -50,6 +58,11 @@ bool qk_cb_isFull(qk_cb_t *cb)
 bool qk_cb_isEmpty(qk_cb_t *cb)
 {
   return (cb->count == 0 ? true : false);
+}
+
+uint32_t qk_cb_available(qk_cb_t *cb)
+{
+  return cb->count;
 }
 
 /*****************************************************************************

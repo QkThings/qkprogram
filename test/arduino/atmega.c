@@ -7,6 +7,7 @@ volatile uint16_t counter = 10;
 
 void test_sample()
 {
+  QK_DEBUG("testing debug");
   _toggleLED();
   //QK_DEBUG("test_sample() [called %d times]", ++counter);
   qk_setDataValueI(0, counter++);

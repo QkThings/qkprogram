@@ -9,15 +9,13 @@
 #include "../sys/qk_system.h"
 
 #if defined(QK_IS_DEVICE)
-qk_cb_t _pendingEvents;
-
-qk_event_t peBuf[QK_MAX_PENDING_EVENTS];
+volatile qk_cb_t _pendingEvents;
+volatile qk_event_t peBuf[QK_MAX_PENDING_EVENTS];
 
 void _qk_device_init()
 {
   memset(_qk_device, 0, sizeof(qk_device_t));
   _qk_device->info.dataType = QK_DATA_TYPE_INT;
-  _qk_device->info._maxFiredEvents = QK_DEFAULT_MAX_FIRED_EVENTS;
   qk_cb_init(&_pendingEvents, peBuf, QK_MAX_PENDING_EVENTS, sizeof(qk_event_t), false);
 }
 
