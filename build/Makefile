@@ -91,6 +91,7 @@ C_SRC += $(MAIN)
 include target/$(TARGET).mk
 
 CFLAGS += -O$(OPTIMIZE) -g3 -Wall
+LIBS += -lm
 ARFLAGS = rc
 
 INCLUDEPATHS = $(addprefix -I, $(INCLUDE_DIR))
