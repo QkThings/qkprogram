@@ -14,23 +14,26 @@ TOOLCHAIN_DIR = ../../shared/toolchain
 ifeq ($(TARGET),)
   -include saved.target
   ifeq ($(TARGET),)
-    ${info TARGET not defined, using target 'arduino'}
-    TARGET=arduino
+    ${info TARGET not defined, using target 'arduino.uno'}
+    TARGET=arduino.uno
   else
     ${info using saved target '$(TARGET)'}
   endif
 endif
 
+get_target_name = $(firstword $(subst ., ,$1))
+get_target_variant = $(or $(word 2,$(subst ., ,$1)),$(value 2))
+
+TARGET_NAME=$(call get_target_name,$(TARGET))
+TARGET_VARIANT=$(call get_target_variant,$(TARGET),$(TARGET_NAME))
+ 
 PROJECTNAME = qkprogram
 OBJ_DIR = obj
 BIN_DIR = bin
-LIB_DIR = lib
+LIB_DIR = lib/$(TARGET_NAME)/$(TARGET_VARIANT)
 
 OPTIMIZE = 0
 FORMAT = binary
-
-include vars.mk
-VERSION_STR = "$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)"
 
 # Try autodetecting the environment
 ifeq ($(SHELLNAMES),)
@@ -67,20 +70,20 @@ SHELLNAMES := $(ComSpec)$(COMSPEC)
 # DIRS AND FLAGS                     
 ####################################################################
 
-ROOT_DIR = ..
-TEST_DIR = $(ROOT_DIR)/test
+QKPROGRAM_ROOT_DIR = ..
+TEST_DIR = $(QKPROGRAM_ROOT_DIR)/test
 
 INCLUDE_DIR += \
-$(ROOT_DIR)/include \
-$(ROOT_DIR)/src/sys \
-$(ROOT_DIR)/src/hal \
-$(ROOT_DIR)/src/core \
-$(ROOT_DIR)/src/utils \
+$(QKPROGRAM_ROOT_DIR)/include \
+$(QKPROGRAM_ROOT_DIR)/src/sys \
+$(QKPROGRAM_ROOT_DIR)/src/hal \
+$(QKPROGRAM_ROOT_DIR)/src/core \
+$(QKPROGRAM_ROOT_DIR)/src/utils \
 $(APP_INCLUDE_DIR)  
 
 C_SRC_DIR += \
-$(ROOT_DIR)/src/hal \
-$(ROOT_DIR)/src/core
+$(QKPROGRAM_ROOT_DIR)/src/hal \
+$(QKPROGRAM_ROOT_DIR)/src/core
 $(APP_SRC_DIR) 
 
 s_SRC += 
@@ -89,18 +92,18 @@ S_SRC +=
 C_SRC = $(wildcard $(addsuffix /*.c, $(C_SRC_DIR)))
 C_SRC += $(MAIN)
 
-include target/$(TARGET).mk
+include target/$(TARGET_NAME)/$(TARGET_VARIANT).mk
 
 CFLAGS += -O$(OPTIMIZE) -g3 -Wall
 LIBS += -lm
-ARFLAGS = rc
+ARFLAGS = rcs
 
 INCLUDEPATHS = $(addprefix -I, $(INCLUDE_DIR))
 
 # Create directories and do a clean which is compatible with parallell make
 $(shell mkdir $(OBJ_DIR)>$(NULLDEVICE) 2>&1)
 $(shell mkdir $(BIN_DIR)>$(NULLDEVICE) 2>&1)
-$(shell mkdir $(LIB_DIR)>$(NULLDEVICE) 2>&1)
+$(shell mkdir -p $(LIB_DIR)>$(NULLDEVICE) 2>&1)
 ifeq (clean,$(findstring clean, $(MAKECMDGOALS)))
   ifneq ($(filter $(MAKECMDGOALS),all debug release),)
     $(shell $(RMFILES) $(OBJ_DIR)$(ALLFILES)>$(NULLDEVICE) 2>&1)
@@ -131,6 +134,9 @@ vpath %.S $(S_PATHS)
 # BUILD
 ###############################################################################
 all: lib
+
+dev:
+	@echo "$(DEV)=$(TARGET_NAME).$(TARGET_VARIANT)"
 
 app:    $(BIN_DIR)/$(PROJECTNAME).bin
 lib:	$(LIB_DIR)/lib$(PROJECTNAME).a

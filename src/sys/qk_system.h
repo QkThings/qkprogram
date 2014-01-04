@@ -66,4 +66,6 @@
 #endif
 #include "../core/qk_board.h"
 
+int qk_main();
+
 #endif /* QK_SYSTEM_H */

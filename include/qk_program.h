@@ -9,10 +9,8 @@
 #ifndef QK_PROGRAM_H
 #define QK_PROGRAM_H
 
+//TODO remove qk_system.h and use this file instead (?)
+
 #include "../sys/qk_system.h"
-
-//extern qk_board_t _board;
-
-int qk_main();
 
 #endif /* QK_PROGRAM_H */
