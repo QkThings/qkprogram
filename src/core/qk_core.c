@@ -9,9 +9,11 @@
 #include "../sys/qk_system.h"
 #include "qk_debug.h"
 
+#include <qk_debug.h> //TODO remove this
+
 //#include "em_emu.h"
 
-qk_t _qk;
+qk_core _qk_core;
 /******************************************************************************/
 static void handleBoardDetection();
 static void handleInputChanged();
@@ -19,15 +21,15 @@ static void handleInputChanged();
 
 void qk_core_init()
 {
-  memset(&_qk, 0, sizeof(qk_t));
-  _qk.currentState = QK_STATE_IDLE;
-  _qk.info.baudRate = HAL_UART_BAUD_DEFAULT_LOW;
+  memset(&_qk_core, 0, sizeof(qk_core));
+  _qk_core.currentState = QK_STATE_IDLE;
+  _qk_core.info.baudRate = HAL_UART_BAUD_DEFAULT_LOW;
 #if defined( QK_IS_DEVICE )
-  _qk.sampling.frequency = 0; // invalid
-  _qk.sampling.mode = QK_SAMP_CONTINUOUS;
-  _qk.sampling.triggerClock = QK_TRIGGER_CLOCK_10SEC;
-  _qk.sampling.triggerScaler = 1;
-  _qk.sampling.N = 10;
+  _qk_core.sampling.frequency = 0; // invalid
+  _qk_core.sampling.mode = QK_SAMP_CONTINUOUS;
+  _qk_core.sampling.triggerClock = QK_TRIGGER_CLOCK_10SEC;
+  _qk_core.sampling.triggerScaler = 1;
+  _qk_core.sampling.N = 10;
 
   qk_setSamplingFrequency(QK_DEFAULT_SAMPFREQ);
 #endif
@@ -40,7 +42,7 @@ void qk_core_init()
   handleInputChanged();
 }
 
-bool qk_setClockMode(qk_clock_mode_t mode)
+bool qk_setClockMode(qk_clock_mode mode)
 {
   bool changed = false;
   switch(mode)
@@ -63,7 +65,7 @@ bool qk_setClockMode(qk_clock_mode_t mode)
   default: ;
   }
   if(changed) {
-    _qk.clockMode = mode;
+    _qk_core.clockMode = mode;
   }
   return changed;
 }
@@ -84,65 +86,38 @@ void qk_run()
   //TODO Status notifications
   //TODO Events
 
-//#if defined( QK_IS_DEVICE )
-
-//  count = QK_MAX_FIRED_EVENTS;
-//  QK_DEBUG("1. count=%d empty?%d available=%d\n",count,qk_cb_isEmpty(&_pendingEvents),qk_cb_available(&_pendingEvents));
-//  QK_DEBUG("2. count=%d empty?%d available=%d\n",count,qk_cb_isEmpty(&_pendingEvents),qk_cb_available(&_pendingEvents));
-
-//  while(qk_cb_available(&_pendingEvents))
-//  {
-//    qk_event_t *firedEvent = (qk_event_t *) qk_cb_pick(&_pendingEvents);
-//    _qk_comm_sendEvent(firedEvent, _comm_board);
-//  }
-
-  //for(count = QK_MAX_FIRED_EVENTS; qk_cb_available(&_pendingEvents) > 0 && count > 0; count--)
-
-//  qk_cb_t pe;
-//  volatile qk_cb_t pendingEvents;
-//  volatile qk_event_t buf[QK_MAX_PENDING_EVENTS];
-//
-//  qk_cb_init(&pendingEvents, buf, QK_MAX_PENDING_EVENTS, sizeof(qk_event_t), false);
-//
-//  pendingEvents.count = 0;
-//  qk_cb_t *pendingEvents = qk_device_pendingEvents();
-//  //if(pendingEvents->count > 0)
-//  if(qk_device_test())
-//  //if(qk_cb_available(&_pendingEvents))
-//  {
-////    while(1) {
-////      _blinkLED(3, 100);
-////
-////    }
-//    //qk_event_t firedEvent;
-//    qk_event_t *firedEvent = (qk_event_t *) qk_cb_pick(&_pendingEvents);
-//    _blinkLED(2,100);
-//    _qk_comm_sendEvent(firedEvent, _comm_board);
-//    //qk_cb_read(&_pendingEvents, &firedEvent);
-//    //_qk_comm_sendEvent(&firedEvent, _comm_board);
-//  }
-////#endif
-
-  for(i = 0; i < QK_COMM_STRUCT_COUNT; i++)
+  for(i = 0; i < QK_PROTOCOL_STRUCT_COUNT; i++)
   {
-    if(_qk_comm[i].callbacks.processBytes != 0)
-      _qk_comm[i].callbacks.processBytes();
+    if(_qk_protocol[i].callback.processBytes != 0)
+      _qk_protocol[i].callback.processBytes();
 
-    if(_qk_comm[i].flags.reg & QK_COMM_FLAGMASK_NEWPACKET)
+    if(_qk_protocol[i].flags.reg & QK_COMM_FLAGMASK_NEWPACKET)
     {
-      if(_qk_comm[i].callbacks.processPacket != 0)
-        _qk_comm[i].callbacks.processPacket();
+      if(_qk_protocol[i].callback.processPacket != 0)
+        _qk_protocol[i].callback.processPacket();
 
-      _qk_comm[i].flags.reg &= ~QK_COMM_FLAGMASK_NEWPACKET;
+      _qk_protocol[i].flags.reg &= ~QK_COMM_FLAGMASK_NEWPACKET;
     }
   }
+
+#if defined( QK_IS_DEVICE )
+  count = QK_MAX_FIRED_EVENTS;
+  qk_cb *pendingEvents = qk_pendingEvents();
+  while(qk_cb_available(pendingEvents) > 0 && count--)
+  {
+    qk_event firedEvent;
+    qk_cb_read(pendingEvents, &firedEvent);
+    //qk_event *firedEvent = (qk_event*)qk_cb_pick(pendingEvents);
+    _qk_comm_sendEvent(&firedEvent, _protocol_board);
+  }
+#endif
 
   _qk_handleStateChange();
 
   /*************************************
    * STATE MACHINE
    ************************************/
-  switch(_qk.currentState)
+  switch(_qk_core.currentState)
   {
   case QK_STATE_SLEEP:
     break;
@@ -155,14 +130,14 @@ void qk_run()
       _qk_device->callbacks.start();
     hal_timer_reset(HAL_TIMER_ID_2);
     hal_timer_start(HAL_TIMER_ID_2);
-    _qk.currentState = QK_STATE_RUNNING;
+    _qk_core.currentState = QK_STATE_RUNNING;
     break;
   case QK_STATE_RUNNING:
     if(_hal_timer_2->flags.timeout == 1)
     {
       if(_qk_device->callbacks.sample != 0)
         _qk_device->callbacks.sample();
-      _qk_comm_sendCode(QK_PACKET_CODE_DATA, _comm_board);
+      _qk_protocol_sendCode(QK_PACKET_CODE_DATA, _protocol_board);
       _hal_timer_2->flags.timeout = 0;
     }
     break;
@@ -171,11 +146,11 @@ void qk_run()
   case QK_STATE_STOP:
     if(_qk_device->callbacks.stop != 0)
       _qk_device->callbacks.stop();
-    _qk.currentState = QK_STATE_IDLE;
+    _qk_core.currentState = QK_STATE_IDLE;
     break;
 #endif
   default:
-    _qk.currentState = QK_STATE_IDLE;
+    _qk_core.currentState = QK_STATE_IDLE;
   }
 
   /*************************************
@@ -191,36 +166,36 @@ void qk_loop()
   while(1) { qk_run(); }
 }
 
-void _qk_requestStateChange(qk_state_t state)
+void _qk_requestStateChange(qk_state state)
 {
-  _qk.changeToState = state;
-  _qk.flags.reg_internal |= QK_FLAGMASK_INTERNAL_RQSTATECHANGE;
+  _qk_core.changeToState = state;
+  _qk_core.flags.reg_internal |= QK_FLAGMASK_INTERNAL_RQSTATECHANGE;
 }
 void _qk_handleStateChange()
 {
-  if(_qk.flags.reg_internal & QK_FLAGMASK_INTERNAL_RQSTATECHANGE)
+  if(_qk_core.flags.reg_internal & QK_FLAGMASK_INTERNAL_RQSTATECHANGE)
   {
-    _qk.currentState = _qk.changeToState;
-    _qk.flags.reg_internal &= ~QK_FLAGMASK_INTERNAL_RQSTATECHANGE;
+    _qk_core.currentState = _qk_core.changeToState;
+    _qk_core.flags.reg_internal &= ~QK_FLAGMASK_INTERNAL_RQSTATECHANGE;
   }
 }
 
 void qk_setBaudRate(uint32_t baud)
 {
   hal_uart_setBaudRate(HAL_UART_ID_1, baud);
-  _qk.info.baudRate = baud;
+  _qk_core.info.baudRate = baud;
 }
 
 #ifdef QK_IS_DEVICE
 void qk_setSamplingFrequency(uint32_t sampFreq)
 {
-  if(sampFreq == 0 || sampFreq == _qk.sampling.frequency)
+  if(sampFreq == 0 || sampFreq == _qk_core.sampling.frequency)
   {
     return;
   }
   hal_timer_setFrequency(HAL_TIMER_ID_2, sampFreq);
-  _qk.sampling.frequency = sampFreq;
-  _qk.sampling.period = (uint32_t)(1000000.0/(float)sampFreq); // usec
+  _qk_core.sampling.frequency = sampFreq;
+  _qk_core.sampling.period = (uint32_t)(1000000.0/(float)sampFreq); // usec
 }
 void qk_setSamplingPeriod(uint32_t usec)
 {
@@ -232,8 +207,8 @@ void qk_setSamplingPeriod(uint32_t usec)
   else {
     hal_timer_setPeriod(HAL_TIMER_ID_2, usec, HAL_TIMER_SCALE_USEC);
   }
-  _qk.sampling.period = usec;
-  _qk.sampling.frequency = (uint32_t)(1000000.0/(float)usec);
+  _qk_core.sampling.period = usec;
+  _qk_core.sampling.frequency = (uint32_t)(1000000.0/(float)usec);
 
 }
 #endif /*QK_IS_DEVICE*/
@@ -243,19 +218,19 @@ static void handleBoardDetection()
 {
   bool detected = !_getDET(); // DET pin is pulled-up
 
-  if(flag(_qk.flags.reg_status, QK_FLAGMASK_STATUS_DET) == detected) {
+  if(flag(_qk_core.flags.reg_status, QK_FLAGMASK_STATUS_DET) == detected) {
     return;
   }
 
   if(detected)
   {
     _blinkLED(2, 50);
-    _qk.flags.reg_status |= QK_FLAGMASK_STATUS_DET;
+    _qk_core.flags.reg_status |= QK_FLAGMASK_STATUS_DET;
 
-    hal_uart_setBaudRate(HAL_UART_ID_1, _qk.info.baudRate);
+    hal_uart_setBaudRate(HAL_UART_ID_1, _qk_core.info.baudRate);
 
-    if(_qk.callbacks.boardAttached != 0) {
-      _qk.callbacks.boardAttached();
+    if(_qk_core.callbacks.boardAttached != 0) {
+      _qk_core.callbacks.boardAttached();
     }
 
 #if defined( QK_IS_DEVICE )
@@ -265,12 +240,12 @@ static void handleBoardDetection()
   else
   {
     _blinkLED(1, 50);
-    _qk.flags.reg_status &= ~QK_FLAGMASK_STATUS_DET;
+    _qk_core.flags.reg_status &= ~QK_FLAGMASK_STATUS_DET;
 
     hal_uart_setBaudRate(HAL_UART_ID_1, HAL_UART_BAUD_DEFAULT_LOW);
 
-    if(_qk.callbacks.boardRemoved != 0)
-      _qk.callbacks.boardRemoved();
+    if(_qk_core.callbacks.boardRemoved != 0)
+      _qk_core.callbacks.boardRemoved();
 
 #if defined( QK_IS_DEVICE )
 //stop
@@ -312,7 +287,7 @@ static void handleInputChanged()
   }
 #endif /*QK_IS_MODULE*/
 
-  if(_qk.callbacks.inputChanged != 0) {
-    _qk.callbacks.inputChanged();
+  if(_qk_core.callbacks.inputChanged != 0) {
+    _qk_core.callbacks.inputChanged();
   }
 }

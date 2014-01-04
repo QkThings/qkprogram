@@ -25,7 +25,7 @@ typedef enum qk_board_type {
   QK_BOARD_TYPE_DEVICE,
   QK_BOARD_TYPE_NETWORK,
   QK_BOARD_TYPE_GATEWAY
-} qk_board_type_t;
+} qk_board_type;
 
 typedef enum qk_config_type
 {
@@ -36,7 +36,7 @@ typedef enum qk_config_type
   QK_CONFIG_TYPE_COMBO,
   QK_CONFIG_TYPE_TIME,
   QK_CONFIG_TYPE_DATETIME,
-} qk_config_type_t;
+} qk_config_type;
 
 /******************************************************************************
    STRUCTS
@@ -47,7 +47,7 @@ typedef struct qk_config_prop
   char label[QK_LABEL_SIZE];
   int32_t min, max;
   uint8_t size;
-} qk_config_prop_t;
+} qk_config_prop;
 
 typedef struct qk_config_value
 {
@@ -56,23 +56,23 @@ typedef struct qk_config_value
     int32_t i;
     float   f;
     char    **items;
-    qk_datetime_t dateTime;
+    qk_datetime dateTime;
   };
-} qk_config_value_t;
+} qk_config_value;
 
 typedef volatile struct qk_config_flags
 {
   unsigned int changed : 1;
-} qk_config_flags_t;
+} qk_config_flags;
 
 
 typedef struct qk_config
 {
-  qk_config_type_t  type;
-  qk_config_value_t value;
-  qk_config_prop_t  proprieties;
-  qk_config_flags_t flags;
-} qk_config_t;
+  qk_config_type  type;
+  qk_config_value value;
+  qk_config_prop  proprieties;
+  qk_config_flags flags;
+} qk_config;
 
 /******************************************************************************/
 typedef struct qk_board_info {
@@ -80,21 +80,21 @@ typedef struct qk_board_info {
   uint16_t version;
   char     name[QK_BOARD_NAME_SIZE];
   uint8_t  _ncfg;
-} qk_board_info_t;
+} qk_board_info;
 
-typedef struct qk_board_buffers {
-  qk_config_t *config;
-} qk_board_buffers_t;
+typedef struct qk_board_buffer {
+  qk_config *config;
+} qk_board_buffer;
 
 typedef struct qk_board_callbacks {
   void (*init)(void);
   void (*config)(void);
-} qk_board_callbacks_t;
+} qk_board_callbacks;
 
 typedef struct qk_board {
-  qk_board_info_t      info;
-  qk_board_buffers_t   buffers;
-  qk_board_callbacks_t callbacks;
+  qk_board_info       info;
+  qk_board_buffer     buffers;
+  qk_board_callbacks  callbacks;
 #if defined( QK_IS_GATEWAY )
   qk_gateway_t  gateway;
 #elif defined( QK_IS_NETWORK )
@@ -102,9 +102,9 @@ typedef struct qk_board {
 #elif defined( QK_IS_MODULE )
   qk_module_t   module;
 #elif defined( QK_IS_DEVICE )
-  qk_device_t   device;
+  qk_device         device;
 #endif
-} qk_board_t;
+} qk_board;
 
 /******************************************************************************
    DEFINES
@@ -121,26 +121,24 @@ typedef struct qk_board {
 #endif
 
 #if defined( QK_IS_GATEWAY )
-#define QK_DEFINE_BOARD(name)   qk_board_t *_qk_board = &name; \
+#define QK_DEFINE_BOARD(name)   qk_board *_qk_board = &name; \
                                 QK_DEFINE_GATEWAY(name.gateway)
 #elif defined( QK_IS_NETWORK )
-#define QK_DEFINE_BOARD(name)   qk_board_t *_qk_board = &name; \
+#define QK_DEFINE_BOARD(name)   qk_board *_qk_board = &name; \
                                 QK_DEFINE_NETWORK(name.network)
 #elif defined( QK_IS_MODULE )
-#define QK_DEFINE_BOARD(name)   qk_board_t *_qk_board = &name; \
+#define QK_DEFINE_BOARD(name)   qk_board *_qk_board = &name; \
                                 QK_DEFINE_MODULE(name.module)
 #elif defined( QK_IS_DEVICE )
-#define QK_DEFINE_BOARD(name)   qk_board_t *_qk_board = &name; \
+#define QK_DEFINE_BOARD(name)   qk_board *_qk_board = &name; \
                                 QK_DEFINE_DEVICE(name.device)
 #endif
-
-#define static inline static inline
 
 /******************************************************************************
    GLOBAL VARIABLES
  ******************************************************************************/
 
-extern qk_board_t *_qk_board;
+extern qk_board *_qk_board;
 
 /******************************************************************************
    PROTOTYPES
@@ -190,7 +188,7 @@ void qk_setConfigLabel(uint8_t idx, char *label)
   strcpy(_qk_board->buffers.config[idx].proprieties.label, label);
 }
 static inline
-void qk_setConfigType(uint8_t idx, qk_config_type_t type)
+void qk_setConfigType(uint8_t idx, qk_config_type type)
 {
   _qk_board->buffers.config[idx].type = type;
 }
@@ -211,7 +209,7 @@ void qk_setConfigValueF(uint8_t idx, float value)
 }
 
 static inline
-void qk_setConfigValueDT(uint8_t idx, qk_datetime_t dateTime)
+void qk_setConfigValueDT(uint8_t idx, qk_datetime dateTime)
 {
   _qk_board->buffers.config[idx].value.dateTime = dateTime;
 }
@@ -223,7 +221,7 @@ uint8_t qk_configCount()
 }
 
 static inline
-qk_config_type_t qk_configType(uint8_t idx)
+qk_config_type qk_configType(uint8_t idx)
 {
   return _qk_board->buffers.config[idx].type;
 }
@@ -253,7 +251,7 @@ char** qk_configItems(uint8_t idx)
 }
 
 static inline
-qk_datetime_t qk_configDateTime(uint8_t idx)
+qk_datetime qk_configDateTime(uint8_t idx)
 {
   return _qk_board->buffers.config[idx].value.dateTime;
 }
@@ -283,7 +281,7 @@ void qk_setConfigCallback(void (*fnc)(void))
 }
 
 static inline
-void qk_setConfigBuffer(qk_config_t *buffer)
+void qk_setConfigBuffer(qk_config *buffer)
 {
   _qk_board->buffers.config = buffer;
 }

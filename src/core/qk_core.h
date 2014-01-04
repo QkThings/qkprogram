@@ -17,7 +17,7 @@ extern "C" {
    ENUMS
  ******************************************************************************/
 
-typedef enum qk_state_t
+typedef enum qk_state
 {
   QK_STATE_SLEEP,
   QK_STATE_IDLE,
@@ -25,40 +25,40 @@ typedef enum qk_state_t
   QK_STATE_RUNNING,
   QK_STATE_STANDBY,
   QK_STATE_STOP
-} qk_state_t;
+} qk_state;
 
-typedef enum qk_clock_mode_t
+typedef enum qk_clock_mode
 {
   QK_CLOCK_MODE_NORMAL = 0,
   QK_CLOCK_MODE_FASTER,
   QK_CLOCK_MODE_FAST,
   QK_CLOCK_MODE_SLOW,
   QK_CLOCK_MODE_SLOWER
-} qk_clock_mode_t;
+} qk_clock_mode;
 
-typedef enum qk_samp_mode_t
+typedef enum qk_samp_mode
 {
   QK_SAMP_SINGLE,
   QK_SAMP_CONTINUOUS,
   QK_SAMP_TRIGGERED
-} qk_samp_mode_t;
+} qk_samp_mode;
 
-typedef enum qk_trigger_clock_t
+typedef enum qk_trigger_clock
 {
   QK_TRIGGER_CLOCK_1SEC,
   QK_TRIGGER_CLOCK_10SEC,
   QK_TRIGGER_CLOCK_1MIN,
   QK_TRIGGER_CLOCK_10MIN,
   QK_TRIGGER_CLOCK_1HOUR
-} qk_trigger_clock_t;
+} qk_trigger_clock;
 
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
-typedef struct qk_info_t
+typedef struct qk_info
 {
   uint32_t baudRate;
-} qk_info_t;
+} qk_info;
 
 typedef struct qk_callbacks_t
 {
@@ -68,7 +68,7 @@ typedef struct qk_callbacks_t
   void (*clockChanged)(uint32_t new_value);
 } qk_callbacks_t;
 
-typedef volatile struct qk_flags_t
+typedef volatile struct qk_flags
 {
   union
   {
@@ -82,9 +82,9 @@ typedef volatile struct qk_flags_t
       uint8_t reg_sleep;
     };
   };
-} qk_flags_t;
+} qk_flags;
 
-typedef struct qk_sampling_t
+typedef struct qk_sampling
 {
   //uint16_t  lastPer;            //! Last valid sampling period
   uint32_t  N;                  //! Number of samples
@@ -93,20 +93,20 @@ typedef struct qk_sampling_t
   uint8_t   mode;               //! Sampling mode
   uint8_t   triggerClock;       //! Trigger clock
   uint8_t   triggerScaler;      //! Trigger scaler
-} qk_sampling_t;
+} qk_sampling;
 
-typedef struct qk_t
+typedef struct qk_core
 {
-  volatile qk_state_t currentState;
-  volatile qk_state_t changeToState;
-  qk_info_t       info;
-  qk_clock_mode_t clockMode;
+  volatile qk_state currentState;
+  volatile qk_state changeToState;
+  qk_info       info;
+  qk_clock_mode clockMode;
   qk_callbacks_t  callbacks;
-  qk_flags_t      flags;
+  qk_flags      flags;
 #if defined(QK_IS_DEVICE)
-  qk_sampling_t   sampling;
+  qk_sampling   sampling;
 #endif
-} qk_t;
+} qk_core;
 
 
 
@@ -127,17 +127,17 @@ typedef struct qk_t
 /******************************************************************************
    GLOBAL VARIABLES
  ******************************************************************************/
-extern qk_t _qk;
+extern qk_core _qk_core;
 
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
 void qk_core_init();
-bool qk_setClockMode(qk_clock_mode_t mode);
+bool qk_setClockMode(qk_clock_mode mode);
 void qk_run();
 void qk_loop();
 
-void _qk_requestStateChange(qk_state_t state);
+void _qk_requestStateChange(qk_state state);
 void _qk_handleStateChange();
 
 #ifdef _QK_FEAT_SERIAL_
@@ -153,25 +153,25 @@ void qk_setSamplingPeriod(uint32_t usec);
 static inline
 bool _qk_canSleep()
 {
-  return (_qk.flags.reg_sleep == 0);
+  return (_qk_core.flags.reg_sleep == 0);
 }
 
 #if defined( QK_IS_DEVICE )
-static inline void qk_setSamplingMode(qk_samp_mode_t mode)
+static inline void qk_setSamplingMode(qk_samp_mode mode)
 {
-  _qk.sampling.mode = mode;
+  _qk_core.sampling.mode = mode;
 }
-static inline void qk_setTriggerClock(qk_trigger_clock_t clock)
+static inline void qk_setTriggerClock(qk_trigger_clock clock)
 {
-  _qk.sampling.triggerClock = clock;
+  _qk_core.sampling.triggerClock = clock;
 }
 static inline void qk_setTriggerScaler(uint8_t scaler)
 {
-  _qk.sampling.triggerScaler = scaler;
+  _qk_core.sampling.triggerScaler = scaler;
 }
 static inline void qk_setNumberOfSamples(uint32_t N)
 {
-  _qk.sampling.N = N;
+  _qk_core.sampling.N = N;
 }
 #endif
 

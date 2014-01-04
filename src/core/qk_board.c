@@ -8,7 +8,7 @@
 
 #include "../sys/qk_system.h"
 
-qk_board_t board;
+qk_board board;
 QK_DEFINE_BOARD(board);
 
 static void qk_board_comm_sendBytes(uint8_t *buf, uint8_t count);
@@ -18,12 +18,12 @@ static void qk_board_comm_processPacket();
 
 void qk_board_init()
 {
-  memset(&board, 0, sizeof(qk_board_t));
-  qk_comm_init(_comm_board);
-  _comm_board->callbacks.sendBytes = qk_board_comm_sendBytes;
-  _comm_board->callbacks.processBytes = qk_board_comm_processBytes;
-  _comm_board->callbacks.sendPacket = qk_board_comm_sendPacket;
-  _comm_board->callbacks.processPacket = qk_board_comm_processPacket;
+  memset(&board, 0, sizeof(qk_board));
+  qk_protocol_init(_protocol_board);
+  _protocol_board->callback.sendBytes = qk_board_comm_sendBytes;
+  _protocol_board->callback.processBytes = qk_board_comm_processBytes;
+  _protocol_board->callback.sendPacket = qk_board_comm_sendPacket;
+  _protocol_board->callback.processPacket = qk_board_comm_processPacket;
 
   hal_uart_enable(HAL_UART_ID_1);
 
@@ -32,7 +32,7 @@ void qk_board_init()
 #endif
 
 #if !defined( QK_IS_DEVICE )
-  qk_comm_init(_comm_periph);
+  qk_protocol_init(_comm_periph);
 #endif
 }
 
@@ -60,16 +60,16 @@ static void qk_board_comm_processBytes()
   uint16_t count = hal_uart_bytesAvailable(HAL_UART_ID_1);
   while(count--)
   {
-    qk_comm_processByte(hal_uart_readByte(HAL_UART_ID_1), _comm_board);
+    qk_protocol_processByte(hal_uart_readByte(HAL_UART_ID_1), _protocol_board);
   }
 }
 
 static void qk_board_comm_sendPacket(qk_packet_t *packet)
 {
-  qk_comm_sendPacket(packet, _comm_board);
+  qk_protocol_sendPacket(packet, _protocol_board);
 }
 
 static void qk_board_comm_processPacket()
 {
-  qk_comm_processPacket(_comm_board);
+  qk_protocol_processPacket(_protocol_board);
 }

@@ -6,16 +6,18 @@
 ifeq ($(SHELLNAMES),)
 CC      = $(TOOLCHAIN_DIR)/linux/avr/bin/avr-gcc
 OBJCOPY = $(TOOLCHAIN_DIR)/linux/avr/bin/avr-objcopy
+AR		= $(TOOLCHAIN_DIR)/linux/avr/bin/avr-ar
 DUMP    = $(TOOLCHAIN_DIR)/linux/avr/bin/avr-objdump
 PSIZE	= $(TOOLCHAIN_DIR)/linux/avr/bin/avr-size
 else
 CC      = $(TOOLCHAIN_DIR)/win/avr/bin/avr-gcc
 OBJCOPY = $(TOOLCHAIN_DIR)/win/avr/bin/avr-objcopy
+AR		= $(TOOLCHAIN_DIR)/win/avr/bin/avr-ar
 DUMP    = $(TOOLCHAIN_DIR)/win/avr/bin/avr-objdump
 PSIZE	= $(TOOLCHAIN_DIR)/win/avr/bin/avr-size
 endif
 
-OPTIMIZE = 1
+OPTIMIZE = s
 FORMAT = ihex
 
 ###############################################################################
@@ -36,7 +38,7 @@ $(ROOT_DIR)/src/hal/arduino
 # FLAGS
 ###############################################################################
 BOOTLOADER_ADDRESS=1F800
-CFLAGS += -mmcu=$(MCU) -DF_CPU=$(F_CPU) -I. -ffunction-sections -fdata-sections 
+CFLAGS += -mmcu=$(MCU) -DF_CPU=$(F_CPU) -ffunction-sections -fdata-sections
 LDFLAGS = -Wl,--gc-sections $(CFLAGS) 
 LDFLAGS += -Wl,-u,vfprintf -lprintf_min # enable printf
 #LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm # printf with floating point support
@@ -48,16 +50,16 @@ CFLAGS += -std=gnu99 -Wall -funsigned-char -funsigned-bitfields -fpack-struct -f
 # AVRDUDE
 ###############################################################################
 PORT = COM19
-UPLOAD_RATE = 57600
+UPLOAD_RATE = 115200
 ifeq ($(SHELLNAMES),)
-AVRDUDE = $(TOOLCHAIN_DIR)/linux/avr/bin/avrdude
+AVRDUDE = $(TOOLCHAIN_DIR)/linux/avr/avrdude
 else
-AVRDUDE = $(TOOLCHAIN_DIR)/win/avr/bin/avrdude
+AVRDUDE = $(TOOLCHAIN_DIR)/win/avr/avrdude
 endif
 AVRDUDE_CONF = $(TOOLCHAIN_DIR)/common/arduino
 AVRDUDE_PROGRAMMER = stk500
 AVRDUDE_PORT = $(PORT)
-AVRDUDE_WRITE_FLASH = -U flash:w:$(EXE_DIR)/$(PROJECTNAME).bin:i
+AVRDUDE_WRITE_FLASH = -U flash:w:$(FILE):i
 AVRDUDE_VERBOSE = -V#-v -v -v -v 
 AVRDUDE_FLAGS = -C$(AVRDUDE_CONF)/avrdude.conf $(AVRDUDE_VERBOSE) -p$(MCU) -carduino -P$(PORT) -b$(UPLOAD_RATE) -D 
 

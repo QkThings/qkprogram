@@ -12,7 +12,7 @@
 /*****************************************************************************
  *  Circular Buffers
  *****************************************************************************/
-void qk_cb_init(qk_cb_t *cb, void *buf, uint32_t capacity, uint32_t itemSize, bool overwrite)
+void qk_cb_init(qk_cb *cb, void *buf, uint32_t capacity, uint32_t itemSize, bool overwrite)
 {
   cb->buf = buf;
   cb->bufEnd = buf + (capacity*itemSize);
@@ -23,7 +23,7 @@ void qk_cb_init(qk_cb_t *cb, void *buf, uint32_t capacity, uint32_t itemSize, bo
   cb->tail = buf;
   cb->overwrite = overwrite;
 }
-void qk_cb_write(qk_cb_t *cb, const void *item)
+void qk_cb_write(qk_cb *cb, const void *item)
 {
   if(qk_cb_isFull(cb) && cb->overwrite == false)
     return;
@@ -34,7 +34,7 @@ void qk_cb_write(qk_cb_t *cb, const void *item)
   cb->count++;
 }
 
-void qk_cb_read(qk_cb_t *cb, void *item)
+void qk_cb_read(qk_cb *cb, void *item)
 {
   memcpy(item, cb->tail, cb->itemSize);
   cb->tail = (char*)cb->tail + cb->itemSize;
@@ -42,28 +42,25 @@ void qk_cb_read(qk_cb_t *cb, void *item)
       cb->tail = cb->buf;
   cb->count--;
 }
-void *qk_cb_pick(qk_cb_t *cb)
+
+void *qk_cb_pick(qk_cb *cb)
 {
-  void *tail = cb->tail;
-  cb->tail = (char*)cb->tail + cb->itemSize;
-  if(cb->tail == cb->bufEnd)
-      cb->tail = cb->buf;
-  cb->count--;
-  return tail;
+  return cb->tail;
 }
-bool qk_cb_isFull(qk_cb_t *cb)
+
+bool qk_cb_isFull(qk_cb *cb)
 {
   return (cb->count == cb->capacity ? true : false);
 }
-bool qk_cb_isEmpty(qk_cb_t *cb)
+bool qk_cb_isEmpty(qk_cb *cb)
 {
   return (cb->count == 0 ? true : false);
 }
-
-uint32_t qk_cb_available(qk_cb_t *cb)
+uint32_t qk_cb_available(qk_cb *cb)
 {
   return cb->count;
 }
+
 
 /*****************************************************************************
  *  Lightweight STDIO functions

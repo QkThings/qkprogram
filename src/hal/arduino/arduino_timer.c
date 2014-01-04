@@ -18,11 +18,9 @@
 //-----------------------------------------------------------------------------
 void hal_timer_init()
 {
-  cli();
   OCR1A = _TOP * 1000; // ~1s
   TCCR1B |= (1 << WGM12);  // (mode 4)
   TIMSK1 |= (1 << OCIE1A); // Set compare match to TIMER1_COMPA_vect
-  sei();
 }
 
 void hal_timer_reinit()
@@ -52,14 +50,12 @@ void hal_timer_reset(hal_timer_id_t tmr)
 }
 void hal_timer_setPeriod(hal_timer_id_t tmr, uint32_t per, hal_timer_scale_t s)
 {
-  cli();
   if(tmr == HAL_TIMER_ID_2)
   {
     OCR1A = _TOP * per;   //1/fosc * pre * top = 1ms
     TCCR1B |= (1 << WGM12);  // (mode 4)
     TIMSK1 |= (1 << OCIE1A); // Set compare match to TIMER1_COMPA_vect
   }
-  sei();
 }
 void hal_timer_setFrequency(hal_timer_id_t tmr, uint32_t freq)
 {

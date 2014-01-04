@@ -9,7 +9,7 @@ void _qk_debug(char *text, ...)
 {
   va_list args;
   va_start(args, text);
-  _qk_comm_sendString(text, _comm_board);
+  _qk_protocol_sendString(text, _protocol_board);
   va_end(args);
 }
 
@@ -19,7 +19,7 @@ void _qk_debug_sendString()
   //_qk_comm_sendString(_qk_debug_str, _qk_module_comm);
 #endif
 #ifdef QK_IS_DEVICE
-  _qk_comm_sendString(_qk_debug_str, _comm_board);
+  _qk_protocol_sendString(_qk_debug_str, _protocol_board);
 #endif
 }
 

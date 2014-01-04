@@ -22,18 +22,18 @@
  *****************************************************************************/
 //#define _QK_FEAT_RTC_
 //#define _QK_FEAT_EEPROM_
-//#define _QK_FEAT_POWER_MANAGEMENT_
+#define _QK_FEAT_POWER_MANAGEMENT_
 //#define _QK_FEAT_CLOCK_SWITCHING_
 #define _QK_FEAT_FRAGMENTATION_
 
 /*****************************************************************************
  * CONSTANTS
  *****************************************************************************/
-#define QK_DEFAULT_SAMPFREQ         (5)
-#define QK_MAX_FIRED_EVENTS         (16)
-#define QK_MAX_PENDING_EVENTS       (16)
+#define QK_DEFAULT_SAMPFREQ         (2)
+#define QK_MAX_FIRED_EVENTS         (8)
+#define QK_MAX_PENDING_EVENTS       (8)
 #define QK_EVENT_MAX_ARGS           (8)
-#define QK_PACKET_DATBUF_SIZE       (128)
+#define QK_PACKET_DATBUF_SIZE       (64)
 #define QK_BOARD_NAME_SIZE          (20)
 #define QK_LABEL_SIZE               (20)
 //#define QK_EVENT_NAME_SIZE          (16)
@@ -42,7 +42,7 @@
 #define QK_GOTOPD_TIMEOUT           (30)  // Go to power-down timeout (100's of ms)
 #define QK_WAITACK_TIMEOUT          (999) // Wait ACK timeout (ms)
 
-#define HAL_UART_RXBUF_SIZE         (128)
+#define HAL_UART_RXBUF_SIZE         (16)
 
 #define HAL_UART_BAUD_DEFAULT_LOW   38400
 #define HAL_UART_BAUD_DEFAULT_HIGH  125000

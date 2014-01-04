@@ -41,6 +41,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 /*****************************************************************************
  *      HAL (Hardware Abstraction Layer)
@@ -52,7 +53,7 @@
  *****************************************************************************/
 #include "../core/qk_utils.h"
 #include "../core/qk_packet.h"
-#include "../core/qk_comm.h"
+#include "../core/qk_protocol.h"
 #include "../core/qk_core.h"
 #if defined( QK_IS_GATEWAY )
   #include "../core/qk_gateway.h"

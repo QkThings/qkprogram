@@ -31,13 +31,11 @@ FILE _usart_stream = FDEV_SETUP_STREAM(_write_byte, _read_byte, _FDEV_SETUP_RW);
 //-----------------------------------------------------------------------------
 void hal_uart_init()
 {
-  cli();
   UBRR0H = (uint8_t)(_UBRR>>8); // Set baud rate
   UBRR0L = (uint8_t)_UBRR;
   UCSR0B = (1<<RXEN0)|(1<<TXEN0); // Enable receiver and transmitter
   UCSR0C = (1<<USBS0)|(3<<UCSZ00); // Set frame format: 8data, 2stop bit
   UCSR0B |= (1 << RXCIE0); // Enable the USART Recieve Complete interrupt (USART_RXC);
-  sei();
 
   stdin=stdout=&_usart_stream;
 }

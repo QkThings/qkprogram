@@ -1,26 +1,40 @@
 # QkProgram
 
-The embedded framework of the QkThings platform.
+QkProgram is the embedded framework of QkThings. 
 
-## Building
+## Building Instructions
 
-	make clean
+### Building as a static library:
+
 	make TARGET=<targetname>
-	make upload PORT=<portname>
 
 See _build/target_ folder to get the available targets.
+You can also save the default target so you don't need to specify it later.
 
-#### Example:
-	make clean
-	make TARGET=arduino
-	make upload PORT=COM1
+	make savetarget <targetname>
+	make
 
-## Contribute
+### Compiling the library with a test file that provides the main() function:
 
-When cloning this repository, make sure you clone the **develop** branch so you get the latest changes. Do whatever changes you want and if you can improve the code or add new features don't hesitate to make a **pull request**. Need some ideas? See the following TODO list.
+	make test MAIN=<testname>.c TARGET=<targetname>
+	make upload PORT=<portname>
 
-### TODO
+In this case, if the library doesn't exists it will be automatically created.
+This feature is meant to be used to test the library in different situations (unit testing) and for different hardware (useful when porting the library to other targets).
+Some tests are available under the _test_ folder.
 
-* arduino port is still incomplete (some issues regarding the timer ISR, clean up and improve the code)
-* currently the makefiles are tested only on windows, linux may require some changes
-* specify a test in the makefile (e.g. TEST=test/main.c), otherwise a static library is created
+#### Additional notes:
+
+Under linux you may have to change permissions of your /dev directory in order to be able to upload the program to the board. 
+
+	sudo chown -R <username> /dev/
+
+## Porting Code
+
+Most of the code is written in ANSI C resulting in a high level of portability. 
+Hardware-dependend code is part of the _Hardware Abstraction Layer_ (HAL) and can be found on _src/hal/<targetname>_ folder.
+That's the only code that needs to be changed/created when porting QkProgram to another target. 
+See the files under that folder to understand how they are organized and which functions need to be implemented. Actually, if you really want to know which functions must be implemented you shoud take a look at the corresponding header files on _src/hal_ folder (one header file for each peripheral).
+
+
+
