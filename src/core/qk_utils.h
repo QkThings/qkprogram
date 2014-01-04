@@ -9,6 +9,9 @@
 #ifndef QK_UTILS_H
 #define QK_UTILS_H
 
+#include <stdint.h>
+#include <stdbool.h>
+
 /*****************************************************************************
  *  Defines and some useful macros
  *****************************************************************************/

@@ -13,6 +13,8 @@
 extern "C" {
 #endif
 
+#include "../sys/qk_settings.h"
+
 #if defined(QK_IS_DEVICE)
 
 /******************************************************************************

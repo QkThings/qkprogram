@@ -17,17 +17,6 @@
  *      Settings
  *****************************************************************************/
 #include "qk_settings.h"
-#if defined ( BUILD_GATEWAY )
-  #define QK_IS_GATEWAY
-#elif defined( BUILD_NETWORK )
-  #define QK_IS_NETWORK
-#elif defined( BUILD_MODULE )
-  #define QK_IS_MODULE
-#elif defined( BUILD_DEVICE )
-  #define QK_IS_DEVICE
-#else
-  #error "no build target (module or device?)"
-#endif
 
 /*****************************************************************************
  *      General (C standard libs)
@@ -38,10 +27,11 @@
 #else
   #define PRINT(...)
 #endif
-#include <stdint.h>
-#include <string.h>
-#include <stdbool.h>
-#include <math.h>
+
+/*****************************************************************************
+ *      Program (public)
+ *****************************************************************************/
+#include "../../include/qk_program.h"
 
 /*****************************************************************************
  *      HAL (Hardware Abstraction Layer)
@@ -49,23 +39,24 @@
 #include "../hal/hal.h"
 
 /*****************************************************************************
- *      Core
+ *      Core (private)
  *****************************************************************************/
-#include "../core/qk_utils.h"
+//#include "../core/qk_utils.h"
 #include "../core/qk_packet.h"
 #include "../core/qk_protocol.h"
-#include "../core/qk_core.h"
-#if defined( QK_IS_GATEWAY )
-  #include "../core/qk_gateway.h"
-#elif defined( QK_IS_NETWORK )
-  #include "../core/qk_network.h"
-#elif defined( QK_IS_MODULE )
-  #include "../core/qk_module.h"
-#elif defined( QK_IS_DEVICE )
-  #include "../core/qk_device.h"
-#endif
-#include "../core/qk_board.h"
 
-int qk_main();
+//#include "../core/qk_core.h"
+//#if defined( QK_IS_GATEWAY )
+//  #include "../core/qk_gateway.h"
+//#elif defined( QK_IS_NETWORK )
+//  #include "../core/qk_network.h"
+//#elif defined( QK_IS_MODULE )
+//  #include "../core/qk_module.h"
+//#elif defined( QK_IS_DEVICE )
+//  #include "../core/qk_device.h"
+//#endif
+//#include "../core/qk_board.h"
+
+//int qk_main();
 
 #endif /* QK_SYSTEM_H */

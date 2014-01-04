@@ -3,6 +3,7 @@
 ####################################################################
 
 TOOLCHAIN_DIR = ../../shared/toolchain
+BUILD_TARGET = BUILD_DEVICE
 
 ####################################################################
 # DEFINITIONS                                                      
@@ -94,7 +95,7 @@ C_SRC += $(MAIN)
 
 include target/$(TARGET_NAME)/$(TARGET_VARIANT).mk
 
-CFLAGS += -O$(OPTIMIZE) -g3 -Wall
+CFLAGS += -O$(OPTIMIZE) -g3 -Wall -D$(BUILD_TARGET)
 LIBS += -lm
 ARFLAGS = rcs
 

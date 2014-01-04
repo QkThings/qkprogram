@@ -14,6 +14,7 @@ extern "C" {
 #endif
 
 #include "qk_device.h" // qk_event
+#include "qk_packet.h"
 
 /******************************************************************************
    ENUMS
