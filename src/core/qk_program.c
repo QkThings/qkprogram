@@ -7,6 +7,7 @@
  */
 
 #include "../sys/qk_system.h"
+#include "../../include/qk_program.h"
 
 extern void qk_setup();
 

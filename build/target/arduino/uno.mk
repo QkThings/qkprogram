@@ -30,21 +30,21 @@ F_CPU = 16000000
 # SOURCE
 ###############################################################################
 INCLUDE_DIR += \
-$(ROOT_DIR)/src/hal/arduino
+$(QKPROGRAM_ROOT_DIR)/src/hal/arduino
 
 C_SRC_DIR += \
-$(ROOT_DIR)/src/hal/arduino
+$(QKPROGRAM_ROOT_DIR)/src/hal/arduino
 ###############################################################################
 # FLAGS
 ###############################################################################
 BOOTLOADER_ADDRESS=1F800
-CFLAGS += -mmcu=$(MCU) -DF_CPU=$(F_CPU) -I. -ffunction-sections -fdata-sections 
+CFLAGS += -mmcu=$(MCU) -DF_CPU=$(F_CPU) -ffunction-sections -fdata-sections
 LDFLAGS = -Wl,--gc-sections $(CFLAGS) 
 LDFLAGS += -Wl,-u,vfprintf -lprintf_min # enable printf
 #LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm # printf with floating point support
 #CEXTRA = -Wa,-adhlns=$(<:.c=.lst)
 #ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
-CFLAGS += -std=gnu99 -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS += -std=gnu99 -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -W -Wall -Wextra
 
 ###############################################################################
 # AVRDUDE

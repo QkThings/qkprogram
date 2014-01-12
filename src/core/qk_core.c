@@ -7,6 +7,7 @@
  */
 
 #include "../sys/qk_system.h"
+#include "qk_debug.h"
 
 #include <qk_debug.h> //TODO remove this
 

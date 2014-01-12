@@ -9,6 +9,9 @@
 #ifndef QK_UTILS_H
 #define QK_UTILS_H
 
+#include <stdint.h>
+#include <stdbool.h>
+
 /*****************************************************************************
  *  Defines and some useful macros
  *****************************************************************************/
@@ -37,7 +40,7 @@ typedef qk_datetime qk_time;
 /*****************************************************************************
  *  Circular Buffers
  *****************************************************************************/
-typedef struct qk_cb
+typedef volatile struct qk_cb
 {
   void     *buf;
   void     *bufEnd;

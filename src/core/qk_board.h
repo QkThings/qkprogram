@@ -13,6 +13,7 @@
 extern "C" {
 #endif
 
+#include "../sys/qk_settings.h"
 #include "qk_utils.h"
 
 /******************************************************************************
@@ -143,13 +144,12 @@ extern qk_board *_qk_board;
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
-
 void qk_board_init();
 void qk_board_setup();
 void _qk_board_wakeUp();
-void _qk_board_comm_sendPacket(qk_packet_t *packet);
 void _qk_board_comm_processByte(uint8_t b);
 void _qk_board_comm_processPacket(qk_packet_t *packet);
+void _qk_board_comm_sendPacket(qk_packet_t *packet);
 
 /******************************************************************************/
 static inline

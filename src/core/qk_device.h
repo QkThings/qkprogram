@@ -13,6 +13,8 @@
 extern "C" {
 #endif
 
+#include "../sys/qk_settings.h"
+
 #if defined(QK_IS_DEVICE)
 
 /******************************************************************************
@@ -141,6 +143,7 @@ typedef struct qk_device
 extern qk_cb _pendingEvents;
 extern qk_device *_qk_device;
 
+
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
@@ -220,13 +223,12 @@ void qk_setEventMessage(uint8_t idx, char *message)
   _qk_device->buffers.event[idx].value.text = message;
 }*/
 
+
 static inline
 qk_cb* qk_pendingEvents()
 {
   return &_pendingEvents;
 }
-
-
 static inline
 void qk_setSampleCallback(void (*fnc)(void))
 {

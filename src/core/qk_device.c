@@ -10,7 +10,6 @@
 
 #if defined(QK_IS_DEVICE)
 qk_cb _pendingEvents;
-
 qk_event peBuf[QK_MAX_PENDING_EVENTS];
 
 void _qk_device_init()

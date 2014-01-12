@@ -15,7 +15,7 @@
 //#define BUILD_GATEWAY
 //#define BUILD_NETWORK
 //#define BUILD_MODULE
-#define BUILD_DEVICE
+//#define BUILD_DEVICE
 
 /*****************************************************************************
  * FEATURES

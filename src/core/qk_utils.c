@@ -7,6 +7,7 @@
  */
 
 #include "../sys/qk_system.h"
+#include <string.h>
 
 /*****************************************************************************
  *  Circular Buffers
@@ -41,6 +42,7 @@ void qk_cb_read(qk_cb *cb, void *item)
       cb->tail = cb->buf;
   cb->count--;
 }
+
 void *qk_cb_pick(qk_cb *cb)
 {
   return cb->tail;
@@ -58,6 +60,7 @@ uint32_t qk_cb_available(qk_cb *cb)
 {
   return cb->count;
 }
+
 
 /*****************************************************************************
  *  Lightweight STDIO functions

@@ -3,7 +3,7 @@
 #include "../sys/qk_system.h"
 #include "stdarg.h"
 
-char _qk_debug_str[_QK_DEBUGSTR_BUFSIZE] = "Hello\0";
+char _qk_debug_str[_QK_DEBUGSTR_BUFSIZE];
 
 void _qk_debug(char *text, ...)
 {
@@ -16,7 +16,7 @@ void _qk_debug(char *text, ...)
 void _qk_debug_sendString()
 {
 #ifdef QK_IS_MODULE
-  //qk_comm_sendString(_qk_debug_str, _qk_module_comm);
+  //_qk_comm_sendString(_qk_debug_str, _qk_module_comm);
 #endif
 #ifdef QK_IS_DEVICE
   _qk_protocol_sendString(_qk_debug_str, _protocol_board);
