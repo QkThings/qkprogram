@@ -6,8 +6,8 @@
  * This file is part of QkProgram
  */
 
-#include "../sys/qk_system.h"
-#include "../../include/qk_program.h"
+#include "qk_system.h"
+#include "qk_program.h"
 
 extern void qk_setup();
 

@@ -6,7 +6,7 @@
  * This file is part of QkProgram
  */
 
-#include "../sys/qk_system.h"
+#include "qk_system.h"
 
 #if defined(QK_IS_DEVICE)
 qk_cb _pendingEvents;

@@ -13,7 +13,7 @@
 extern "C" {
 #endif
 
-#include "../sys/qk_settings.h"
+#include "qk_settings.h"
 
 #if defined(QK_IS_DEVICE)
 
@@ -177,7 +177,7 @@ void qk_setDataCount(uint32_t count)
 static inline
 void qk_setDataLabel(uint8_t idx, char *label)
 {
-  strcpy(_qk_device->buffers.data[idx].proprieties.label, label);
+  strcpy((char*)(_qk_device->buffers.data[idx].proprieties.label), label);
 }
 
 static inline
@@ -208,7 +208,7 @@ void qk_setEventBuffer(qk_event *buf, uint32_t count)
 static inline
 void qk_setEventLabel(uint8_t idx, const char *label)
 {
-  strcpy(_qk_device->buffers.event[idx].proprieties.label, label);
+  strcpy((char*)(_qk_device->buffers.event[idx].proprieties.label), label);
 }
 
 /*static inline

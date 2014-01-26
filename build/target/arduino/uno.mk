@@ -30,10 +30,10 @@ F_CPU = 16000000
 # SOURCE
 ###############################################################################
 INCLUDE_DIR += \
-$(QKPROGRAM_ROOT_DIR)/src/hal/arduino
+$(QKPROGRAM_ROOT_DIR)/lib/hal/arduino/include
 
 C_SRC_DIR += \
-$(QKPROGRAM_ROOT_DIR)/src/hal/arduino
+$(QKPROGRAM_ROOT_DIR)/lib/hal/arduino/src
 ###############################################################################
 # FLAGS
 ###############################################################################

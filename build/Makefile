@@ -75,16 +75,18 @@ QKPROGRAM_ROOT_DIR = ..
 TEST_DIR = $(QKPROGRAM_ROOT_DIR)/test
 
 INCLUDE_DIR += \
-$(QKPROGRAM_ROOT_DIR)/include \
-$(QKPROGRAM_ROOT_DIR)/src/sys \
-$(QKPROGRAM_ROOT_DIR)/src/hal \
-$(QKPROGRAM_ROOT_DIR)/src/core \
-$(QKPROGRAM_ROOT_DIR)/src/utils \
+$(QKPROGRAM_ROOT_DIR)/lib/sys \
+$(QKPROGRAM_ROOT_DIR)/lib/hal/include \
+$(QKPROGRAM_ROOT_DIR)/lib/core/include \
+$(QKPROGRAM_ROOT_DIR)/lib/protocol/include \
+$(QKPROGRAM_ROOT_DIR)/lib/utils/include \
 $(APP_INCLUDE_DIR)  
 
 C_SRC_DIR += \
-$(QKPROGRAM_ROOT_DIR)/src/hal \
-$(QKPROGRAM_ROOT_DIR)/src/core
+$(QKPROGRAM_ROOT_DIR)/lib/hal/src \
+$(QKPROGRAM_ROOT_DIR)/lib/core/src \
+$(QKPROGRAM_ROOT_DIR)/lib/protocol/src \
+$(QKPROGRAM_ROOT_DIR)/lib/utils/src \
 $(APP_SRC_DIR) 
 
 s_SRC += 

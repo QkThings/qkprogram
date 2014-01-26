@@ -60,13 +60,13 @@ typedef struct qk_info
   uint32_t baudRate;
 } qk_info;
 
-typedef struct qk_callbacks_t
+typedef struct qk_callbacks
 {
   void (*boardAttached)(void);
   void (*boardRemoved)(void);
   void (*inputChanged)(void);
   void (*clockChanged)(uint32_t new_value);
-} qk_callbacks_t;
+} qk_callbacks;
 
 typedef volatile struct qk_flags
 {
@@ -101,7 +101,7 @@ typedef struct qk_core
   volatile qk_state changeToState;
   qk_info       info;
   qk_clock_mode clockMode;
-  qk_callbacks_t  callbacks;
+  qk_callbacks  callbacks;
   qk_flags      flags;
 #if defined(QK_IS_DEVICE)
   qk_sampling   sampling;

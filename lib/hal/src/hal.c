@@ -6,7 +6,7 @@
  * This file is part of QkProgram
  */
 
-#include "../sys/qk_system.h"
+#include "qk_system.h"
 #include "hal_mcu.h"
 
 void hal_init()

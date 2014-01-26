@@ -37,6 +37,7 @@
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.429628905" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="EFM32G890F128"/>
+									<listOptionValue builtIn="false" value="QK_IS_DEVICE"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.407567973" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
@@ -44,7 +45,6 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="src|src/hal|src/hal/efm32|src/core" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

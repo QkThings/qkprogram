@@ -4,7 +4,7 @@
 #define DAT_COUNT 3
 #define EVT_COUNT 1
 
-qk_data dat_buf[DAT_COUNT];
+qk_data  dat_buf[DAT_COUNT];
 qk_event evt_buf[EVT_COUNT];
 
 volatile uint16_t counter = 10;

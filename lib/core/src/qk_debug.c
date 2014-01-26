@@ -1,6 +1,6 @@
 
-#include "../../include/qk_debug.h"
-#include "../sys/qk_system.h"
+#include "qk_debug.h"
+#include "qk_system.h"
 #include "stdarg.h"
 
 char _qk_debug_str[_QK_DEBUGSTR_BUFSIZE];
