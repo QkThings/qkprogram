@@ -1,6 +1,5 @@
 /**
  * @file qk_board.h
- * @author qkthings
  *  
  * This file is part of QkProgram
  */
@@ -27,15 +26,18 @@ typedef enum qk_board_type {
   QK_BOARD_TYPE_GATEWAY
 } qk_board_type;
 
+/**
+ * Configuration type.
+ */
 typedef enum qk_config_type
 {
-  QK_CONFIG_TYPE_INTDEC,
-  QK_CONFIG_TYPE_INTHEX,
-  QK_CONFIG_TYPE_FLOAT,
-  QK_CONFIG_TYPE_BOOL,
-  QK_CONFIG_TYPE_COMBO,
-  QK_CONFIG_TYPE_TIME,
-  QK_CONFIG_TYPE_DATETIME,
+  QK_CONFIG_TYPE_INTDEC,  //!< Integer represented as decimal number
+  QK_CONFIG_TYPE_INTHEX,  //!< Integer represented as hexadecimal number
+  QK_CONFIG_TYPE_FLOAT,   //!< Floating point number (single precision)
+  QK_CONFIG_TYPE_BOOL,    //!< Boolean value
+  QK_CONFIG_TYPE_COMBO,   //!< Combo list
+  QK_CONFIG_TYPE_TIME,    //!< Time
+  QK_CONFIG_TYPE_DATETIME,//!< Date and time
 } qk_config_type;
 
 /******************************************************************************
@@ -66,6 +68,9 @@ typedef volatile struct qk_config_flags
 } qk_config_flags;
 
 
+/**
+ * Configuration word.
+ */
 typedef struct qk_config
 {
   qk_config_type  type;
@@ -149,44 +154,65 @@ void qk_board_setup();
 /******************************************************************************/
 
 /**
- * @brief Sets the firmware version of the board
- * @param version 16bit version number
+ * @brief Sets the board's firmware version
+ * @param version 16bit number
  */
 static inline
 void qk_setBoardVersion(uint16_t version)
 {
   _qk_board->info.version = version;
 }
-
+/**
+ * @brief Sets the board's name
+ * @param name
+ */
 static inline
 void qk_setBoardName(const char *name)
 {
   strcpy(_qk_board->info.name, name);
 }
-
+/**
+ * @brief Get the board's firmware version
+ */
 static inline
 int qk_boardVersion()
 {
   return _qk_board->info.version;
 }
-
+/**
+ * @brief Sets the board's name
+ */
 static inline
 char* qk_boardName()
 {
   return _qk_board->info.name;
 }
 
-
+/**
+ * @brief Sets the number of configurations
+ * @param count
+ */
 static inline
 void qk_setConfigCount(uint8_t count)
 {
   _qk_board->info._ncfg = count;
 }
+
+/**
+ * @brief Sets the configuration's label
+ * @param idx   index of the configuration label
+ * @param label label
+ */
 static inline
 void qk_setConfigLabel(uint8_t idx, char *label)
 {
   strcpy(_qk_board->buffers.config[idx].proprieties.label, label);
 }
+
+/**
+ * @brief Sets configuration's type
+ * @param count
+ */
 static inline
 void qk_setConfigType(uint8_t idx, qk_config_type type)
 {

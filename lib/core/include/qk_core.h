@@ -27,6 +27,9 @@ typedef enum qk_state
   QK_STATE_STOP
 } qk_state;
 
+/**
+ * Clock Mode
+ */
 typedef enum qk_clock_mode
 {
   QK_CLOCK_MODE_NORMAL = 0,
@@ -36,6 +39,9 @@ typedef enum qk_clock_mode
   QK_CLOCK_MODE_SLOWER
 } qk_clock_mode;
 
+/**
+ * Sampling Mode
+ */
 typedef enum qk_samp_mode
 {
   QK_SAMP_SINGLE,
@@ -43,13 +49,16 @@ typedef enum qk_samp_mode
   QK_SAMP_TRIGGERED
 } qk_samp_mode;
 
+/**
+ * Sampling Trigger Clock
+ */
 typedef enum qk_trigger_clock
 {
-  QK_TRIGGER_CLOCK_1SEC,
-  QK_TRIGGER_CLOCK_10SEC,
-  QK_TRIGGER_CLOCK_1MIN,
-  QK_TRIGGER_CLOCK_10MIN,
-  QK_TRIGGER_CLOCK_1HOUR
+  QK_TRIGGER_CLOCK_1SEC, //!< QK_TRIGGER_CLOCK_1SEC
+  QK_TRIGGER_CLOCK_10SEC,//!< QK_TRIGGER_CLOCK_10SEC
+  QK_TRIGGER_CLOCK_1MIN, //!< QK_TRIGGER_CLOCK_1MIN
+  QK_TRIGGER_CLOCK_10MIN,//!< QK_TRIGGER_CLOCK_10MIN
+  QK_TRIGGER_CLOCK_1HOUR //!< QK_TRIGGER_CLOCK_1HOUR
 } qk_trigger_clock;
 
 /******************************************************************************
@@ -59,6 +68,7 @@ typedef struct qk_info
 {
   uint32_t baudRate;
 } qk_info;
+
 
 typedef struct qk_callbacks
 {
@@ -87,12 +97,12 @@ typedef volatile struct qk_flags
 typedef struct qk_sampling
 {
   //uint16_t  lastPer;            //! Last valid sampling period
-  uint32_t  N;                  //! Number of samples
-  uint32_t  period;             //! Current sampling period [us]
-  uint32_t  frequency;          //! Current sampling frequency [Hz]
-  uint8_t   mode;               //! Sampling mode
-  uint8_t   triggerClock;       //! Trigger clock
-  uint8_t   triggerScaler;      //! Trigger scaler
+  uint32_t  N;
+  uint32_t  period;
+  uint32_t  frequency;
+  uint8_t   mode;
+  uint8_t   triggerClock;
+  uint8_t   triggerScaler;
 } qk_sampling;
 
 typedef struct qk_core
@@ -145,7 +155,16 @@ void qk_setBaudRate(uint32_t baud);
 #endif
 
 #if defined( QK_IS_DEVICE )
+/**
+ * @brief Sets sampling frequency
+ * @param sampFreq  sampling frequency in Hertz, must be greater than zero
+ */
 void qk_setSamplingFrequency(uint32_t sampFreq);
+#if defined( QK_IS_DEVICE )
+/**
+ * @brief Sets sampling period
+ * @param usec  sampling period in microseconds
+ */
 void qk_setSamplingPeriod(uint32_t usec);
 #endif
 
