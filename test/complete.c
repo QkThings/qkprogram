@@ -5,8 +5,6 @@
 #define DAT_COUNT 3
 #define EVT_COUNT 1
 
-#define FLOAT //datatype
-
 enum
 {
   CFG_TEST_BOOL,
@@ -123,7 +121,7 @@ void isr()
 void qk_setup()
 {
   // Board
-  qk_setBoardName("QkTestBoard");
+  qk_setBoardName("qktest");
   qk_setBoardVersion(0xABCD);
 
   // Configurations
@@ -184,30 +182,14 @@ void qk_setup()
 
   // Callbacks
   qk_setInitCallback(test_init);
-#if defined( QK_IS_DEVICE )
+
   qk_setSampleCallback(test_sample);
   qk_setStartCallback(test_start);
   qk_setStopCallback(test_stop);
-#endif
 
-  //qk_setSamplingFrequency(5);
-
-  /*hal_timer_setCallback(HAL_TIMER_ID_2, &isr);
-  hal_timer_setPeriod(HAL_TIMER_ID_2, 1000, HAL_TIMER_SCALE_MSEC);
-  hal_timer_start(HAL_TIMER_ID_2);
-  while(1);*/
 }
 
 int main(void)
 {
-  /*hal_gpio_init();
-  while(1)
-  {
-    _setLED(false);
-    delay_ms(100);
-    _setLED(true);
-    delay_ms(100);
-  }*/
-
   return qk_main();
 }

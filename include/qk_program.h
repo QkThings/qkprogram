@@ -35,12 +35,13 @@ callback functions.
   #error "build target not specified"
 #endif
 
+#include "hal.h"
 #include "qk_utils.h"
 #include "qk_core.h"
-#include "qk_gateway.h"
-#include "qk_network.h"
 #include "qk_device.h"
 #include "qk_board.h"
+
+extern void qk_setup();
 
 int qk_main();
 

@@ -11,7 +11,7 @@
 #include <avr/interrupt.h>
 #include <stdio.h>
 
-#define _BAUD HAL_UART_BAUD_DEFAULT_LOW
+#define _BAUD _HAL_UART_BAUD_DEFAULT_LOW
 #define _UBRR ((F_CPU / (_BAUD * 16UL)) - 1)
 
 //-----------------------------------------------------------------------------
@@ -85,11 +85,12 @@ ISR(USART_RX_vect)
 
   i_wr = rxBuf->i_wr;
   rxBuf->data[i_wr] = rxData;
-  rxBuf->i_wr = (i_wr + 1) % HAL_UART_RXBUF_SIZE;
+  rxBuf->i_wr = (i_wr + 1) % _HAL_UART_RXBUF_SIZE;
 
-  if(rxBuf->count >= HAL_UART_RXBUF_SIZE) {
+  if(rxBuf->count >= _HAL_UART_RXBUF_SIZE)
+  {
     rxBuf->overflow = true;
-    rxBuf->count = HAL_UART_RXBUF_SIZE;
+    rxBuf->count = _HAL_UART_RXBUF_SIZE;
   }
   else
     rxBuf->count++;

@@ -6,14 +6,14 @@
  * This file is part of QkProgram
  */
 
-#include "../sys/qk_system.h"
+#include "qk_system.h"
 
 qk_board board;
 QK_DEFINE_BOARD(board);
 
 static void qk_board_comm_sendBytes(uint8_t *buf, uint8_t count);
 static void qk_board_comm_processBytes();
-static void qk_board_comm_sendPacket(qk_packet_t *packet);
+static void qk_board_comm_sendPacket(qk_packet *packet);
 static void qk_board_comm_processPacket();
 
 void qk_board_init()
@@ -64,7 +64,7 @@ static void qk_board_comm_processBytes()
   }
 }
 
-static void qk_board_comm_sendPacket(qk_packet_t *packet)
+static void qk_board_comm_sendPacket(qk_packet *packet)
 {
   qk_protocol_sendPacket(packet, _protocol_board);
 }
@@ -73,3 +73,60 @@ static void qk_board_comm_processPacket()
 {
   qk_protocol_processPacket(_protocol_board);
 }
+
+void qk_setBoardName(const char *name)
+{
+  strcpy((char*)_qk_board->info.name, name);
+}
+
+void qk_setBoardVersion(uint16_t version)
+{
+  _qk_board->info.version = version;
+}
+
+void qk_setConfigBuffer(qk_config *buffer, uint8_t count)
+{
+  _qk_board->buffers.config = buffer;
+  _qk_board->info._ncfg = count;
+}
+
+void qk_setConfigLabel(uint8_t idx, const char *label)
+{
+  strcpy((char*)_qk_board->buffers.config[idx].proprieties.label, label);
+}
+
+void qk_setConfigType(uint8_t idx, qk_config_type type)
+{
+  _qk_board->buffers.config[idx].type = type;
+}
+
+void qk_setConfigValueB(uint8_t idx, bool value)
+{
+  _qk_board->buffers.config[idx].value.b = value;
+}
+
+void qk_setConfigValueI(uint8_t idx, int32_t value)
+{
+  _qk_board->buffers.config[idx].value.i = value;
+}
+
+void qk_setConfigValueF(uint8_t idx, float value)
+{
+  _qk_board->buffers.config[idx].value.f = value;
+}
+
+void qk_setConfigValueDT(uint8_t idx, qk_datetime dateTime)
+{
+  _qk_board->buffers.config[idx].value.dateTime = dateTime;
+}
+
+uint8_t qk_configCount()
+{
+  return _qk_board->info._ncfg;
+}
+
+qk_config_type qk_configType(uint8_t idx)
+{
+  return _qk_board->buffers.config[idx].type;
+}
+

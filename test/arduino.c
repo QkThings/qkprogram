@@ -16,7 +16,7 @@ void test_sample()
 {
   time += 0.01;
 
-  _toggleLED();
+  hal_toggleLED();
   QK_DEBUG("test_sample() [called %d times]", counter);
   //qk_setDataValueI(0, counter++);
   qk_setDataValueF(0, time);

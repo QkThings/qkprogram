@@ -38,20 +38,27 @@ enum
   _QK_PROTOCOL_PERIPH  // Communication module/peripheral
 };
 
+typedef enum
+{
+  QK_ACK_TYPE_NACK,
+  QK_ACK_TYPE_OK,
+  QK_ACK_TYPE_ERROR
+} qk_ack_type;
+
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
 typedef struct qk_protocol_ack
 {
-  uint32_t arg;
-  uint8_t code;
-  uint8_t err;
-} qk_protocol_ack;
+  qk_ack_type type;
+  qk_err err;
+  int32_t arg;
+} qk_ack;
 
 typedef struct qk_protocol_callback
 {
   void (*sendBytes)(uint8_t *buf, uint8_t count); // required for UART based comm
-  void (*sendPacket)(qk_packet_t *packet);
+  void (*sendPacket)(qk_packet *packet);
   void (*processBytes)(void);
   void (*processPacket)(void);
 } qk_protocol_callback;
@@ -63,13 +70,13 @@ typedef volatile struct qk_comm_flags
 
 typedef volatile struct qk_comm_ctrl
 {
-  qk_protocol_ack ack;    // Acknowledge
+  qk_ack ack;    // Acknowledge
   uint16_t count;       // Count received bytes
 } qk_protocol_ctrl;
 
-typedef struct qk_comm_t
+typedef struct qk_protocol
 {
-  qk_packet_t           packet;     // RX packet
+  qk_packet           packet;     // RX packet
   qk_protocol_ctrl      ctrl;
   qk_protocol_flags     flags;
   qk_protocol_callback  callback;  // Callbacks
@@ -112,11 +119,11 @@ extern qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
    PROTOTYPES
  ******************************************************************************/
 void qk_protocol_init(qk_protocol *protocol);
-void qk_protocol_sendPacket(qk_packet_t *packet, qk_protocol *protocol);
+void qk_protocol_sendPacket(qk_packet *packet, qk_protocol *protocol);
 void qk_protocol_processByte(uint8_t b, qk_protocol *protocol);
 void qk_protocol_processPacket(qk_protocol *protocol);
 
-void qk_protocol_buildPacket(qk_packet_t *packet, qk_packet_descriptor *desc, qk_protocol *protocol);
+void qk_protocol_buildPacket(qk_packet *packet, qk_packet_descriptor *desc, qk_protocol *protocol);
 void _qk_protocol_sendCode(int code, qk_protocol *protocol);
 void _qk_protocol_sendString(const char *str, qk_protocol *protocol);
 

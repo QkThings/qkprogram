@@ -6,7 +6,7 @@
  * This file is part of QkProgram
  */
 
-#include "../sys/qk_system.h"
+#include "qk_system.h"
 #include "qk_debug.h"
 
 #include <qk_debug.h> //TODO remove this
@@ -23,7 +23,7 @@ void qk_core_init()
 {
   memset(&_qk_core, 0, sizeof(qk_core));
   _qk_core.currentState = QK_STATE_IDLE;
-  _qk_core.info.baudRate = HAL_UART_BAUD_DEFAULT_LOW;
+  _qk_core.info.baudRate = _HAL_UART_BAUD_DEFAULT_LOW;
 #if defined( QK_IS_DEVICE )
   _qk_core.sampling.frequency = 0; // invalid
   _qk_core.sampling.mode = QK_SAMP_CONTINUOUS;
@@ -31,7 +31,7 @@ void qk_core_init()
   _qk_core.sampling.triggerScaler = 1;
   _qk_core.sampling.N = 10;
 
-  qk_setSamplingFrequency(QK_DEFAULT_SAMPFREQ);
+  qk_setSamplingFrequency(_QK_DEFAULT_SAMPFREQ);
 #endif
 
 #if defined( _QK_FEAT_EEPROM_ )
@@ -101,7 +101,7 @@ void qk_run()
   }
 
 #if defined( QK_IS_DEVICE )
-  count = QK_MAX_FIRED_EVENTS;
+  count = _QK_MAX_FIRED_EVENTS;
   qk_cb *pendingEvents = qk_pendingEvents();
   while(qk_cb_available(pendingEvents) > 0 && count--)
   {
@@ -156,9 +156,9 @@ void qk_run()
   /*************************************
    * POWER MANAGEMENT
    ************************************/
-#ifdef _QK_FEAT_POWER_MANAGEMENT_
+#ifdef _QK_FEAT_POWER_MANAGEMENT
   hal_power_EM1();
-#endif /*_QK_FEAT_POWER_MANAGEMENT_*/
+#endif
 }
 
 void qk_loop()
@@ -187,6 +187,26 @@ void qk_setBaudRate(uint32_t baud)
 }
 
 #ifdef QK_IS_DEVICE
+void qk_setSamplingMode(qk_samp_mode mode)
+{
+  _qk_core.sampling.mode = mode;
+}
+
+void qk_setTriggerClock(qk_trigger_clock triggerClock)
+{
+  _qk_core.sampling.triggerClock = triggerClock;
+}
+
+void qk_setTriggerScaler(uint8_t triggerScaler)
+{
+  _qk_core.sampling.triggerScaler = triggerScaler;
+}
+
+void qk_setNumberOfSamples(uint32_t N)
+{
+  _qk_core.sampling.N = N;
+}
+
 void qk_setSamplingFrequency(uint32_t sampFreq)
 {
   if(sampFreq == 0 || sampFreq == _qk_core.sampling.frequency)
@@ -216,7 +236,7 @@ void qk_setSamplingPeriod(uint32_t usec)
 
 static void handleBoardDetection()
 {
-  bool detected = !_getDET(); // DET pin is pulled-up
+  bool detected = !hal_getDET(); // DET pin is pulled-up
 
   if(flag(_qk_core.flags.reg_status, QK_FLAGMASK_STATUS_DET) == detected) {
     return;
@@ -224,7 +244,7 @@ static void handleBoardDetection()
 
   if(detected)
   {
-    _blinkLED(2, 50);
+    hal_blinkLED(2, 50);
     _qk_core.flags.reg_status |= QK_FLAGMASK_STATUS_DET;
 
     hal_uart_setBaudRate(HAL_UART_ID_1, _qk_core.info.baudRate);
@@ -239,10 +259,10 @@ static void handleBoardDetection()
   }
   else
   {
-    _blinkLED(1, 50);
+    hal_blinkLED(1, 50);
     _qk_core.flags.reg_status &= ~QK_FLAGMASK_STATUS_DET;
 
-    hal_uart_setBaudRate(HAL_UART_ID_1, HAL_UART_BAUD_DEFAULT_LOW);
+    hal_uart_setBaudRate(HAL_UART_ID_1, _HAL_UART_BAUD_DEFAULT_LOW);
 
     if(_qk_core.callbacks.boardRemoved != 0)
       _qk_core.callbacks.boardRemoved();

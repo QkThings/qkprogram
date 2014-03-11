@@ -33,10 +33,11 @@
  *****************************************************************************/
 #include "qk_program.h"
 
+
 /*****************************************************************************
  *      HAL (Hardware Abstraction Layer)
  *****************************************************************************/
-#include "hal.h"
+#include "hal_p.h"
 
 /*****************************************************************************
  *      Core (private)
@@ -44,6 +45,11 @@
 //#include "../core/qk_utils.h"
 #include "qk_packet.h"
 #include "qk_protocol.h"
+
+#include "qk_core_p.h"
+#include "qk_device_p.h"
+#include "qk_board_p.h"
+
 
 //#include "../core/qk_core.h"
 //#if defined( QK_IS_GATEWAY )

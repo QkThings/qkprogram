@@ -6,17 +6,18 @@
  * This file is part of QkProgram
  */
 
-#ifndef QK_CORE_H
-#define QK_CORE_H
+#ifndef QK_CORE_P_H
+#define QK_CORE_P_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include "qk_core.h"
+
 /******************************************************************************
    ENUMS
  ******************************************************************************/
-
 typedef enum qk_state
 {
   QK_STATE_SLEEP,
@@ -27,40 +28,6 @@ typedef enum qk_state
   QK_STATE_STOP
 } qk_state;
 
-/**
- * Clock Mode
- */
-typedef enum qk_clock_mode
-{
-  QK_CLOCK_MODE_NORMAL = 0,
-  QK_CLOCK_MODE_FASTER,
-  QK_CLOCK_MODE_FAST,
-  QK_CLOCK_MODE_SLOW,
-  QK_CLOCK_MODE_SLOWER
-} qk_clock_mode;
-
-/**
- * Sampling Mode
- */
-typedef enum qk_samp_mode
-{
-  QK_SAMP_SINGLE,
-  QK_SAMP_CONTINUOUS,
-  QK_SAMP_TRIGGERED
-} qk_samp_mode;
-
-/**
- * Sampling Trigger Clock
- */
-typedef enum qk_trigger_clock
-{
-  QK_TRIGGER_CLOCK_1SEC, //!< QK_TRIGGER_CLOCK_1SEC
-  QK_TRIGGER_CLOCK_10SEC,//!< QK_TRIGGER_CLOCK_10SEC
-  QK_TRIGGER_CLOCK_1MIN, //!< QK_TRIGGER_CLOCK_1MIN
-  QK_TRIGGER_CLOCK_10MIN,//!< QK_TRIGGER_CLOCK_10MIN
-  QK_TRIGGER_CLOCK_1HOUR //!< QK_TRIGGER_CLOCK_1HOUR
-} qk_trigger_clock;
-
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
@@ -68,7 +35,6 @@ typedef struct qk_info
 {
   uint32_t baudRate;
 } qk_info;
-
 
 typedef struct qk_callbacks
 {
@@ -118,8 +84,6 @@ typedef struct qk_core
 #endif
 } qk_core;
 
-
-
 /******************************************************************************
    DEFINES
  ******************************************************************************/
@@ -150,23 +114,6 @@ void qk_loop();
 void _qk_requestStateChange(qk_state state);
 void _qk_handleStateChange();
 
-#ifdef _QK_FEAT_SERIAL_
-void qk_setBaudRate(uint32_t baud);
-#endif
-
-#if defined( QK_IS_DEVICE )
-/**
- * @brief Sets sampling frequency
- * @param sampFreq  sampling frequency in Hertz, must be greater than zero
- */
-void qk_setSamplingFrequency(uint32_t sampFreq);
-#if defined( QK_IS_DEVICE )
-/**
- * @brief Sets sampling period
- * @param usec  sampling period in microseconds
- */
-void qk_setSamplingPeriod(uint32_t usec);
-#endif
 
 /******************************************************************************/
 static inline
@@ -174,26 +121,6 @@ bool _qk_canSleep()
 {
   return (_qk_core.flags.reg_sleep == 0);
 }
-
-#if defined( QK_IS_DEVICE )
-static inline void qk_setSamplingMode(qk_samp_mode mode)
-{
-  _qk_core.sampling.mode = mode;
-}
-static inline void qk_setTriggerClock(qk_trigger_clock clock)
-{
-  _qk_core.sampling.triggerClock = clock;
-}
-static inline void qk_setTriggerScaler(uint8_t scaler)
-{
-  _qk_core.sampling.triggerScaler = scaler;
-}
-static inline void qk_setNumberOfSamples(uint32_t N)
-{
-  _qk_core.sampling.N = N;
-}
-#endif
-
 
 #ifdef __cplusplus
 }

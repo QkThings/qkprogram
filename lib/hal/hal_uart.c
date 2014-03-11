@@ -105,7 +105,7 @@ static uint8_t readByte(hal_uart_cb_t *cb, bool wait)
   if(read) {
     i_rd = cb->i_rd;
     b = cb->data[i_rd];
-    cb->i_rd = (i_rd + 1) % HAL_UART_RXBUF_SIZE;
+    cb->i_rd = (i_rd + 1) % _HAL_UART_RXBUF_SIZE;
     cb->count--;
   }
 
@@ -131,7 +131,7 @@ static uint16_t readBytes(hal_uart_cb_t *cb, uint8_t *buf, uint16_t count, bool 
   for(i = 0; i < count; i++) {
     i_rd = cb->i_rd;
     buf[i] = cb->data[i_rd];
-    cb->i_rd = (i_rd + 1) % HAL_UART_RXBUF_SIZE;
+    cb->i_rd = (i_rd + 1) % _HAL_UART_RXBUF_SIZE;
   }
   cb->count -= count;
 

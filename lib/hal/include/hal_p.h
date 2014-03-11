@@ -6,8 +6,8 @@
  * This file is part of QkProgram
  */
 
-#ifndef HAL_H
-#define HAL_H
+#ifndef HAL_P_H
+#define HAL_P_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,6 +21,7 @@ extern "C" {
 /******************************************************************************
    INCLUDES
  ******************************************************************************/
+#include "hal.h"
 #include "hal_hwspecs.h"
 #include "hal_power.h"
 #include "hal_clock.h"

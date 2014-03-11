@@ -240,16 +240,16 @@ int sprintf(char *out, const char *format, ...)
 /*****************************************************************************
  *  Others
  *****************************************************************************/
-void _blinkLED(uint8_t n, uint16_t msec)
-{
-  do {
-    _setLED(true);
-    delay_ms(msec);
-    _setLED(false);
-    delay_ms(msec);
-  }
-  while(--n > 0);
-}
+//void _blinkLED(uint8_t n, uint16_t msec)
+//{
+//  do {
+//    hal_setLED(true);
+//    delay_ms(msec);
+//    hal_setLED(false);
+//    delay_ms(msec);
+//  }
+//  while(--n > 0);
+//}
 
 float _floatFromBytes(int32_t value)
 {

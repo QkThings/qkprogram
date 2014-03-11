@@ -41,7 +41,7 @@ typedef enum hal_uart_id
  ******************************************************************************/
 typedef struct hal_uart_cb
 {
-  uint8_t data[HAL_UART_RXBUF_SIZE];
+  uint8_t data[_HAL_UART_RXBUF_SIZE];
   uint16_t i_rd;
   uint16_t i_wr;
   uint16_t count;

@@ -1,12 +1,14 @@
 #ifndef QK_PACKET_H_
 #define QK_PACKET_H_
 
-#include "../sys/qk_settings.h"
+#include "qk_settings.h"
 
 /******************************************************************************
    DEFINES
  ******************************************************************************/
 #define QK_PACKET_CODE_WAKEUP           0xF5
+#define QK_PACKET_CODE_ACK              0x03
+
 #define QK_PACKET_CODE_OK               0x01
 #define QK_PACKET_CODE_ERR              0xFF
 #define QK_PACKET_CODE_TIMEOUT          0xFE
@@ -58,6 +60,7 @@
 #define QK_PACKET_CODE_STATUS           0xD5
 #define QK_PACKET_CODE_DATA             0xD0
 #define QK_PACKET_CODE_EVENT            0xDE
+#define QK_PACKET_CODE_ACTION           0xDA
 #define QK_PACKET_CODE_STRING           0xDF
 
 #define QK_PACKET_FLAGMASK_CTRL_SRC        0x0070
@@ -86,18 +89,18 @@ typedef volatile struct qk_packet
   uint64_t address;
   uint8_t  id;
   uint8_t  code;
-  uint8_t  data[QK_PACKET_DATBUF_SIZE];
+  uint8_t  data[_QK_PACKET_DATBUF_SIZE];
   uint8_t  checksum;
   uint8_t  hdrLen;
   uint8_t  dataLen;
-} qk_packet_t;
+} qk_packet;
 
 typedef volatile struct qk_packet_descriptor
 {
   uint64_t address;
   uint8_t  code;
   uint8_t  boardType;
-  void *event_fired;
+  qk_event *event_fired;
   union {
     struct {
       uint8_t seq_refCode;
@@ -119,5 +122,6 @@ typedef volatile struct qk_packet_descriptor
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
+
 
 #endif /* QK_PACKET_H_ */

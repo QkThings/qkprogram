@@ -75,7 +75,7 @@ typedef union _IntFloatConverter
   float f_value;
 } _IntFloatConverter;
 
-void _blinkLED(uint8_t n, uint16_t msec);
+//void _blinkLED(uint8_t n, uint16_t msec);
 float _floatFromBytes(int32_t value);
 int32_t _bytesFromFloat(float value);
 

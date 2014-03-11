@@ -51,11 +51,11 @@ extern hal_gpio_t _hal_gpio;
 void _hal_gpio_init();
 void hal_gpio_init();
 
-bool _getPB();
-bool _getDET();
-bool _getLED();
-void _setLED(bool on);
-bool _toggleLED();
+bool hal_getPB();
+bool hal_getDET();
+//bool _getLED();
+//void _setLED(bool on);
+//bool _toggleLED();
 
 /******************************************************************************/
 
