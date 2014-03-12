@@ -91,12 +91,12 @@ void qk_run()
     if(_qk_protocol[i].callback.processBytes != 0)
       _qk_protocol[i].callback.processBytes();
 
-    if(_qk_protocol[i].flags.reg & QK_COMM_FLAGMASK_NEWPACKET)
+    if(_qk_protocol[i].flags.reg & QK_PROTOCOL_FLAGMASK_NEWPACKET)
     {
       if(_qk_protocol[i].callback.processPacket != 0)
         _qk_protocol[i].callback.processPacket();
 
-      _qk_protocol[i].flags.reg &= ~QK_COMM_FLAGMASK_NEWPACKET;
+      _qk_protocol[i].flags.reg &= ~QK_PROTOCOL_FLAGMASK_NEWPACKET;
     }
   }
 

@@ -94,19 +94,19 @@ typedef struct qk_protocol
 #define _protocol_periph  (&_qk_protocol[_QK_PROTOCOL_PERIPH])
 #endif
 /******************************************************************************/
-#define QK_COMM_FLAGMASK_TX           0x0001
-#define QK_COMM_FLAGMASK_RX           0x0002
-#define QK_COMM_FLAGMASK_SEQ          0x0004
-#define QK_COMM_FLAGMASK_DLE          0x0008
-#define QK_COMM_FLAGMASK_VALID        0x0010
-#define QK_COMM_FLAGMASK_NEWPACKET    0x0020
-#define QK_COMM_FLAGMASK_REXMIT       0x0040
-#define QK_COMM_FLAGMASK_ACKREXMIT    0x0080
+#define QK_PROTOCOL_FLAGMASK_TX           0x0001
+#define QK_PROTOCOL_FLAGMASK_RX           0x0002
+#define QK_PROTOCOL_FLAGMASK_SEQ          0x0004
+#define QK_PROTOCOL_FLAGMASK_DLE          0x0008
+#define QK_PROTOCOL_FLAGMASK_VALID        0x0010
+#define QK_PROTOCOL_FLAGMASK_NEWPACKET    0x0020
+#define QK_PROTOCOL_FLAGMASK_REXMIT       0x0040
+#define QK_PROTOCOL_FLAGMASK_ACKREXMIT    0x0080
 /******************************************************************************/
-#define QK_COMM_CTRL_FLAG             0x55    // Flag
-#define QK_COMM_CTRL_DLE              0xDD    // Data Link Escape
+#define QK_PROTOCOL_CTRL_FLAG             0x55    // Flag
+#define QK_PROTOCOL_CTRL_DLE              0xDD    // Data Link Escape
 /******************************************************************************/
-#define QK_COMM_NACK                  0x00
+#define QK_PROTOCOL_NACK                  0x00
 /******************************************************************************/
 
 

@@ -73,6 +73,12 @@
 //   rsvd[1] | SRC[3] | NOTIF[1] | FRAG[1] | LASTFRAG[1] | ADDRESS[1]
 //   rsvd[5] | DEST[3]
 
+#define SIZE_FLAGS_CTRL     2
+#define SIZE_ID             1
+#define SIZE_CODE           1
+#define SIZE_ADDR16         2
+#define SIZE_ADDR64         8
+
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
@@ -123,5 +129,13 @@ typedef volatile struct qk_packet_descriptor
    PROTOTYPES
  ******************************************************************************/
 
+//#define packet_fill8bit(value,frag)  packet_fillValue((uint64_t)(value),1,frag)
+//#define packet_fill16bit(value,frag) packet_fillValue((uint64_t)(value),2,frag)
+//#define packet_fill32bit(value,frag) packet_fillValue((uint64_t)(value),4,frag)
+//#define packet_fill64bit(value,frag) packet_fillValue((uint64_t)(value),8,frag)
+
+void packet_calcHeaderLength(qk_packet *packet);
+uint64_t packet_getValue(uint8_t byteCount, uint16_t *idx, qk_packet *packet);
+void packet_getString(char *buf, uint16_t count, uint16_t *idx, qk_packet *packet);
 
 #endif /* QK_PACKET_H_ */

@@ -45,6 +45,7 @@
 //#include "../core/qk_utils.h"
 #include "qk_packet.h"
 #include "qk_protocol.h"
+#include "qk_fragment.h"
 
 #include "qk_core_p.h"
 #include "qk_device_p.h"
