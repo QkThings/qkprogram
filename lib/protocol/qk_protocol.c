@@ -7,14 +7,15 @@
  */
 
 #include "qk_system.h"
+#include "qk_debug.h"
 
 qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
 
 /******************************************************************************/
-#define CODE_OFFSET(packet)   (packet->hdrLen - SIZE_CODE)
-#define ID_OFFSET(packet)     (CODE_OFFSET(packet) - SIZE_ID)
-#define ADDR16_OFFSET(packet) (ID_OFFSET(packet) - SIZE_ADDR16)
-#define ADDR64_OFFSET(packet) (ID_OFFSET(packet) - SIZE_ADDR64)
+#define CODE_OFFSET(packet)   ((unsigned)(packet->hdrLen - SIZE_CODE))
+#define ID_OFFSET(packet)     ((unsigned)(CODE_OFFSET(packet) - SIZE_ID))
+#define ADDR16_OFFSET(packet) ((unsigned)(ID_OFFSET(packet) - SIZE_ADDR16))
+#define ADDR64_OFFSET(packet) ((unsigned)(ID_OFFSET(packet) - SIZE_ADDR64))
 /******************************************************************************/
 static bool board_processPacket(qk_packet *packet, qk_protocol *protocol);
 static bool device_processPacket(qk_packet *packet, qk_protocol *protocol);
@@ -95,8 +96,8 @@ void qk_protocol_buildPacket(qk_packet *packet, qk_packet_descriptor *desc, qk_p
       case QK_CONFIG_TYPE_BOOL:
         fragment_fillValue(p_config[i].value.b, 1, &frag);
         break;
-      case QK_CONFIG_TYPE_INTDEC:
       case QK_CONFIG_TYPE_INTHEX:
+      case QK_CONFIG_TYPE_INTDEC:
       case QK_CONFIG_TYPE_FLOAT:
         fragment_fillValue(p_config[i].value.i, 4, &frag);
         fragment_fillValue(p_config[i].proprieties.min, 4, &frag);
@@ -270,7 +271,7 @@ void _qk_protocol_sendString(const char *str, qk_protocol *protocol)
 }
 
 #if defined( QK_IS_DEVICE )
-void _qk_comm_sendEvent(qk_event *e, qk_protocol *protocol)
+void _qk_protocol_sendEvent(qk_event *e, qk_protocol *protocol)
 {
   qk_packet packet;
   qk_packet_descriptor desc;
@@ -360,7 +361,7 @@ void qk_protocol_processByte(uint8_t b, qk_protocol *protocol)
 void qk_protocol_processPacket(qk_protocol *protocol)
 {
   qk_packet *packet = &(protocol->packet);
-  qk_ack *ack = &(protocol->ctrl.ack);
+  qk_ack *ack = (qk_ack*) &(protocol->ctrl.ack);
   uint16_t i_data;
   bool handled = false;
 
@@ -412,7 +413,7 @@ static bool board_processPacket(qk_packet *packet, qk_protocol *protocol)
   uint16_t i_data;
   bool handled = true;
 
-  qk_ack *ack = &(protocol->ctrl.ack);
+  qk_ack *ack = (qk_ack*) &(protocol->ctrl.ack);
   qk_ack_set_OK(ack);
 
   i_data = 0;
@@ -483,9 +484,9 @@ static bool device_processPacket(qk_packet *packet, qk_protocol *protocol)
   bool call_action;
 
   qk_action *act;
-  qk_action_id act_id;
+  qk_action_id act_id = 0;
 
-  qk_ack *ack = &(protocol->ctrl.ack);
+  qk_ack *ack = (qk_ack*)&(protocol->ctrl.ack);
   qk_ack_set_OK(ack);
 
   i_data = 0;
@@ -533,6 +534,9 @@ static bool device_processPacket(qk_packet *packet, qk_protocol *protocol)
     case QK_ACTION_TYPE_BOOL:
       act->value.b = packet_getValue(1, &i_data, packet);
       break;
+    case QK_ACTION_TYPE_TEXT:
+      //TODO
+      break;
     }
     call_action = true;
     break;
@@ -543,6 +547,7 @@ static bool device_processPacket(qk_packet *packet, qk_protocol *protocol)
   if(handled)
   {
     _qk_protocol_sendCode(QK_PACKET_CODE_ACK, protocol);
+
 
     if(call_action && _qk_device->callbacks.action != 0)
       _qk_device->callbacks.action(act_id);

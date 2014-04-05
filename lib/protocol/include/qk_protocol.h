@@ -48,7 +48,7 @@ typedef enum
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
-typedef struct qk_protocol_ack
+typedef struct qk_ack
 {
   qk_ack_type type;
   qk_err err;

@@ -45,9 +45,12 @@ typedef struct qk_config_prop
 typedef struct qk_config_value
 {
   union {
-    bool    b;
-    int32_t i;
-    float   f;
+    bool     b;
+    int32_t  i;
+    uint32_t ui;
+    uint32_t bytes_value;
+    uint8_t  bytes[4];
+    float    f;
     char    **items;
     qk_datetime dateTime;
   };

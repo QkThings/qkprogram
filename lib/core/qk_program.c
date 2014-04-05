@@ -16,13 +16,13 @@ extern void qk_setup();
 int qk_main()
 {
   hal_init();
-  hal_blinkLED(1, 50);
+  hal_blinkLED(1, 10);
   qk_core_init();
   qk_board_init();
-  hal_blinkLED(1, 50);
+  hal_blinkLED(1, 10);
   qk_setup();
   qk_board_setup();
-  hal_blinkLED(2, 100);
+  hal_blinkLED(1, 10);
 
   qk_loop();
   return 0;

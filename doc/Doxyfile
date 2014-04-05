@@ -952,7 +952,7 @@ HTML_EXTRA_STYLESHEET  = css/docstyle.css
 HTML_EXTRA_FILES       = css/docstyle.css \
                          fonts/OpenSans-Regular.ttf \
                          fonts/PTSans.ttf \
-                         fonts/Monaco.ttf
+                         fonts/DroidSansMono-R.ttf
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. 
 # Doxygen will adjust the colors in the style sheet and background images 

@@ -1,25 +1,27 @@
 
 #include "qk_debug.h"
 #include "qk_system.h"
-#include "stdarg.h"
+#include <stdio.h>
+#include <stdarg.h>
 
-//char _qk_debug_str[_QK_DEBUGSTR_BUFSIZE];
+#define _LOGSTR_BUFSIZE  128
+static uint8_t log_mask = 0;
 
-void QK_DEBUG(char *text, ...)
+void qk_setLogMask(uint8_t mask)
 {
-  va_list args;
-  va_start(args, text);
-  _qk_protocol_sendString(text, _protocol_board);
-  va_end(args);
+  log_mask = mask;
 }
 
-//void _qk_debug_sendString()
-//{
-//#ifdef QK_IS_MODULE
-//  //_qk_comm_sendString(_qk_debug_str, _qk_module_comm);
-//#endif
-//#ifdef QK_IS_DEVICE
-//  _qk_protocol_sendString(_qk_debug_str, _protocol_board);
-//#endif
-//}
+#ifndef QK_LOG_NO_OUTPUT
+void _QK_LOG(QK_LOG_LEVEL level, char *text, ...)
+{
+  if((level & log_mask) == 0) return;
 
+  char buf[_LOGSTR_BUFSIZE];
+  va_list args;
+  va_start(args, text);
+  vsprintf(buf,text, args);
+  _qk_protocol_sendString(buf, _protocol_board);
+  va_end(args);
+}
+#endif

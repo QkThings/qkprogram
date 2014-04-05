@@ -16,7 +16,7 @@ void _qk_device_init()
 {
   memset(_qk_device, 0, sizeof(qk_device));
   _qk_device->info.dataType = QK_DATA_TYPE_INT;
-  qk_cb_init(&_pendingEvents, peBuf, _QK_MAX_PENDING_EVENTS, sizeof(qk_event), false);
+  qk_cb_init(&_pendingEvents, (void *)peBuf, _QK_MAX_PENDING_EVENTS, sizeof(qk_event), false);
 }
 
 void _qk_device_setup()
@@ -65,7 +65,7 @@ bool qk_fireEvent(uint8_t idx, float *values, uint8_t count, char *message)
   e->value.text = message;
 
   if(!qk_cb_isFull(&_pendingEvents))
-    qk_cb_write(&_pendingEvents, e);
+    qk_cb_write(&_pendingEvents, (const void*) e);
   else
     return false;
   return true;

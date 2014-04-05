@@ -18,7 +18,9 @@ uint64_t packet_getValue(uint8_t byteCount, uint16_t *idx, qk_packet *packet)
   uint64_t value = 0;
 
   for(j = 0; j < byteCount; j++)
-    value += (packet->data[i++] & 0xFF) << (8*j); // LSB first
+    value += (uint64_t)(((uint64_t)(packet->data[i++]) & 0xFF) << (8*j)); // LSB first
+
+  *idx = i;
 
   switch(byteCount) // truncate
   {
@@ -32,7 +34,6 @@ uint64_t packet_getValue(uint8_t byteCount, uint16_t *idx, qk_packet *packet)
       value &= 0xFFFFFFFF;
       break;
   }
-  *idx = i;
   return value;
 }
 
