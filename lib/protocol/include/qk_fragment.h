@@ -15,9 +15,9 @@ typedef struct qk_packet_frag
   uint16_t i_data;
 } qk_fragment;
 
-void fragment_fillValue(uint64_t value, uint8_t byteCount, qk_fragment *frag);
-void fragment_fillArray(const uint8_t *data, uint16_t size, qk_fragment *frag);
-void fragment_fillString(const char* str, qk_fragment *frag);
+void fragment_fill_value(uint64_t value, uint8_t byteCount, qk_fragment *frag);
+void fragment_fill_array(const uint8_t *data, uint16_t size, qk_fragment *frag);
+void fragment_fill_string(const char* str, qk_fragment *frag);
 
 void fragment_init(qk_fragment *frag, qk_packet *packet, qk_protocol *protocol);
 bool fragment_send(qk_fragment *frag, uint8_t *data, uint16_t size);

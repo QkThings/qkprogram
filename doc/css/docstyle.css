@@ -51,12 +51,70 @@ div.contents
   margin-left: 2px;
 }
 
+h2.groupheader
+{
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #6da5e5;
+  color: #187cd0;
+  font-size: 150%;
+  font-weight: normal;
+  margin-top: 1.75em;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  width: 100%;
+}
+
 /* Line 136 */
 a.el
 {
   font-family: Monaco;
   font-size: 12px;
   font-weight: bold;
+  color: #187cd0;
+}
+
+.memproto, dl.reflist dt
+{
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: #95beec;
+  border-left-width-value: 1px;
+  border-left-style-value: solid;
+  border-left-color-value: #95beec;
+  border-right-width-value: 1px;
+  border-right-style-value: solid;
+  border-right-color-value: #95beec;
+  padding-top: 6px;
+  padding-right: 0px;
+  padding-bottom: 6px;
+  padding-left: 0px;
+  color: #123a68;
+  font-weight: bold;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.898);
+  background-image: none;
+  background-repeat: repeat-x;
+  background-color:#f7f7f7;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+.fieldtable th
+{
+  background-image: none;
+  background-repeat: repeat-x;
+  background-color: #f7f7f7;
+  font-size: 90%;
+  color: #123a68;
+  padding-bottom: 4px;
+  padding-top: 5px;
+  text-align: left;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #95beec;
 }
 
 /* Line 737 */
@@ -68,6 +126,12 @@ a.el
   display: inline-block;
   width: 16px;
   height: 16px;
+}
+
+.paramname em
+{
+  font-style: normal;
+  color: #EB3913;
 }
 
 /* Line 919 */

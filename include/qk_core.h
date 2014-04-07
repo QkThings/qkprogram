@@ -54,28 +54,25 @@ typedef enum qk_trigger_clock
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
-bool qk_setClockMode(qk_clock_mode mode);
-
-#ifdef _QK_FEAT_SERIAL_
-void qk_setBaudRate(uint32_t baud);
-#endif
+bool qk_set_clock_mode(qk_clock_mode mode);
+void qk_set_baudrate(uint32_t baud);
 
 #if defined( QK_IS_DEVICE )
 /**
  * @brief Sets sampling frequency
  * @param sampFreq  sampling frequency in Hertz, must be greater than zero
  */
-void qk_setSamplingFrequency(uint32_t sampFreq);
+void qk_set_sampling_frequency(uint32_t sampFreq);
 
 /**
  * @brief Sets sampling period
  * @param usec  sampling period in microseconds
  */
-void qk_setSamplingPeriod(uint32_t usec);
-void qk_setSamplingMode(qk_samp_mode mode);
-void qk_setTriggerClock(qk_trigger_clock clock);
-void qk_setTriggerScaler(uint8_t scaler);
-void qk_setNumberOfSamples(uint32_t N);
+void qk_set_sampling_period(uint32_t usec);
+void qk_set_sampling_mode(qk_samp_mode mode);
+void qk_set_trigger_clock(qk_trigger_clock clock);
+void qk_set_trigger_scaler(uint8_t scaler);
+void qk_set_number_samples(uint32_t N);
 
 #endif // QK_IS_DEVICE
 

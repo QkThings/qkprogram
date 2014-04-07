@@ -110,7 +110,7 @@ typedef struct qk_action
    PROTOTYPES
  ******************************************************************************/
 
-bool qk_fireEvent(uint8_t idx, float *values, uint8_t count, char *message);
+bool qk_event_generate(uint8_t idx, float *values, uint8_t count, char *message);
 
 /******************************************************************************/
 
@@ -119,30 +119,30 @@ bool qk_fireEvent(uint8_t idx, float *values, uint8_t count, char *message);
  * @param idx   index of the configuration label
  * @param label label
  */
-void qk_setDataBuffer(qk_data *buf, uint32_t count);
-void qk_setDataCount(uint32_t count);
-void qk_setDataLabel(uint8_t idx, char *label);
-void qk_setDataType(qk_data_type type);
-void qk_setDataValueI(uint8_t idx, int32_t value);
-void qk_setDataValueF(uint8_t idx, float value);
-qk_data_type qk_dataType();
+void qk_data_set_buffer(qk_data *buf, uint32_t count);
+void qk_data_set_count(uint32_t count);
+void qk_data_set_label(uint8_t idx, char *label);
+void qk_data_set_type(qk_data_type type);
+void qk_data_set_value_i(uint8_t idx, int32_t value);
+void qk_data_set_value_f(uint8_t idx, float value);
 
-void qk_setEventBuffer(qk_event *buf, uint32_t count);
-void qk_setEventLabel(uint8_t idx, const char *label);
+void qk_event_set_buffer(qk_event *buf, uint32_t count);
+void qk_event_set_label(uint8_t idx, const char *label);
 
-void qk_setActionBuffer(qk_action *buf, unsigned int size);
-void qk_setActionLabel(qk_action_id id, const char *label);
-void qk_setActionType(qk_action_id id, qk_action_type type);
-void qk_setActionValueI(qk_action_id id, int32_t value);
-void qk_setActionValueB(qk_action_id id, bool value);
-qk_action_type qk_actionType(qk_action_id id);
-int32_t qk_actionValueI(qk_action_id id);
-bool qk_actionValueB(qk_action_id id);
+void qk_action_set_buffer(qk_action *buf, unsigned int size);
+void qk_action_set_label(qk_action_id id, const char *label);
+void qk_action_set_type(qk_action_id id, qk_action_type type);
+void qk_action_set_value_i(qk_action_id id, int32_t value);
+void qk_action_set_value_b(qk_action_id id, bool value);
 
-void qk_setSampleCallback(void (*fnc)(void));
-void qk_setStartCallback(void (*fnc)(void));
-void qk_setStopCallback(void (*fnc)(void));
-void qk_setActionCallback(void (*fnc)(qk_action_id));
+qk_action_type qk_action_get_type(qk_action_id id);
+int32_t qk_action_get_value_i(qk_action_id id);
+bool qk_action_get_value_b(qk_action_id id);
+
+void qk_set_sample_callback(void (*fnc)(void));
+void qk_set_start_callback(void (*fnc)(void));
+void qk_set_stop_callback(void (*fnc)(void));
+void qk_set_action_callback(void (*fnc)(qk_action_id));
 
 #endif // QK_IS_DEVICE
 

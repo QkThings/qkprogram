@@ -21,7 +21,7 @@ typedef enum
 
 typedef uint8_t qk_log_mask;
 
-void qk_setLogMask(qk_log_mask mask);
+void qk_set_log_levels(qk_log_mask mask);
 
 //#ifdef QK_LOG_NO_OUTPUT
 //#define QK_LOG(...)

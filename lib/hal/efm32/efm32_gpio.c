@@ -9,12 +9,23 @@
 #include "../sys/qk_system.h"
 #include "em_gpio.h"
 
+//#define EFM32_GECKO_STK
+
+#ifdef EFM32_GECKO_STK
 #define LED_PORT  gpioPortC
 #define LED_PIN   3
 #define PB_PORT   gpioPortB
 #define PB_PIN    9
 #define DET_PORT  gpioPortC
 #define DET_PIN   12
+#else
+#define LED_PORT  gpioPortA
+#define LED_PIN   0
+#define PB_PORT   gpioPortA
+#define PB_PIN    1
+#define DET_PORT  gpioPortC
+#define DET_PIN   12
+#endif
 
 hal_gpio_t _hal_gpio;
 
@@ -54,34 +65,34 @@ void hal_gpio_init()
 
 void GPIO_EVEN_IRQHandler(void) // Rise
 {
-  _toggleLED();
+  hal_toggleLED();
   handleInputChanged();
   GPIO_IntClear(0xFFFF); // Clear all GPIO IF
 }
 
 void GPIO_ODD_IRQHandler(void) // Fall
 {
-  _toggleLED();
+  hal_toggleLED();
   handleInputChanged();
   GPIO_IntClear(0xFFFF); // Clear all GPIO IF
 }
 
-bool _getPB()
+bool hal_getPB()
 {
   return GPIO_PinInGet(PB_PORT, PB_PIN);
 }
 
-bool _getDET()
+bool hal_getDET()
 {
   return GPIO_PinInGet(DET_PORT, DET_PIN);
 }
 
-bool _getLED()
+bool hal_getLED()
 {
   return GPIO_PinInGet(LED_PORT, LED_PIN);
 }
 
-void _setLED(bool on)
+void hal_setLED(bool on)
 {
   if(on)
     GPIO_PinOutSet(LED_PORT, LED_PIN);
@@ -89,7 +100,7 @@ void _setLED(bool on)
     GPIO_PinOutClear(LED_PORT, LED_PIN);
 }
 
-bool _toggleLED()
+bool hal_toggleLED()
 {
   GPIO_PinOutToggle(LED_PORT, LED_PIN);
   return (GPIO_PinOutGet(LED_PORT, LED_PIN) == 1 ? true : false);

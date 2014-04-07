@@ -71,8 +71,8 @@ extern qk_device *_qk_device;
 
 void _qk_device_init();
 void _qk_device_setup();
-void qk_startSampling();
-void qk_stopSampling();
+void qk_start_sampling();
+void qk_stop_sampling();
 qk_cb* qk_pendingEvents();
 
 #endif // QK_IS_DEVICE

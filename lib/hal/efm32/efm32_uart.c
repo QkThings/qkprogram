@@ -63,7 +63,7 @@ void hal_uart_init()
   CMU->HFPERCLKEN0 |= CMU_HFPERCLKEN0_USART1;
 
   init(QK_UART1, 1);
-  setBaudRate(QK_UART1, HAL_UART_BAUD_DEFAULT_LOW);
+  setBaudRate(QK_UART1, _HAL_UART_BAUD_DEFAULT_LOW);
   enable(QK_UART1);
 
   NVIC_ClearPendingIRQ(QK_UART1_RX_IRQn);
@@ -137,7 +137,7 @@ void QK_UART1_RX_IRQHandler()
     rxData = QK_UART1->RXDATA;
     //writeByte(QK_UART1, rxData);
     handleRxInterrupt(&_hal_uart[HAL_UART_ID_1],rxData); //FIXME uncomment
-    _toggleLED();
+    hal_toggleLED();
   }
   QK_UART1->IFC = UART_IF_RXDATAV;
 }
@@ -183,10 +183,10 @@ static void handleRxInterrupt(hal_uart_t *uartHAL, uint8_t rxData)
 
   i_wr = rxBuf->i_wr;
   rxBuf->data[i_wr] = rxData;
-  rxBuf->i_wr = (i_wr + 1) % HAL_UART_RXBUF_SIZE;
+  rxBuf->i_wr = (i_wr + 1) % _HAL_UART_RXBUF_SIZE;
   rxBuf->count++;
 
-  if(rxBuf->count > HAL_UART_RXBUF_SIZE) {
+  if(rxBuf->count > _HAL_UART_RXBUF_SIZE) {
     rxBuf->overflow = true;
   }
 }

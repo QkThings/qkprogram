@@ -74,7 +74,7 @@ typedef struct qk_sampling
 typedef struct qk_core
 {
   volatile qk_state currentState;
-  volatile qk_state changeToState;
+  volatile qk_state change_to_state;
   qk_info       info;
   qk_clock_mode clockMode;
   qk_callbacks  callbacks;
@@ -107,12 +107,12 @@ extern qk_core _qk_core;
    PROTOTYPES
  ******************************************************************************/
 void qk_core_init();
-bool qk_setClockMode(qk_clock_mode mode);
+bool qk_set_clock_mode(qk_clock_mode mode);
 void qk_run();
 void qk_loop();
 
-void _qk_requestStateChange(qk_state state);
-void _qk_handleStateChange();
+void _qk_request_state_change(qk_state state);
+void _qk_handle_state_change();
 
 
 /******************************************************************************/

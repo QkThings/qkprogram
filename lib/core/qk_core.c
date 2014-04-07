@@ -15,8 +15,8 @@
 
 qk_core _qk_core;
 /******************************************************************************/
-static void handleBoardDetection();
-static void handleInputChanged();
+static void handle_board_detection();
+static void handle_input_changed();
 /******************************************************************************/
 
 void qk_core_init()
@@ -31,18 +31,18 @@ void qk_core_init()
   _qk_core.sampling.triggerScaler = 1;
   _qk_core.sampling.N = 10;
 
-  qk_setSamplingFrequency(_QK_DEFAULT_SAMPFREQ);
+  qk_set_sampling_frequency(_QK_DEFAULT_SAMPFREQ);
 #endif
 
 #if defined( _QK_FEAT_EEPROM_ )
   qk_restore();
 #endif
 
-  handleBoardDetection();
-  handleInputChanged();
+  handle_board_detection();
+  handle_input_changed();
 }
 
-bool qk_setClockMode(qk_clock_mode mode)
+bool qk_set_clock_mode(qk_clock_mode mode)
 {
   bool changed = false;
   switch(mode)
@@ -79,7 +79,7 @@ void qk_run()
 
   if(_hal_gpio.flags.inputChanged == 1)
   {
-    handleInputChanged();
+    handle_input_changed();
     _hal_gpio.flags.inputChanged = 0;
   }
 
@@ -108,11 +108,11 @@ void qk_run()
     qk_event firedEvent;
     qk_cb_read(pendingEvents, (void*) &firedEvent);
     //qk_event *firedEvent = (qk_event*)qk_cb_pick(pendingEvents);
-    _qk_protocol_sendEvent(&firedEvent, _protocol_board);
+    _qk_protocol_send_event(&firedEvent, _protocol_board);
   }
 #endif
 
-  _qk_handleStateChange();
+  _qk_handle_state_change();
 
   /*************************************
    * STATE MACHINE
@@ -137,7 +137,7 @@ void qk_run()
     {
       if(_qk_device->callbacks.sample != 0)
         _qk_device->callbacks.sample();
-      _qk_protocol_sendCode(QK_PACKET_CODE_DATA, _protocol_board);
+      _qk_protocol_send_code(QK_PACKET_CODE_DATA, _protocol_board);
       _hal_timer_2->flags.timeout = 0;
     }
     break;
@@ -166,48 +166,48 @@ void qk_loop()
   while(1) { qk_run(); }
 }
 
-void _qk_requestStateChange(qk_state state)
+void _qk_request_state_change(qk_state state)
 {
-  _qk_core.changeToState = state;
+  _qk_core.change_to_state = state;
   _qk_core.flags.reg_internal |= QK_FLAGMASK_INTERNAL_RQSTATECHANGE;
 }
-void _qk_handleStateChange()
+void _qk_handle_state_change()
 {
   if(_qk_core.flags.reg_internal & QK_FLAGMASK_INTERNAL_RQSTATECHANGE)
   {
-    _qk_core.currentState = _qk_core.changeToState;
+    _qk_core.currentState = _qk_core.change_to_state;
     _qk_core.flags.reg_internal &= ~QK_FLAGMASK_INTERNAL_RQSTATECHANGE;
   }
 }
 
-void qk_setBaudRate(uint32_t baud)
+void qk_set_baudrate(uint32_t baud)
 {
   hal_uart_setBaudRate(HAL_UART_ID_1, baud);
   _qk_core.info.baudRate = baud;
 }
 
 #ifdef QK_IS_DEVICE
-void qk_setSamplingMode(qk_samp_mode mode)
+void qk_set_sampling_mode(qk_samp_mode mode)
 {
   _qk_core.sampling.mode = mode;
 }
 
-void qk_setTriggerClock(qk_trigger_clock triggerClock)
+void qk_set_trigger_clock(qk_trigger_clock triggerClock)
 {
   _qk_core.sampling.triggerClock = triggerClock;
 }
 
-void qk_setTriggerScaler(uint8_t triggerScaler)
+void qk_set_trigger_scaler(uint8_t triggerScaler)
 {
   _qk_core.sampling.triggerScaler = triggerScaler;
 }
 
-void qk_setNumberOfSamples(uint32_t N)
+void qk_set_number_samples(uint32_t N)
 {
   _qk_core.sampling.N = N;
 }
 
-void qk_setSamplingFrequency(uint32_t sampFreq)
+void qk_set_sampling_frequency(uint32_t sampFreq)
 {
   if(sampFreq == 0 || sampFreq == _qk_core.sampling.frequency)
   {
@@ -217,7 +217,7 @@ void qk_setSamplingFrequency(uint32_t sampFreq)
   _qk_core.sampling.frequency = sampFreq;
   _qk_core.sampling.period = (uint32_t)(1000000.0/(float)sampFreq); // usec
 }
-void qk_setSamplingPeriod(uint32_t usec)
+void qk_set_sampling_period(uint32_t usec)
 {
   uint32_t msec;
   if(usec >= 1000) {
@@ -234,7 +234,7 @@ void qk_setSamplingPeriod(uint32_t usec)
 #endif /*QK_IS_DEVICE*/
 
 
-static void handleBoardDetection()
+static void handle_board_detection()
 {
   bool detected = !hal_getDET(); // DET pin is pulled-up
 
@@ -273,9 +273,9 @@ static void handleBoardDetection()
   }
 }
 
-static void handleInputChanged()
+static void handle_input_changed()
 {
-  handleBoardDetection();
+  handle_board_detection();
 
 #if defined( QK_IS_MODULE )
   uint8_t count;

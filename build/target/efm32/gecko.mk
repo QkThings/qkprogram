@@ -51,23 +51,25 @@ PSIZE	= $(QUOTE)$(TOOLDIR)/bin/arm-none-eabi-size$(QUOTE)
 # SOURCE
 ###############################################################################
 INCLUDE_DIR += \
-$(ROOT_DIR)/src/hal/efm32 \
+$(QKPROGRAM_ROOT_DIR)/lib/hal/efm32 \
 $(ENERGYMICRO)/CMSIS/Include \
 $(ENERGYMICRO)/Device/EnergyMicro/EFM32G/Include \
 $(ENERGYMICRO)/emlib/inc
 
 C_SRC_DIR += \
-$(ROOT_DIR)/src/hal/efm32
+$(QKPROGRAM_ROOT_DIR)/lib/hal/efm32
+
+#$(ENERGYMICRO)/emlib/src/em_ebi.c \
+#$(ENERGYMICRO)/emlib/src/em_emu.c \
+#$(ENERGYMICRO)/Device/EnergyMicro/EFM32G/Source/system_efm32g.c \
 
 C_SRC += \
 $(ENERGYMICRO)/Device/EnergyMicro/EFM32G/Source/system_efm32g.c \
 $(ENERGYMICRO)/emlib/src/em_assert.c \
+$(ENERGYMICRO)/emlib/src/em_system.c \
 $(ENERGYMICRO)/emlib/src/em_cmu.c \
-$(ENERGYMICRO)/emlib/src/em_ebi.c \
-$(ENERGYMICRO)/emlib/src/em_emu.c \
 $(ENERGYMICRO)/emlib/src/em_timer.c \
 $(ENERGYMICRO)/emlib/src/em_gpio.c \
-$(ENERGYMICRO)/emlib/src/em_system.c \
 $(ENERGYMICRO)/emlib/src/em_usart.c
 
 S_SRC += $(ENERGYMICRO)/Device/EnergyMicro/EFM32G/Source/GCC/startup_efm32g.S
@@ -94,9 +96,10 @@ ASMFLAGS += -x assembler-with-cpp -mcpu=cortex-m3 -mthumb
 
 # NOTE: The -Wl,--gc-sections flag may interfere with debugging using gdb.
 
-LDFLAGS += -Xlinker -Map=$(LST_DIR)/$(PROJECTNAME).map -mcpu=cortex-m3 \
+#LDFLAGS += -Xlinker -Map=$(OBJ_DIR)/$(PROJECTNAME).map -mcpu=cortex-m3
+LDFLAGS += -mcpu=cortex-m3 \
 -mthumb -T$(ENERGYMICRO)/Device/EnergyMicro/EFM32G/Source/GCC/efm32g.ld \
- -Wl,--gc-sections
+-Wl,--gc-sections
 
 LIBS = -lm -Wl,--start-group -lgcc -lc -lnosys   -Wl,--end-group 
 

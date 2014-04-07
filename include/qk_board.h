@@ -83,54 +83,54 @@ typedef struct qk_config
  * @brief Sets the board's firmware version
  * @param version 16bit number
  */
-void qk_setBoardVersion(uint16_t version);
+void qk_board_set_version(uint16_t version);
 
 /**
  * @brief Sets the board's name
  * @param name
  */
-void qk_setBoardName(const char *name);
+void qk_board_set_name(const char *name);
 
 /**
  * @brief Get the board's firmware version
  */
-int qk_boardVersion();
+int qk_board_version();
 
 /**
  * @brief Sets the board's name
  */
-char* qk_boardName();
+char* qk_board_name();
 
 
-void qk_setConfigBuffer(qk_config *buffer, uint8_t count);
+void qk_config_set_buffer(qk_config *buffer, uint8_t count);
 
 /**
  * @brief Sets the configuration's label
  * @param idx   index of the configuration label
  * @param label label
  */
-void qk_setConfigLabel(uint8_t idx, const char *label);
+void qk_config_set_label(uint8_t idx, const char *label);
 
 /**
  * @brief Sets configuration's type
  * @param count
  */
-void qk_setConfigType(uint8_t idx, qk_config_type type);
-void qk_setConfigValueB(uint8_t idx, bool value);
-void qk_setConfigValueI(uint8_t idx, int32_t value);
-void qk_setConfigValueF(uint8_t idx, float value);
-void qk_setConfigValueDT(uint8_t idx, qk_datetime dateTime);
-uint8_t qk_configCount();
-qk_config_type qk_configType(uint8_t idx);
-bool qk_configValueB(uint8_t word);
-uint32_t qk_configValueI(uint8_t idx);
-float qk_configValueF(uint8_t idx);
-char** qk_configItems(uint8_t idx);
-qk_datetime qk_configDateTime(uint8_t idx);
-bool qk_isConfigChanged(uint8_t idx);
-void qk_setConfigHandled(uint8_t idx);
-void qk_setInitCallback(void (*fnc)(void));
-void qk_setConfigCallback(void (*fnc)(void));
+void qk_config_set_type(uint8_t idx, qk_config_type type);
+void qk_config_set_value_b(uint8_t idx, bool value);
+void qk_config_set_value_i(uint8_t idx, int32_t value);
+void qk_config_set_value_f(uint8_t idx, float value);
+void qk_config_set_value_dt(uint8_t idx, qk_datetime dateTime);
+uint8_t qk_config_count();
+qk_config_type qk_config_get_type(uint8_t idx);
+bool qk_config_value_b(uint8_t word);
+uint32_t qk_config_value_i(uint8_t idx);
+float qk_config_value_f(uint8_t idx);
+qk_datetime qk_config_dt(uint8_t idx);
+bool qk_config_is_changed(uint8_t idx);
+void qk_config_set_handled(uint8_t idx);
+
+void qk_set_init_callback(void (*fnc)(void));
+void qk_set_config_callback(void (*fnc)(void));
 
 #ifdef __cplusplus
 }

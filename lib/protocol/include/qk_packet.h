@@ -134,8 +134,8 @@ typedef volatile struct qk_packet_descriptor
 //#define packet_fill32bit(value,frag) packet_fillValue((uint64_t)(value),4,frag)
 //#define packet_fill64bit(value,frag) packet_fillValue((uint64_t)(value),8,frag)
 
-void packet_calcHeaderLength(qk_packet *packet);
-uint64_t packet_getValue(uint8_t byteCount, uint16_t *idx, qk_packet *packet);
-void packet_getString(char *buf, uint16_t count, uint16_t *idx, qk_packet *packet);
+void packet_calc_header_length(qk_packet *packet);
+uint64_t packet_get_value(uint8_t byteCount, uint16_t *idx, qk_packet *packet);
+void packet_get_string(char *buf, uint16_t count, uint16_t *idx, qk_packet *packet);
 
 #endif /* QK_PACKET_H_ */

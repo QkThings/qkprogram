@@ -6,13 +6,13 @@
  */
 #include "qk_system.h"
 
-void packet_calcHeaderLength(qk_packet *packet)
+void packet_calc_header_length(qk_packet *packet)
 {
   packet->hdrLen = SIZE_FLAGS_CTRL + SIZE_CODE + SIZE_ID;
 }
 
 
-uint64_t packet_getValue(uint8_t byteCount, uint16_t *idx, qk_packet *packet)
+uint64_t packet_get_value(uint8_t byteCount, uint16_t *idx, qk_packet *packet)
 {
   uint16_t j, i = *idx;
   uint64_t value = 0;
@@ -37,7 +37,7 @@ uint64_t packet_getValue(uint8_t byteCount, uint16_t *idx, qk_packet *packet)
   return value;
 }
 
-void packet_getString(char *buf, uint16_t count, uint16_t *idx, qk_packet *packet)
+void packet_get_string(char *buf, uint16_t count, uint16_t *idx, qk_packet *packet)
 {
   uint16_t j, i = *idx;
   char c;

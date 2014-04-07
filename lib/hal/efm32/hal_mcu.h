@@ -16,5 +16,10 @@ static inline void hal_mcu_init()
   CHIP_Init();
 }
 
+static inline void hal_finalize()
+{
+
+}
+
 
 #endif /* HAL_MCU_H */

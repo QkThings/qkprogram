@@ -7,7 +7,7 @@
 #define _LOGSTR_BUFSIZE  128
 static uint8_t log_mask = 0;
 
-void qk_setLogMask(uint8_t mask)
+void qk_set_log_levels(uint8_t mask)
 {
   log_mask = mask;
 }
@@ -21,7 +21,7 @@ void _QK_LOG(QK_LOG_LEVEL level, char *text, ...)
   va_list args;
   va_start(args, text);
   vsprintf(buf,text, args);
-  _qk_protocol_sendString(buf, _protocol_board);
+  _qk_protocol_send_string(buf, _protocol_board);
   va_end(args);
 }
 #endif

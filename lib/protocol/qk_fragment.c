@@ -10,7 +10,7 @@
 void fragment_init(qk_fragment *frag, qk_packet *packet, qk_protocol *protocol)
 {
   packet->flags.ctrl = 0;
-  packet_calcHeaderLength(packet);
+  packet_calc_header_length(packet);
 
   frag->packet = packet;
   frag->protocol = protocol;
@@ -56,18 +56,18 @@ bool fragment_send(qk_fragment *frag, uint8_t *data, uint16_t size)
   return fragmented;
 }
 
-void fragment_fillValue(uint64_t value, uint8_t byteCount, qk_fragment *frag)
+void fragment_fill_value(uint64_t value, uint8_t byteCount, qk_fragment *frag)
 {
   uint64_t buf = value;
   fragment_send(frag, (uint8_t*)&buf, byteCount);
 }
 
-void fragment_fillArray(const uint8_t *data, uint16_t size, qk_fragment *frag)
+void fragment_fill_array(const uint8_t *data, uint16_t size, qk_fragment *frag)
 {
   fragment_send(frag, (uint8_t*)data, size);
 }
 
-void fragment_fillString(const char* str, qk_fragment *frag)
+void fragment_fill_string(const char* str, qk_fragment *frag)
 {
   uint8_t n = strlen(str);
   uint8_t buf[n+1];
