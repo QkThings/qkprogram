@@ -4,24 +4,16 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#define _LOGSTR_BUFSIZE  128
-static uint8_t log_mask = 0;
+qk_log_mask _log_mask;
+char _qk_log_str[_QK_LOG_BUFSIZE];
 
-void qk_set_log_levels(uint8_t mask)
+void qk_log_set_levels(uint8_t mask)
 {
-  log_mask = mask;
+  _log_mask = mask;
 }
 
-#ifndef QK_LOG_NO_OUTPUT
-void _QK_LOG(QK_LOG_LEVEL level, char *text, ...)
-{
-  if((level & log_mask) == 0) return;
 
-  char buf[_LOGSTR_BUFSIZE];
-  va_list args;
-  va_start(args, text);
-  vsprintf(buf,text, args);
-  _qk_protocol_send_string(buf, _protocol_board);
-  va_end(args);
+void _qk_log_send()
+{
+  _qk_protocol_send_string(_qk_log_str, _protocol_board);
 }
-#endif

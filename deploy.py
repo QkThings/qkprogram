@@ -8,7 +8,7 @@ def deploy():
 
 	targets = []
 	targets.append("arduino.uno")
-	targets.append("efm32.gecko")
+	targets.append("efm32.g_olimex")
 
 	chdir(path.join(rootdir,"build"))
 

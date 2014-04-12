@@ -231,11 +231,12 @@ int printf(const char *format, ...)
   return print(0, varg);
 }
 
-int sprintf(char *out, const char *format, ...)
+int sprintf(char *str, const char *format, ...)
 {
   register int *varg = (int *)(&format);
-  return print(&out, varg);
+  return print(&str, varg);
 }
+
 
 /*****************************************************************************
  *  Others

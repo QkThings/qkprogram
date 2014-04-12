@@ -20,7 +20,7 @@ hal_uart_t _hal_uart[HAL_UART_COUNT];
 #define QK_UART1_RX_IRQHandler  USART1_RX_IRQHandler
 #endif
 #ifdef HAL_USE_UART2
-#define u2rxBuf                 _hal_uart[HAL_UART_ID_2].buffers.rx
+#define u2rxBuf                 _hal_uart[HAL_UART_ID_2].buffers.rxUART
 #define QK_UART2                USART0
 #define QK_UART2_RX_IRQn        USART0_RX_IRQn
 #define QK_UART2_RX_IRQHandler  USART0_RX_IRQHandler
@@ -55,8 +55,6 @@ hal_uart_t* getUARTHAL(hal_uart_id_t uart)
 /******************************************************************************/
 void hal_uart_init()
 {
-  memset(&_hal_uart[HAL_UART_ID_1], 0, sizeof(hal_uart_t));
-
   GPIO_PinModeSet(gpioPortD, 0, gpioModePushPull, 1);
   GPIO_PinModeSet(gpioPortD, 1, gpioModeInput, 0);
 
@@ -137,9 +135,8 @@ void QK_UART1_RX_IRQHandler()
     rxData = QK_UART1->RXDATA;
     //writeByte(QK_UART1, rxData);
     handleRxInterrupt(&_hal_uart[HAL_UART_ID_1],rxData); //FIXME uncomment
-    hal_toggleLED();
   }
-  QK_UART1->IFC = UART_IF_RXDATAV;
+  QK_UART1->IFC = USART_IF_RXDATAV;
 }
 #endif /*HAL_USE_UART1*/
 #ifdef HAL_USE_UART2
@@ -186,7 +183,8 @@ static void handleRxInterrupt(hal_uart_t *uartHAL, uint8_t rxData)
   rxBuf->i_wr = (i_wr + 1) % _HAL_UART_RXBUF_SIZE;
   rxBuf->count++;
 
-  if(rxBuf->count > _HAL_UART_RXBUF_SIZE) {
+  if(rxBuf->count > _HAL_UART_RXBUF_SIZE)
+  {
     rxBuf->overflow = true;
   }
 }
@@ -198,12 +196,12 @@ static void setBaudRate(USART_TypeDef *uart, uint32_t baud)
 
 static void enable(USART_TypeDef *uart)
 {
-  uart->CMD = UART_CMD_RXEN | UART_CMD_TXEN;
+  uart->CMD = USART_CMD_RXEN | USART_CMD_TXEN;
 }
 
 static void disable(USART_TypeDef *uart)
 {
-  uart->CMD = UART_CMD_RXDIS | UART_CMD_TXDIS;
+  uart->CMD = USART_CMD_RXDIS | USART_CMD_TXDIS;
 }
 
 static void writeByte(USART_TypeDef *uart, uint8_t b)

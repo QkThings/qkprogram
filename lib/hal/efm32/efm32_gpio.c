@@ -11,20 +11,22 @@
 
 //#define EFM32_GECKO_STK
 
-#ifdef EFM32_GECKO_STK
+#if defined( EFM32G_STK )
 #define LED_PORT  gpioPortC
 #define LED_PIN   3
 #define PB_PORT   gpioPortB
 #define PB_PIN    9
 #define DET_PORT  gpioPortC
 #define DET_PIN   12
-#else
+#elif defined( EFM32G_OLIMEX )
 #define LED_PORT  gpioPortA
 #define LED_PIN   0
 #define PB_PORT   gpioPortA
 #define PB_PIN    1
 #define DET_PORT  gpioPortC
 #define DET_PIN   12
+#else
+#error "EFM32 board not defined"
 #endif
 
 hal_gpio_t _hal_gpio;

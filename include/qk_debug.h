@@ -10,6 +10,7 @@
 #include <stdint.h>
 
 //#define QK_LOG_NO_OUTPUT
+#define _QK_LOG_BUFSIZE  128
 
 typedef enum
 {
@@ -21,19 +22,26 @@ typedef enum
 
 typedef uint8_t qk_log_mask;
 
-void qk_set_log_levels(qk_log_mask mask);
+#ifndef QK_LOG_NO_OUTPUT
+#define _LOG(level, ...) {\
+		if((level && _log_mask) != 0){ \
+			sprintf(_qk_log_str, __VA_ARGS__);\
+			_qk_log_send();\
+		}}
+#else
+#define _LOG(level, ...) {}
+#endif
 
-//#ifdef QK_LOG_NO_OUTPUT
-//#define QK_LOG(...)
-//#else
 
-#define QK_LOG_DEBUG(...)   _QK_LOG(QK_LOG_LEVEL_DEBUG, __VA_ARGS__)
-#define QK_LOG_ERROR(...)   _QK_LOG(QK_LOG_LEVEL_ERROR, __VA_ARGS__)
-#define QK_LOG_WARNING(...) _QK_LOG(QK_LOG_LEVEL_WARNING, __VA_ARGS__)
-#define QK_LOG_INFO(...)    _QK_LOG(QK_LOG_LEVEL_INFO, __VA_ARGS__)
+#define QK_LOG_DEBUG(...)   _LOG(QK_LOG_LEVEL_DEBUG, __VA_ARGS__)
+#define QK_LOG_ERROR(...)   _LOG(QK_LOG_LEVEL_ERROR, __VA_ARGS__)
+#define QK_LOG_WARNING(...) _LOG(QK_LOG_LEVEL_WARNING, __VA_ARGS__)
+#define QK_LOG_INFO(...)    _LOG(QK_LOG_LEVEL_INFO, __VA_ARGS__)
 
-void _QK_LOG(QK_LOG_LEVEL level, char *text, ...);
-//#endif
+extern qk_log_mask _log_mask;
+extern char _qk_log_str[_QK_LOG_BUFSIZE];
 
+void qk_log_set_levels(qk_log_mask mask);
+void _qk_log_send();
 
 #endif /* QK_DEBUG_H */

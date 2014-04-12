@@ -63,7 +63,7 @@ uint32_t qk_cb_available(qk_cb *cb);
 /*****************************************************************************
  *  Lightweight STDIO functions
  *****************************************************************************/
-int sprintf(char *out, const char *format, ...);
+int sprintf(char *str, const char *format, ...);
 int printf(const char *format, ...);
 
 /*****************************************************************************
