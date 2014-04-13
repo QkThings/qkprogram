@@ -79,42 +79,13 @@ typedef struct qk_config
  ******************************************************************************/
 
 
-/**
- * @brief Sets the board's firmware version
- * @param version 16bit number
- */
+
 void qk_board_set_version(uint16_t version);
-
-/**
- * @brief Sets the board's name
- * @param name
- */
 void qk_board_set_name(const char *name);
-
-/**
- * @brief Get the board's firmware version
- */
-int qk_board_version();
-
-/**
- * @brief Sets the board's name
- */
-char* qk_board_name();
-
-
+int qk_board_get_version();
+char* qk_board_get_name();
 void qk_config_set_buffer(qk_config *buffer, uint8_t count);
-
-/**
- * @brief Sets the configuration's label
- * @param idx   index of the configuration label
- * @param label label
- */
 void qk_config_set_label(uint8_t idx, const char *label);
-
-/**
- * @brief Sets configuration's type
- * @param count
- */
 void qk_config_set_type(uint8_t idx, qk_config_type type);
 void qk_config_set_value_b(uint8_t idx, bool value);
 void qk_config_set_value_i(uint8_t idx, int32_t value);
@@ -129,8 +100,8 @@ qk_datetime qk_config_dt(uint8_t idx);
 bool qk_config_is_changed(uint8_t idx);
 void qk_config_set_handled(uint8_t idx);
 
-void qk_set_init_callback(void (*fnc)(void));
-void qk_set_config_callback(void (*fnc)(void));
+void qk_set_init_callback(void (*fnc)(void)); //TODO is this useful?
+void qk_config_set_callback(void (*fnc)(void));
 
 #ifdef __cplusplus
 }

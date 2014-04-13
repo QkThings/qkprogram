@@ -6,8 +6,25 @@
  * This file is part of QkProgram
  */
 
-#include "../sys/qk_system.h"
+#include "qk_system.h"
 #include <string.h>
+
+/*****************************************************************************
+ *  Date and Time
+ *****************************************************************************/
+
+void qk_datetime_set_time(qk_datetime *dt, uint8_t hr, uint8_t min, uint8_t sec)
+{
+  dt->hours = hr;
+  dt->minutes = min;
+  dt->seconds = sec;
+}
+void qk_datetime_set_date(qk_datetime *dt, uint8_t year, uint8_t month, uint8_t day)
+{
+  dt->year = year;
+  dt->month = month;
+  dt->day = day;
+}
 
 /*****************************************************************************
  *  Circular Buffers

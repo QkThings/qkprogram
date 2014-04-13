@@ -12,6 +12,10 @@
 qk_cb _pendingEvents;
 qk_event peBuf[_QK_MAX_PENDING_EVENTS];
 
+#define _data(idx)    (_qk_device->buffers.data[idx])
+#define _event(idx)   (_qk_device->buffers.event[idx])
+#define _action(idx)  (_qk_device->buffers.action[idx])
+
 void _qk_device_init()
 {
   memset(_qk_device, 0, sizeof(qk_device));
@@ -22,13 +26,11 @@ void _qk_device_init()
 void _qk_device_setup()
 {
   uint32_t i;
-  qk_event *e;
   for(i = 0; i < _qk_device->info._nevt; i++)
   {
-    e = &(_qk_device->buffers.event[i]);
-    e->_id = i;
-    e->value.argc = 0;
-    e->value.text = 0;
+    _event(i)._id = i;
+    _event(i).value.argc = 0;
+    _event(i).value.text = 0;
   }
 }
 
@@ -47,28 +49,27 @@ qk_cb* qk_pendingEvents()
   return &_pendingEvents;
 }
 
-bool qk_event_generate(uint8_t idx, float *values, uint8_t count, char *message)
+void qk_event_set_args(uint8_t idx, float *args, uint8_t count)
 {
-  if(idx > _qk_device->info._nevt)
-    return false;
-
   uint8_t i;
-  qk_event *e = &(_qk_device->buffers.event[idx]);
-
   if(count > _QK_EVENT_MAX_ARGS)
     count = _QK_EVENT_MAX_ARGS;
-  e->value.argc = count;
+  _event(idx).value.argc = count;
+  for(i = 0; i < count; i++)
+    _event(idx).value.argv[i] = args[i];
+}
 
-  for(i=0; i<count; i++)
-    e->value.argv[i] = values[i];
-
-  e->value.text = message;
+bool qk_event_generate(uint8_t idx, char *message)
+{
+  _event(idx).value.text = message;
 
   if(!qk_cb_isFull(&_pendingEvents))
-    qk_cb_write(&_pendingEvents, (const void*) e);
+  {
+    qk_cb_write(&_pendingEvents, (const void*) &(_event(idx)));
+    return true;
+  }
   else
     return false;
-  return true;
 }
 
 void qk_data_set_buffer(qk_data *buf, uint32_t count)
@@ -82,7 +83,7 @@ void qk_data_set_count(uint32_t count)
 }
 void qk_data_set_label(uint8_t idx, char *label)
 {
-  strcpy((char*)(_qk_device->buffers.data[idx].properties.label), label);
+  strcpy((char*)(_data(idx).properties.label), label);
 }
 void qk_data_set_type(qk_data_type type)
 {
@@ -90,11 +91,11 @@ void qk_data_set_type(qk_data_type type)
 }
 void qk_data_set_value_i(uint8_t idx, int32_t value)
 {
-  _qk_device->buffers.data[idx].value.i = value;
+  _data(idx).value.i = value;
 }
 void qk_data_set_value_f(uint8_t idx, float value)
 {
-  _qk_device->buffers.data[idx].value.f = value;
+  _data(idx).value.f = value;
 }
 void qk_event_set_buffer(qk_event *buf, uint32_t count)
 {
@@ -114,49 +115,50 @@ void qk_action_set_buffer(qk_action *buf, unsigned int size)
 
 void qk_action_set_label(qk_action_id id, const char *label)
 {
-  strcpy((char*)(_qk_device->buffers.action[id].properties.label), label);
+  strcpy((char*)(_action(id).properties.label), label);
 }
 
 void qk_action_set_type(qk_action_id id, qk_action_type type)
 {
-  _qk_device->buffers.action[id].type = type;
+  _action(id).type = type;
 }
 
 void qk_action_set_value_i(qk_action_id id, int32_t value)
 {
-  _qk_device->buffers.action[id].value.i = value;
+  _action(id).value.i = value;
 }
 void qk_action_set_value_b(qk_action_id id, bool value)
 {
-  _qk_device->buffers.action[id].value.b = value;
+  _action(id).value.b = value;
 }
 qk_action_type qk_action_get_type(qk_action_id id)
 {
-  return _qk_device->buffers.action[id].type;
+  return _action(id).type;
 }
 int32_t qk_action_get_value_i(qk_action_id id)
 {
-  return _qk_device->buffers.action[id].value.i;
+  return _action(id).value.i;
 }
 bool qk_action_get_value_b(qk_action_id id)
 {
-  return _qk_device->buffers.action[id].value.b;
+  return _action(id).value.b;
 }
 
-void qk_set_sample_callback(void (*fnc)(void))
-{
-  _qk_device->callbacks.sample = fnc;
-}
-void qk_set_start_callback(void (*fnc)(void))
-{
-  _qk_device->callbacks.start = fnc;
-}
-void qk_set_stop_callback(void (*fnc)(void))
-{
-  _qk_device->callbacks.stop = fnc;
-}
-void qk_set_action_callback(void (*fnc)(qk_action_id))
+void qk_action_set_callback(void (*fnc)(qk_action_id))
 {
   _qk_device->callbacks.action = fnc;
 }
+
+void qk_sampling_set_callback(qk_sampling_callback_id id, void (*fnc)(void))
+{
+  switch(id)
+  {
+  case QK_SAMPLING_CALLBACK_SAMPLE: _qk_device->callbacks.sample = fnc; break;
+  case QK_SAMPLING_CALLBACK_START:  _qk_device->callbacks.start = fnc; break;
+  case QK_SAMPLING_CALLBACK_STOP:   _qk_device->callbacks.stop = fnc; break;
+  default: ;
+  }
+}
+
+
 #endif

@@ -7,11 +7,6 @@
  */
 
 #include "qk_system.h"
-#include "qk_debug.h"
-
-#include <qk_debug.h> //TODO remove this
-
-//#include "em_emu.h"
 
 qk_core _qk_core;
 /******************************************************************************/
@@ -26,12 +21,12 @@ void qk_core_init()
   _qk_core.info.baudRate = _HAL_UART_BAUD_DEFAULT_LOW;
 #if defined( QK_IS_DEVICE )
   _qk_core.sampling.frequency = 0; // invalid
-  _qk_core.sampling.mode = QK_SAMP_CONTINUOUS;
-  _qk_core.sampling.triggerClock = QK_TRIGGER_CLOCK_10SEC;
+  _qk_core.sampling.mode = QK_SAMPLING_MODE_CONTINUOUS;
+  _qk_core.sampling.triggerClock = QK_SAMPLING_TRIGGER_CLOCK_10SEC;
   _qk_core.sampling.triggerScaler = 1;
   _qk_core.sampling.N = 10;
 
-  qk_set_sampling_frequency(_QK_DEFAULT_SAMPFREQ);
+  qk_sampling_set_frequency(_QK_DEFAULT_SAMPFREQ);
 #endif
 
 #if defined( _QK_FEAT_EEPROM_ )
@@ -42,7 +37,7 @@ void qk_core_init()
   handle_input_changed();
 }
 
-bool qk_set_clock_mode(qk_clock_mode mode)
+bool qk_clock_set_mode(qk_clock_mode mode)
 {
   bool changed = false;
   switch(mode)
@@ -180,34 +175,30 @@ void _qk_handle_state_change()
   }
 }
 
-void qk_set_baudrate(uint32_t baud)
+void qk_core_set_baudrate(uint32_t baud)
 {
   hal_uart_setBaudRate(HAL_UART_ID_1, baud);
   _qk_core.info.baudRate = baud;
 }
 
 #ifdef QK_IS_DEVICE
-void qk_set_sampling_mode(qk_samp_mode mode)
+void qk_sampling_set_mode(qk_sampling_mode mode)
 {
   _qk_core.sampling.mode = mode;
 }
 
-void qk_set_trigger_clock(qk_trigger_clock triggerClock)
+void qk_sampling_set_trigger(qk_sampling_trigger_clock clock, uint8_t scaler)
 {
-  _qk_core.sampling.triggerClock = triggerClock;
+  _qk_core.sampling.triggerClock = clock;
+  _qk_core.sampling.triggerScaler = scaler;
 }
 
-void qk_set_trigger_scaler(uint8_t triggerScaler)
-{
-  _qk_core.sampling.triggerScaler = triggerScaler;
-}
-
-void qk_set_number_samples(uint32_t N)
+void qk_sampling_set_N(uint32_t N)
 {
   _qk_core.sampling.N = N;
 }
 
-void qk_set_sampling_frequency(uint32_t sampFreq)
+void qk_sampling_set_frequency(uint32_t sampFreq)
 {
   if(sampFreq == 0 || sampFreq == _qk_core.sampling.frequency)
   {
@@ -217,7 +208,7 @@ void qk_set_sampling_frequency(uint32_t sampFreq)
   _qk_core.sampling.frequency = sampFreq;
   _qk_core.sampling.period = (uint32_t)(1000000.0/(float)sampFreq); // usec
 }
-void qk_set_sampling_period(uint32_t usec)
+void qk_sampling_set_period(uint32_t usec)
 {
   uint32_t msec;
   if(usec >= 1000) {
@@ -231,6 +222,7 @@ void qk_set_sampling_period(uint32_t usec)
   _qk_core.sampling.frequency = (uint32_t)(1000000.0/(float)usec);
 
 }
+
 #endif /*QK_IS_DEVICE*/
 
 

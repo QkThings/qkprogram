@@ -37,6 +37,9 @@ typedef struct qk_datetime
 
 typedef qk_datetime qk_time;
 
+void qk_datetime_set_time(qk_datetime *dt, uint8_t hr, uint8_t min, uint8_t sec);
+void qk_datetime_set_date(qk_datetime *dt, uint8_t year, uint8_t month, uint8_t day);
+
 /*****************************************************************************
  *  Circular Buffers
  *****************************************************************************/

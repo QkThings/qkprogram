@@ -105,20 +105,19 @@ typedef struct qk_action
   qk_action_prop      properties;
 } qk_action;
 
+//TODO move all sampling related stuff to qk_device
+typedef enum qk_sampling_callback_id
+{
+  QK_SAMPLING_CALLBACK_SAMPLE,
+  QK_SAMPLING_CALLBACK_START,
+  QK_SAMPLING_CALLBACK_STOP
+} qk_sampling_callback_id;
+
 
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
 
-bool qk_event_generate(uint8_t idx, float *values, uint8_t count, char *message);
-
-/******************************************************************************/
-
-/**
- * @brief Sets the configuration's label
- * @param idx   index of the configuration label
- * @param label label
- */
 void qk_data_set_buffer(qk_data *buf, uint32_t count);
 void qk_data_set_count(uint32_t count);
 void qk_data_set_label(uint8_t idx, char *label);
@@ -128,6 +127,8 @@ void qk_data_set_value_f(uint8_t idx, float value);
 
 void qk_event_set_buffer(qk_event *buf, uint32_t count);
 void qk_event_set_label(uint8_t idx, const char *label);
+void qk_event_set_args(uint8_t idx, float *args, uint8_t count);
+bool qk_event_generate(uint8_t idx, char *message);
 
 void qk_action_set_buffer(qk_action *buf, unsigned int size);
 void qk_action_set_label(qk_action_id id, const char *label);
@@ -139,10 +140,9 @@ qk_action_type qk_action_get_type(qk_action_id id);
 int32_t qk_action_get_value_i(qk_action_id id);
 bool qk_action_get_value_b(qk_action_id id);
 
-void qk_set_sample_callback(void (*fnc)(void));
-void qk_set_start_callback(void (*fnc)(void));
-void qk_set_stop_callback(void (*fnc)(void));
-void qk_set_action_callback(void (*fnc)(qk_action_id));
+void qk_action_set_callback(void (*fnc)(qk_action_id));
+
+void qk_sampling_set_callback(qk_sampling_callback_id id, void (*fnc)(void));
 
 #endif // QK_IS_DEVICE
 

@@ -107,7 +107,7 @@ extern qk_core _qk_core;
    PROTOTYPES
  ******************************************************************************/
 void qk_core_init();
-bool qk_set_clock_mode(qk_clock_mode mode);
+bool qk_clock_set_mode(qk_clock_mode mode);
 void qk_run();
 void qk_loop();
 

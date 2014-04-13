@@ -515,11 +515,11 @@ static bool device_process_packet(qk_packet *packet, qk_protocol *protocol)
     qk_stop_sampling();
     break;
   case QK_PACKET_CODE_SETSAMP:
-    qk_set_sampling_frequency(packet_get_value(4, &i_data, packet));
-    qk_set_sampling_mode((qk_samp_mode)packet_get_value(1, &i_data, packet));
-    qk_set_trigger_clock(packet_get_value(1, &i_data, packet));
-    qk_set_trigger_scaler(packet_get_value(1, &i_data, packet));
-    qk_set_number_samples(packet_get_value(4, &i_data, packet));
+    qk_sampling_set_frequency(packet_get_value(4, &i_data, packet));
+    qk_sampling_set_mode((qk_sampling_mode)packet_get_value(1, &i_data, packet));
+    qk_sampling_set_trigger(packet_get_value(1, &i_data, packet),
+                            packet_get_value(1, &i_data, packet));
+    qk_sampling_set_N(packet_get_value(4, &i_data, packet));
     break;
   case QK_PACKET_CODE_ACTUATE:
     act =  _qk_device->buffers.action;
