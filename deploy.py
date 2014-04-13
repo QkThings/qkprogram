@@ -4,18 +4,8 @@ from os import getcwd, chdir, path
 from subprocess import call
 
 def deploy():
+	print " ### Deploy qkprogram"
 	rootdir = getcwd()
-
-	targets = []
-	targets.append("arduino.uno")
-	targets.append("efm32.g_olimex")
-
-	chdir(path.join(rootdir,"build"))
-
-	for target in targets:
-		print " === Build target", target
-		call(["make","clean","TARGET=%s" % target])
-		call(["make","TARGET=%s" % target])
 
 	print " === Generate documentation"
 	chdir(path.join(rootdir,"doc"))

@@ -9,8 +9,6 @@
 #include "../sys/qk_system.h"
 #include "em_gpio.h"
 
-//#define EFM32_GECKO_STK
-
 #if defined( EFM32G_STK )
 #define LED_PORT  gpioPortC
 #define LED_PIN   3
@@ -23,8 +21,8 @@
 #define LED_PIN   0
 #define PB_PORT   gpioPortA
 #define PB_PIN    1
-#define DET_PORT  gpioPortC
-#define DET_PIN   12
+#define DET_PORT  gpioPortA
+#define DET_PIN   2
 #else
 #error "EFM32 board not defined"
 #endif
@@ -96,7 +94,11 @@ bool hal_getLED()
 
 void hal_setLED(bool on)
 {
+#if defined( EFM32G_OLIMEX)
+  if(!on)
+#else
   if(on)
+#endif
     GPIO_PinOutSet(LED_PORT, LED_PIN);
   else
     GPIO_PinOutClear(LED_PORT, LED_PIN);
