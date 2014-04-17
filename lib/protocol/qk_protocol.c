@@ -33,7 +33,6 @@ void qk_ack_set_ERROR(qk_err err, int32_t arg, qk_ack *ack)
   ack->arg = arg;
 }
 
-
 void qk_protocol_init(qk_protocol *protocol)
 {
   memset((void*)protocol, 0, sizeof(qk_protocol));
@@ -469,9 +468,7 @@ static bool board_process_packet(qk_packet *packet, qk_protocol *protocol)
   }
 
   if(handled)
-  {
     _qk_protocol_send_code(QK_PACKET_CODE_ACK, protocol);
-  }
 
   return handled;
 }
@@ -496,9 +493,6 @@ static bool device_process_packet(qk_packet *packet, qk_protocol *protocol)
   case QK_PACKET_CODE_GETNODE:
   case QK_PACKET_CODE_GETDEVICE:
     //TODO sending info should be optional (the ACK already signals the presence of the device)
-    //TODO seq is obsolete (wait for ACK)
-//    seq_arg_code = getSequenceArgumentCode(packet->code);
-//    _qk_comm_sendSequenceBegin(seq_arg_code, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFOQK, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFOBOARD, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFOCONFIG, protocol);
@@ -506,7 +500,6 @@ static bool device_process_packet(qk_packet *packet, qk_protocol *protocol)
     _qk_protocol_send_code(QK_PACKET_CODE_INFODATA, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFOEVENT, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFOACTION, protocol);
-//    _qk_comm_sendSequenceEnd(seq_arg_code, protocol);
     break;
   case QK_PACKET_CODE_START:
     qk_start_sampling();
@@ -547,7 +540,6 @@ static bool device_process_packet(qk_packet *packet, qk_protocol *protocol)
   if(handled)
   {
     _qk_protocol_send_code(QK_PACKET_CODE_ACK, protocol);
-
 
     if(call_action && _qk_device->callbacks.action != 0)
       _qk_device->callbacks.action(act_id);
