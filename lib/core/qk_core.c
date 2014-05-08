@@ -83,13 +83,13 @@ void qk_run()
 
   for(i = 0; i < QK_PROTOCOL_STRUCT_COUNT; i++)
   {
-    if(_qk_protocol[i].callback.processBytes != 0)
-      _qk_protocol[i].callback.processBytes();
+    if(_qk_protocol[i].callback.process_bytes != 0)
+      _qk_protocol[i].callback.process_bytes();
 
     if(_qk_protocol[i].flags.reg & QK_PROTOCOL_FLAGMASK_NEWPACKET)
     {
-      if(_qk_protocol[i].callback.processPacket != 0)
-        _qk_protocol[i].callback.processPacket();
+      if(_qk_protocol[i].callback.process_packet != 0)
+        _qk_protocol[i].callback.process_packet();
 
       _qk_protocol[i].flags.reg &= ~QK_PROTOCOL_FLAGMASK_NEWPACKET;
     }
@@ -103,7 +103,7 @@ void qk_run()
     qk_event firedEvent;
     qk_cb_read(pendingEvents, (void*) &firedEvent);
     //qk_event *firedEvent = (qk_event*)qk_cb_pick(pendingEvents);
-    _qk_protocol_send_event(&firedEvent, _protocol_board);
+    _qk_protocol_send_event(&firedEvent, qk_protocol_board);
   }
 #endif
 
@@ -132,7 +132,7 @@ void qk_run()
     {
       if(_qk_device->callbacks.sample != 0)
         _qk_device->callbacks.sample();
-      _qk_protocol_send_code(QK_PACKET_CODE_DATA, _protocol_board);
+      _qk_protocol_send_code(QK_PACKET_CODE_DATA, qk_protocol_board);
       _hal_timer_2->flags.timeout = 0;
     }
     break;

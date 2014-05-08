@@ -5,6 +5,15 @@
 #TOOLCHAIN_DIR = ../../shared/toolchain
 BUILD_TARGET ?= BUILD_DEVICE
 
+$(info BUILD_TARGET = $(BUILD_TARGET))
+
+ifeq ($(BUILD_TARGET), BUILD_DEVICE)
+LIB_DIR := $(LIB_DIR)/device
+endif
+ifeq ($(BUILD_TARGET), BUILD_COMM)
+LIB_DIR := $(LIB_DIR)/comm
+endif
+
 ####################################################################
 # DIRS AND FLAGS                     
 ####################################################################
@@ -28,9 +37,11 @@ $(QKPROGRAM_DIR)/lib/utils
 s_SRC += 
 S_SRC += 
 
-CFLAGS += -D$(BUILD_TARGET)
 
 include $(QKPROGRAM_DIR)/build/target/$(TARGET_NAME)/$(TARGET_NAME).mk
+
+DEFINES += $(BUILD_TARGET) $(FEATURES)
+
 
 
 

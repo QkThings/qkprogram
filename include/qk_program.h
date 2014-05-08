@@ -23,26 +23,26 @@ callback functions.
 #include <stdbool.h>
 #include <math.h>
 
-#if defined ( BUILD_GATEWAY )
-  #define QK_IS_GATEWAY
-#elif defined( BUILD_NETWORK )
-  #define QK_IS_NETWORK
-#elif defined( BUILD_COMM )
+#if defined( BUILD_COMM )
   #define QK_IS_COMM
 #elif defined( BUILD_DEVICE )
   #define QK_IS_DEVICE
 #else
-  #error "build target not specified"
+  #error "BUILD_TARGET is not defined"
 #endif
 
 #include "hal.h"
 #include "qk_utils.h"
 #include "qk_core.h"
+#include "qk_comm.h"
 #include "qk_device.h"
 #include "qk_board.h"
+#include "qk_packet.h"
+#include "qk_protocol.h"
 
 extern void qk_setup();
 
+void qk_init();
 int qk_main();
 
 #endif /* QK_PROGRAM_H */

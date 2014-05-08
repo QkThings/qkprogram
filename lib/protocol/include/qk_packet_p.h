@@ -1,5 +1,5 @@
-#ifndef QK_PACKET_H_
-#define QK_PACKET_H_
+#ifndef QK_PACKET_P_H_
+#define QK_PACKET_P_H_
 
 #include "qk_settings.h"
 
@@ -83,30 +83,14 @@
    STRUCTS
  ******************************************************************************/
 
-typedef volatile struct qk_packet_flags
-{
-  uint16_t ctrl;
-  uint8_t network;
-} qk_packet_flags;
-
-typedef volatile struct qk_packet
-{
-  qk_packet_flags flags;
-  uint64_t address;
-  uint8_t  id;
-  uint8_t  code;
-  uint8_t  data[_QK_PACKET_DATBUF_SIZE];
-  uint8_t  checksum;
-  uint8_t  hdrLen;
-  uint8_t  dataLen;
-} qk_packet;
-
 typedef volatile struct qk_packet_descriptor
 {
   uint64_t address;
   uint8_t  code;
   uint8_t  boardType;
+#ifdef QK_IS_DEVICE
   qk_event *event_fired;
+#endif
   union {
     struct {
       uint8_t seq_refCode;

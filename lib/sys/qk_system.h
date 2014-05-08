@@ -43,27 +43,14 @@
  *      Core (private)
  *****************************************************************************/
 //#include "../core/qk_utils.h"
-#include "qk_packet.h"
-#include "qk_protocol.h"
-#include "qk_fragment.h"
+#include "qk_packet_p.h"
+#include "qk_protocol_p.h"
+#include "qk_fragment_p.h"
 
 #include "qk_core_p.h"
+#include "qk_comm_p.h"
 #include "qk_device_p.h"
 #include "qk_board_p.h"
 
-
-//#include "../core/qk_core.h"
-//#if defined( QK_IS_GATEWAY )
-//  #include "../core/qk_gateway.h"
-//#elif defined( QK_IS_NETWORK )
-//  #include "../core/qk_network.h"
-//#elif defined( QK_IS_MODULE )
-//  #include "../core/qk_module.h"
-//#elif defined( QK_IS_DEVICE )
-//  #include "../core/qk_device.h"
-//#endif
-//#include "../core/qk_board.h"
-
-//int qk_main();
 
 #endif /* QK_SYSTEM_H */

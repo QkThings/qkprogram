@@ -21,10 +21,8 @@ extern "C" {
 
 typedef enum qk_board_type {
   QK_BOARD_TYPE_HOST,
-  QK_BOARD_TYPE_MODULE,
-  QK_BOARD_TYPE_DEVICE,
-  QK_BOARD_TYPE_NETWORK,
-  QK_BOARD_TYPE_GATEWAY
+  QK_BOARD_TYPE_COMM,
+  QK_BOARD_TYPE_DEVICE
 } qk_board_type;
 
 /******************************************************************************
@@ -51,14 +49,10 @@ typedef struct qk_board {
   qk_board_info       info;
   qk_board_buffer     buffers;
   qk_board_callbacks  callbacks;
-#if defined( QK_IS_GATEWAY )
-  qk_gateway_t  gateway;
-#elif defined( QK_IS_NETWORK )
-  qk_network_t  network;
-#elif defined( QK_IS_MODULE )
-  qk_module_t   module;
+#if defined( QK_IS_COMM )
+  qk_comm   comm;
 #elif defined( QK_IS_DEVICE )
-  qk_device         device;
+  qk_device device;
 #endif
 } qk_board;
 
@@ -66,25 +60,15 @@ typedef struct qk_board {
    DEFINES
  ******************************************************************************/
 
-#if defined( QK_IS_GATEWAY )
-#define QK_BOARD_TYPE QK_BOARD_TYPE_GATEWAY
-#elif defined( QK_IS_NETWORK )
-#define QK_BOARD_TYPE QK_BOARD_TYPE_NETWORK
-#elif defined( QK_IS_MODULE )
-#define QK_BOARD_TYPE QK_BOARD_TYPE_MODULE
+#if defined( QK_IS_COMM )
+#define QK_BOARD_TYPE QK_BOARD_TYPE_COMM
 #elif defined( QK_IS_DEVICE )
 #define QK_BOARD_TYPE QK_BOARD_TYPE_DEVICE
 #endif
 
-#if defined( QK_IS_GATEWAY )
+#if defined( QK_IS_COMM )
 #define QK_DEFINE_BOARD(name)   qk_board *_qk_board = &name; \
-                                QK_DEFINE_GATEWAY(name.gateway)
-#elif defined( QK_IS_NETWORK )
-#define QK_DEFINE_BOARD(name)   qk_board *_qk_board = &name; \
-                                QK_DEFINE_NETWORK(name.network)
-#elif defined( QK_IS_MODULE )
-#define QK_DEFINE_BOARD(name)   qk_board *_qk_board = &name; \
-                                QK_DEFINE_MODULE(name.module)
+                                QK_DEFINE_COMM(name.comm)
 #elif defined( QK_IS_DEVICE )
 #define QK_DEFINE_BOARD(name)   qk_board *_qk_board = &name; \
                                 QK_DEFINE_DEVICE(name.device)

@@ -55,6 +55,9 @@ typedef enum qk_trigger_clock
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
+void qk_run();
+void qk_loop();
+
 bool qk_clock_set_mode(qk_clock_mode mode);
 void qk_core_set_baudrate(uint32_t baud);
 

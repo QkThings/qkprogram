@@ -38,7 +38,7 @@ bool fragment_send(qk_fragment *frag, uint8_t *data, uint16_t size)
 
     packet->dataLen = _QK_PACKET_DATBUF_SIZE;
     packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_FRAG;
-    frag->protocol->callback.sendPacket(packet);
+    frag->protocol->callback.send_packet(packet);
 
     j += count;
     frag->i_data = 0;

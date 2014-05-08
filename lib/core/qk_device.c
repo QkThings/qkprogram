@@ -149,7 +149,7 @@ void qk_action_set_callback(void (*fnc)(qk_action_id))
   _qk_device->callbacks.action = fnc;
 }
 
-void qk_sampling_set_callback(qk_sampling_callback_id id, void (*fnc)(void))
+void qk_sampling_set_callback(qk_sampling_callback id, void (*fnc)(void))
 {
   switch(id)
   {

@@ -1,5 +1,5 @@
 /*!
- * \file qk_module.c
+ * \file hal_eeprom.c
  *
  * \author mribeiro
  *  
@@ -7,8 +7,3 @@
  */
 
 #include "qk_system.h"
-
-void _qk_comm_init()
-{
-
-}

@@ -111,7 +111,7 @@ typedef enum qk_sampling_callback_id
   QK_SAMPLING_CALLBACK_SAMPLE,
   QK_SAMPLING_CALLBACK_START,
   QK_SAMPLING_CALLBACK_STOP
-} qk_sampling_callback_id;
+} qk_sampling_callback;
 
 
 /******************************************************************************
@@ -142,7 +142,7 @@ bool qk_action_get_value_b(qk_action_id id);
 
 void qk_action_set_callback(void (*fnc)(qk_action_id));
 
-void qk_sampling_set_callback(qk_sampling_callback_id id, void (*fnc)(void));
+void qk_sampling_set_callback(qk_sampling_callback id, void (*fnc)(void));
 
 #endif // QK_IS_DEVICE
 

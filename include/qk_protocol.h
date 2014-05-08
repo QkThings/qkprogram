@@ -32,12 +32,6 @@ typedef enum
   QK_ERR_SAMP_OVERLAP
 } qk_err;
 
-enum
-{
-  _QK_PROTOCOL_BOARD,  // Qk board
-  _QK_PROTOCOL_PERIPH  // Communication module/peripheral
-};
-
 typedef enum
 {
   QK_ACK_TYPE_NACK,
@@ -57,11 +51,11 @@ typedef struct qk_ack
 
 typedef struct qk_protocol_callback
 {
-  void (*sendBytes)(uint8_t *buf, uint8_t count); // required for UART based comm
-  void (*sendPacket)(qk_packet *packet);
-  void (*processBytes)(void);
-  void (*processPacket)(void);
-} qk_protocol_callback;
+  void (*send_bytes)(uint8_t *buf, uint8_t count); // required for UART based comm
+  void (*send_packet)(qk_packet *packet);
+  void (*process_bytes)(void);
+  void (*process_packet)(void);
+} qk_protocol_callbacks;
 
 typedef volatile struct qk_comm_flags
 {
@@ -79,36 +73,26 @@ typedef struct qk_protocol
   qk_packet           packet;     // RX packet
   qk_protocol_ctrl      ctrl;
   qk_protocol_flags     flags;
-  qk_protocol_callback  callback;  // Callbacks
+  qk_protocol_callbacks  callback;  // Callbacks
 } qk_protocol;
 
 /******************************************************************************
    DEFINES
  ******************************************************************************/
+enum
+{
+  _QK_PROTOCOL_BOARD,  // Qk board
+  _QK_PROTOCOL_COMM  // Communication module/peripheral
+};
+
 #if defined( QK_IS_DEVICE )
 #define QK_PROTOCOL_STRUCT_COUNT 1
-#define _protocol_board   (&_qk_protocol[_QK_PROTOCOL_BOARD])
+#define qk_protocol_board   (&_qk_protocol[_QK_PROTOCOL_BOARD])
 #else
 #define QK_PROTOCOL_STRUCT_COUNT 2
-#define _protocol_board   (&_qk_protocol[_QK_PROTOCOL_BOARD])
-#define _protocol_periph  (&_qk_protocol[_QK_PROTOCOL_PERIPH])
+#define qk_protocol_board   (&_qk_protocol[_QK_PROTOCOL_BOARD])
+#define qk_protocol_comm    (&_qk_protocol[_QK_PROTOCOL_COMM])
 #endif
-/******************************************************************************/
-#define QK_PROTOCOL_FLAGMASK_TX           0x0001
-#define QK_PROTOCOL_FLAGMASK_RX           0x0002
-#define QK_PROTOCOL_FLAGMASK_SEQ          0x0004
-#define QK_PROTOCOL_FLAGMASK_DLE          0x0008
-#define QK_PROTOCOL_FLAGMASK_VALID        0x0010
-#define QK_PROTOCOL_FLAGMASK_NEWPACKET    0x0020
-#define QK_PROTOCOL_FLAGMASK_REXMIT       0x0040
-#define QK_PROTOCOL_FLAGMASK_ACKREXMIT    0x0080
-/******************************************************************************/
-#define QK_PROTOCOL_CTRL_FLAG             0x55    // Flag
-#define QK_PROTOCOL_CTRL_DLE              0xDD    // Data Link Escape
-/******************************************************************************/
-#define QK_PROTOCOL_NACK                  0x00
-/******************************************************************************/
-
 
 /******************************************************************************
    GLOBAL VARIABLES
@@ -118,18 +102,10 @@ extern qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
-void qk_protocol_init(qk_protocol *protocol);
 void qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol);
 void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol);
 void qk_protocol_process_packet(qk_protocol *protocol);
 
-void qk_protocol_build_packet(qk_packet *packet, qk_packet_descriptor *desc, qk_protocol *protocol);
-void _qk_protocol_send_code(int code, qk_protocol *protocol);
-void _qk_protocol_send_string(const char *str, qk_protocol *protocol);
-
-#if defined( QK_IS_DEVICE )
-void _qk_protocol_send_event(qk_event *e, qk_protocol *protocol);
-#endif
 /******************************************************************************/
 
 #ifdef __cplusplus

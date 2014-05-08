@@ -15,5 +15,5 @@ void qk_log_set_levels(uint8_t mask)
 
 void _qk_log_send()
 {
-  _qk_protocol_send_string(_qk_log_str, _protocol_board);
+  _qk_protocol_send_string(_qk_log_str, qk_protocol_board);
 }

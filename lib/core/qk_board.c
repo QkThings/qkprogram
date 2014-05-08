@@ -11,28 +11,28 @@
 qk_board board;
 QK_DEFINE_BOARD(board);
 
-static void qk_board_comm_sendBytes(uint8_t *buf, uint8_t count);
-static void qk_board_comm_processBytes();
-static void qk_board_comm_sendPacket(qk_packet *packet);
-static void qk_board_comm_processPacket();
+static void board_send_bytes(uint8_t *buf, uint8_t count);
+static void board_process_bytes();
+static void board_send_packet(qk_packet *packet);
+static void board_process_packet();
 
 void qk_board_init()
 {
   memset(&board, 0, sizeof(qk_board));
-  qk_protocol_init(_protocol_board);
-  _protocol_board->callback.sendBytes = qk_board_comm_sendBytes;
-  _protocol_board->callback.processBytes = qk_board_comm_processBytes;
-  _protocol_board->callback.sendPacket = qk_board_comm_sendPacket;
-  _protocol_board->callback.processPacket = qk_board_comm_processPacket;
+  qk_protocol_init(qk_protocol_board);
+  qk_protocol_board->callback.send_bytes = board_send_bytes;
+  qk_protocol_board->callback.process_bytes = board_process_bytes;
+  qk_protocol_board->callback.send_packet = board_send_packet;
+  qk_protocol_board->callback.process_packet = board_process_packet;
 
   hal_uart_enable(HAL_UART_ID_1);
 
-#if defined( QK_IS_DEVICE )
+#ifdef QK_IS_DEVICE
   _qk_device_init();
 #endif
 
-#if !defined( QK_IS_DEVICE )
-  qk_protocol_init(_comm_periph);
+#ifdef QK_IS_COMM
+  _qk_comm_init();
 #endif
 }
 
@@ -50,28 +50,28 @@ void qk_board_setup()
   }
 }
 
-static void qk_board_comm_sendBytes(uint8_t *buf, uint8_t count)
+static void board_send_bytes(uint8_t *buf, uint8_t count)
 {
   hal_uart_writeBytes(HAL_UART_ID_1, buf, count);
 }
 
-static void qk_board_comm_processBytes()
+static void board_process_bytes()
 {
   uint16_t count = hal_uart_bytesAvailable(HAL_UART_ID_1);
   while(count--)
   {
-    qk_protocol_process_byte(hal_uart_readByte(HAL_UART_ID_1), _protocol_board);
+    qk_protocol_process_byte(hal_uart_readByte(HAL_UART_ID_1), qk_protocol_board);
   }
 }
 
-static void qk_board_comm_sendPacket(qk_packet *packet)
+static void board_send_packet(qk_packet *packet)
 {
-  qk_protocol_send_packet(packet, _protocol_board);
+  qk_protocol_send_packet(packet, qk_protocol_board);
 }
 
-static void qk_board_comm_processPacket()
+static void board_process_packet()
 {
-  qk_protocol_process_packet(_protocol_board);
+  qk_protocol_process_packet(qk_protocol_board);
 }
 
 void qk_board_set_name(const char *name)

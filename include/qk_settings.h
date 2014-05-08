@@ -9,6 +9,8 @@
 #ifndef QK_SETTINGS_H
 #define QK_SETTINGS_H
 
+//TODO all settings/features should be defined in the makefile
+
 /*****************************************************************************
  * BUILD TARGET
  *****************************************************************************/
@@ -22,9 +24,9 @@
  *****************************************************************************/
 //#define _QK_FEAT_RTC_
 //#define _QK_FEAT_EEPROM_
-#define _QK_FEAT_POWER_MANAGEMENT
+//#define _QK_FEAT_POWER_MANAGEMENT
 //#define _QK_FEAT_CLOCK_SWITCHING_
-#define _QK_FEAT_FRAGMENTATION
+//#define _QK_FEAT_FRAGMENTATION
 
 /*****************************************************************************
  * CONSTANTS
