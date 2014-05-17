@@ -2,7 +2,7 @@
  * \file hal_clock.c
  *
  * \author mribeiro
- *  
+ *
  * This file is part of QkProgram
  */
 

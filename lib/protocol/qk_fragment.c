@@ -26,32 +26,32 @@ bool fragment_send(qk_fragment *frag, uint8_t *data, uint16_t size)
 
 #ifdef _QK_FEAT_FRAGMENTATION
   int16_t ovf;
-  ovf = frag->i_data+size-_QK_PACKET_DATBUF_SIZE;
+  ovf = frag->i_data+size-_QK_PACKET_PAYLOAD_SIZE;
   if(ovf > 0)
     fragmented = true;
   while(ovf > 0)
   {
-    dest_ptr = (uint8_t*)(packet->data + frag->i_data);
-    src_ptr = (uint8_t*)(data + j);
+    dest_ptr = (uint8_t*)(packet->payload + frag->i_data);
+    src_ptr = (uint8_t*)(packet->payload + j);
     count = size - j - ovf;
     memcpy(dest_ptr, src_ptr, count);
 
-    packet->dataLen = _QK_PACKET_DATBUF_SIZE;
+    packet->payload_lenght = _QK_PACKET_PAYLOAD_SIZE;
     packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_FRAG;
     frag->protocol->callback.send_packet(packet);
 
     j += count;
     frag->i_data = 0;
-    ovf = frag->i_data + size - j - _QK_PACKET_DATBUF_SIZE;
+    ovf = frag->i_data + size - j - _QK_PACKET_PAYLOAD_SIZE;
   }
 #endif
-  dest_ptr = (uint8_t*)(packet->data + frag->i_data);
+  dest_ptr = (uint8_t*)(packet->payload + frag->i_data);
   src_ptr = (uint8_t*)(data + j);
   count = size - j;
   memcpy(dest_ptr, src_ptr, count*sizeof(uint8_t));
 
   frag->i_data += count;
-  packet->dataLen = frag->i_data;
+  packet->payload_lenght = frag->i_data;
 
   return fragmented;
 }

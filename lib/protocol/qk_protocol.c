@@ -11,15 +11,16 @@
 
 qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
 
-/******************************************************************************/
-#define CODE_OFFSET(packet)   ((unsigned)(packet->hdrLen - SIZE_CODE))
+
+#define CODE_OFFSET(packet)   ((unsigned)(packet->header_lenght - SIZE_CODE))
 #define ID_OFFSET(packet)     ((unsigned)(CODE_OFFSET(packet) - SIZE_ID))
 #define ADDR16_OFFSET(packet) ((unsigned)(ID_OFFSET(packet) - SIZE_ADDR16))
 #define ADDR64_OFFSET(packet) ((unsigned)(ID_OFFSET(packet) - SIZE_ADDR64))
-/******************************************************************************/
+
 static bool board_process_packet(qk_packet *packet, qk_protocol *protocol);
+static bool comm_process_packet(qk_packet *packet, qk_protocol *protocol);
 static bool device_process_packet(qk_packet *packet, qk_protocol *protocol);
-/******************************************************************************/
+
 
 void qk_ack_set_OK(qk_ack *ack)
 {
@@ -243,7 +244,7 @@ void qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol)
   send_data_byte(packet->flags.ctrl & 0xFF, protocol);
   send_data_byte(packet->flags.ctrl >> 8, protocol);
   send_data_byte(packet->code, protocol);
-  send_data_array((uint8_t*)packet->data, packet->dataLen, protocol);
+  send_data_array((uint8_t*)packet->payload, packet->payload_lenght, protocol);
   send_ctrl_byte(QK_PROTOCOL_CTRL_FLAG, protocol);
 }
 
@@ -303,7 +304,7 @@ void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol)
       {
         if(protocol->ctrl.count && flag(protocol->flags.reg, QK_PROTOCOL_FLAGMASK_VALID) == 1)
         {
-          pkt->dataLen = protocol->ctrl.count - pkt->hdrLen - 1;
+          pkt->payload_lenght = protocol->ctrl.count - pkt->header_lenght - 1;
           protocol->flags.reg |= QK_PROTOCOL_FLAGMASK_NEWPACKET;
           protocol->flags.reg &= ~(QK_PROTOCOL_FLAGMASK_RX | QK_PROTOCOL_FLAGMASK_VALID);
         }
@@ -342,9 +343,9 @@ void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol)
     {
       pkt->code = b;
     }
-    else if(protocol->ctrl.count <= _QK_PACKET_DATBUF_SIZE)
+    else if(protocol->ctrl.count <= _QK_PACKET_PAYLOAD_SIZE)
     {
-      pkt->data[protocol->ctrl.count - pkt->hdrLen] = b;
+      pkt->payload[protocol->ctrl.count - pkt->header_lenght] = b;
     }
     else
     {
@@ -364,7 +365,9 @@ void qk_protocol_process_packet(qk_protocol *protocol)
   uint16_t i_data;
   bool handled = false;
 
-#ifdef QK_IS_DEVICE
+#if   defined( QK_IS_COMM)
+  handled = comm_process_packet(packet, protocol);
+#elif defined( QK_IS_DEVICE )
   handled = device_process_packet(packet, protocol);
 #endif
   if(handled) return;
@@ -405,7 +408,7 @@ void qk_protocol_process_packet(qk_protocol *protocol)
 
 static bool board_process_packet(qk_packet *packet, qk_protocol *protocol)
 {
-  uint8_t buf[_QK_PACKET_DATBUF_SIZE/2];
+  uint8_t buf[_QK_PACKET_PAYLOAD_SIZE >> 1];
   uint8_t count, idx;
   int32_t configValue;
   qk_datetime dateTime;
@@ -472,6 +475,39 @@ static bool board_process_packet(qk_packet *packet, qk_protocol *protocol)
 
   return handled;
 }
+
+#ifdef QK_IS_COMM
+static bool comm_process_packet(qk_packet *packet, qk_protocol *protocol)
+{
+  uint16_t i_data;
+  bool handled = true;
+
+  qk_ack *ack = (qk_ack*)&(protocol->ctrl.ack);
+  qk_ack_set_OK(ack);
+
+  i_data = 0;
+  switch(packet->code)
+  {
+  case QK_PACKET_CODE_SEARCH:
+  case QK_PACKET_CODE_GETNODE:
+  case QK_PACKET_CODE_GETMODULE:
+    //TODO sending info should be optional (the ACK already signals the presence of the device)
+    _qk_protocol_send_code(QK_PACKET_CODE_INFOQK, protocol);
+    _qk_protocol_send_code(QK_PACKET_CODE_INFOBOARD, protocol);
+    _qk_protocol_send_code(QK_PACKET_CODE_INFOCONFIG, protocol);
+    break;
+  default:
+    handled = false;
+  }
+
+  if(handled)
+  {
+    _qk_protocol_send_code(QK_PACKET_CODE_ACK, protocol);
+  }
+
+  return handled;
+}
+#endif
 
 #ifdef QK_IS_DEVICE
 static bool device_process_packet(qk_packet *packet, qk_protocol *protocol)

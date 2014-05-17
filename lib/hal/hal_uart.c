@@ -6,7 +6,7 @@
  * This file is part of QkProgram
  */
 
-#include "../sys/qk_system.h"
+#include "qk_system.h"
 
 /******************************************************************************/
 static uint8_t readByte(hal_uart_cb_t *cb, bool wait);

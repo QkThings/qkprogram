@@ -8,7 +8,7 @@
 
 void packet_calc_header_length(qk_packet *packet)
 {
-  packet->hdrLen = SIZE_FLAGS_CTRL + SIZE_CODE + SIZE_ID;
+  packet->header_lenght = SIZE_FLAGS_CTRL + SIZE_CODE + SIZE_ID;
 }
 
 
@@ -18,7 +18,7 @@ uint64_t packet_get_value(uint8_t byteCount, uint16_t *idx, qk_packet *packet)
   uint64_t value = 0;
 
   for(j = 0; j < byteCount; j++)
-    value += (uint64_t)(((uint64_t)(packet->data[i++]) & 0xFF) << (8*j)); // LSB first
+    value += (uint64_t)(((uint64_t)(packet->payload[i++]) & 0xFF) << (8*j)); // LSB first
 
   *idx = i;
 
@@ -44,8 +44,8 @@ void packet_get_string(char *buf, uint16_t count, uint16_t *idx, qk_packet *pack
 
   memset(buf, '\0', count+1);
   for(j = 0; j < count; j++) {
-    if(j+1 < packet->dataLen) {
-      c = (char)packet->data[i++];
+    if(j+1 < packet->payload_lenght) {
+      c = (char)packet->payload[i++];
       if(c != '\0' && (c < 32 || c > 126))
         c = ' ';
       buf[j] = c;

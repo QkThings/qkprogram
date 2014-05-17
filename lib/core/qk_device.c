@@ -10,7 +10,7 @@
 
 #if defined(QK_IS_DEVICE)
 qk_cb _pendingEvents;
-qk_event peBuf[_QK_MAX_PENDING_EVENTS];
+qk_event peBuf[_QK_EVENT_MAX_PENDING];
 
 #define _data(idx)    (_qk_device->buffers.data[idx])
 #define _event(idx)   (_qk_device->buffers.event[idx])
@@ -20,7 +20,7 @@ void _qk_device_init()
 {
   memset(_qk_device, 0, sizeof(qk_device));
   _qk_device->info.dataType = QK_DATA_TYPE_INT;
-  qk_cb_init(&_pendingEvents, (void *)peBuf, _QK_MAX_PENDING_EVENTS, sizeof(qk_event), false);
+  qk_cb_init(&_pendingEvents, (void *)peBuf, _QK_EVENT_MAX_PENDING, sizeof(qk_event), false);
 }
 
 void _qk_device_setup()

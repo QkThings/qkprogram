@@ -97,6 +97,11 @@ void hal_uart_reinit()
 #endif
 }
 
+void hal_uart_poll(hal_uart_id_t uart)
+{
+
+}
+
 void hal_uart_enable(hal_uart_id_t uart)
 {
   enable(getUARTTypeDef(uart));
@@ -152,7 +157,7 @@ void QK_UART2_RX_IRQHandler()
     handleRxInterrupt(&_hal_uart[HAL_UART_ID_2],rxData); //FIXME uncomment
     _toggleLED();
   }
-  QK_UART2->IFC = UART_IF_RXDATAV;
+  QK_UART2->IFC = USART_IF_RXDATAV;
 }
 #endif /*HAL_USE_UART2*/
 /******************************************************************************/

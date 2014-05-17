@@ -88,6 +88,9 @@ void hal_uart_writeByte(hal_uart_id_t uart, uint8_t b);
 bool hal_uart_cts(hal_uart_id_t uart);
 void hal_uart_rts(hal_uart_id_t uart, bool rts);
 /******************************************************************************/
+#ifdef _QK_HAL_UART_POLLING
+void hal_uart_poll(hal_uart_id_t uart);
+#endif
 void hal_uart_setReadWait(hal_uart_id_t uart, bool en);
 uint16_t hal_uart_bytesAvailable(hal_uart_id_t uart);
 void hal_uart_writeBytes(hal_uart_id_t uart, uint8_t *buf, uint32_t count);

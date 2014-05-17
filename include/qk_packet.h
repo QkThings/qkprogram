@@ -23,10 +23,10 @@ typedef volatile struct qk_packet
   uint64_t address;
   uint8_t  id;
   uint8_t  code;
-  uint8_t  data[_QK_PACKET_DATBUF_SIZE];
+  uint8_t  payload[_QK_PACKET_PAYLOAD_SIZE];
   uint8_t  checksum;
-  uint8_t  hdrLen;
-  uint8_t  dataLen;
+  uint8_t  header_lenght;
+  uint8_t  payload_lenght;
 } qk_packet;
 
 /******************************************************************************

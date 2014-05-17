@@ -78,6 +78,10 @@ void qk_run()
     _hal_gpio.flags.inputChanged = 0;
   }
 
+#ifdef _QK_HAL_UART_POLLING
+  hal_uart_poll(HAL_UART_ID_1);
+#endif
+
   //TODO Status notifications
   //TODO Events
 
@@ -96,7 +100,7 @@ void qk_run()
   }
 
 #if defined( QK_IS_DEVICE )
-  count = _QK_MAX_FIRED_EVENTS;
+  count = _QK_EVENT_MAX_FIRED;
   qk_cb *pendingEvents = qk_pendingEvents();
   while(qk_cb_available(pendingEvents) > 0 && count--)
   {
