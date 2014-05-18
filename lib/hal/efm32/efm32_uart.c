@@ -12,23 +12,29 @@
 
 hal_uart_t _hal_uart[HAL_UART_COUNT];
 
-/******************************************************************************/
-#ifdef HAL_USE_UART1
+
+//#ifdef HAL_USE_UART1
 #define u1rxBuf                 _hal_uart[HAL_UART_ID_1].buffers.rx
-#define QK_UART1                USART1
-#define QK_UART1_RX_IRQn        USART1_RX_IRQn
-#define QK_UART1_RX_IRQHandler  USART1_RX_IRQHandler
-#endif
+#define QK_UART1                USART0
+#define QK_UART1_RX_IRQn        USART0_RX_IRQn
+#define QK_UART1_RX_IRQHandler  USART0_RX_IRQHandler
+#define QK_UART1_LOC            0
+#define QK_UART1_TX_PORT        gpioPortE
+#define QK_UART1_TX_PIN         10
+#define QK_UART1_RX_PORT        gpioPortE
+#define QK_UART1_RX_PIN         11
+//#endif
+
 #ifdef HAL_USE_UART2
-#define u2rxBuf                 _hal_uart[HAL_UART_ID_2].buffers.rxUART
-#define QK_UART2                USART0
-#define QK_UART2_RX_IRQn        USART0_RX_IRQn
-#define QK_UART2_RX_IRQHandler  USART0_RX_IRQHandler
+#define u2rxBuf                 _hal_uart[HAL_UART_ID_2].buffers.rx
+#define QK_UART2                USART1
+#define QK_UART2_RX_IRQn        USART1_RX_IRQn
+#define QK_UART2_RX_IRQHandler  USART1_RX_IRQHandler
 #endif
-/******************************************************************************/
+
 #define OVS_MASK  USART_CTRL_OVS_X4
 #define OVS_VALUE 4
-/******************************************************************************/
+
 static void init(USART_TypeDef *uart, uint8_t location);
 static void setBaudRate(USART_TypeDef *uart, uint32_t baud);
 static void enable(USART_TypeDef *uart);
@@ -36,7 +42,8 @@ static void disable(USART_TypeDef *uart);
 static void writeByte(USART_TypeDef *uart, uint8_t b);
 static uint32_t calculateBaudRateClkDiv(uint32_t baud, uint32_t ovs);
 static void handleRxInterrupt(hal_uart_t *uartHAL, uint8_t rxData);
-/******************************************************************************/
+
+
 USART_TypeDef* getUARTTypeDef(hal_uart_id_t uart)
 {
   switch(uart)
@@ -55,12 +62,12 @@ hal_uart_t* getUARTHAL(hal_uart_id_t uart)
 /******************************************************************************/
 void hal_uart_init()
 {
-  GPIO_PinModeSet(gpioPortD, 0, gpioModePushPull, 1);
-  GPIO_PinModeSet(gpioPortD, 1, gpioModeInput, 0);
+  GPIO_PinModeSet(QK_UART1_TX_PORT, QK_UART1_TX_PIN, gpioModePushPull, 1);
+  GPIO_PinModeSet(QK_UART1_RX_PORT, QK_UART1_RX_PIN, gpioModeInput, 0);
 
   CMU->HFPERCLKEN0 |= CMU_HFPERCLKEN0_USART1;
 
-  init(QK_UART1, 1);
+  init(QK_UART1, QK_UART1_LOC);
   setBaudRate(QK_UART1, _HAL_UART_BAUD_DEFAULT_LOW);
   enable(QK_UART1);
 
@@ -135,10 +142,12 @@ void QK_UART1_RX_IRQHandler()
   uint8_t max = 2;
   uint32_t rxData;
 
+  hal_toggleLED();
+
   while((QK_UART1->STATUS & USART_STATUS_RXDATAV) && max--)
   {
     rxData = QK_UART1->RXDATA;
-    //writeByte(QK_UART1, rxData);
+    writeByte(QK_UART1, rxData);
     handleRxInterrupt(&_hal_uart[HAL_UART_ID_1],rxData); //FIXME uncomment
   }
   QK_UART1->IFC = USART_IF_RXDATAV;
@@ -150,14 +159,16 @@ void QK_UART2_RX_IRQHandler()
   uint8_t max = 2;
   uint32_t rxData;
 
+  hal_toggleLED();
+
   while((QK_UART2->STATUS & USART_STATUS_RXDATAV) && max--)
   {
     rxData = QK_UART2->RXDATA;
-    //writeByte(QK_UART1, rxData);
+    writeByte(QK_UART2, rxData);
     handleRxInterrupt(&_hal_uart[HAL_UART_ID_2],rxData); //FIXME uncomment
     _toggleLED();
   }
-  QK_UART2->IFC = USART_IF_RXDATAV;
+  QK_UART2->IFC = UART_IF_RXDATAV;
 }
 #endif /*HAL_USE_UART2*/
 /******************************************************************************/
