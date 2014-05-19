@@ -32,7 +32,7 @@ bool fragment_send(qk_fragment *frag, uint8_t *data, uint16_t size)
   while(ovf > 0)
   {
     dest_ptr = (uint8_t*)(packet->payload + frag->i_data);
-    src_ptr = (uint8_t*)(packet->payload + j);
+    src_ptr = (uint8_t*)(data + j);
     count = size - j - ovf;
     memcpy(dest_ptr, src_ptr, count);
 
