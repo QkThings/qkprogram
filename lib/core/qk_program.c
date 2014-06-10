@@ -20,6 +20,7 @@ void qk_init()
   hal_blinkLED(1, 40);
   qk_setup();
   qk_board_setup();
+  qk_board_ready();
   hal_blinkLED(2, 100);
 }
 

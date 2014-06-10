@@ -50,6 +50,13 @@ void qk_board_setup()
   }
 }
 
+void qk_board_ready()
+{
+#ifdef QK_IS_DEVICE
+  _qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_board);
+#endif
+}
+
 static void board_send_bytes(uint8_t *buf, uint8_t count)
 {
   hal_uart_writeBytes(HAL_UART_ID_1, buf, count);

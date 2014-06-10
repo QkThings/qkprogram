@@ -4,7 +4,7 @@
 
 #TOOLCHAIN_DIR = ../../shared/toolchain
 
-BUILD_TARGET *= BUILD_DEVICE
+BUILD_TARGET ?= BUILD_DEVICE
 
 $(info BUILD_TARGET = $(BUILD_TARGET))
 

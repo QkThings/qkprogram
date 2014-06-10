@@ -1,19 +1,20 @@
-@font-face
-{
-font-family: PTSans;
-src: url('PTSans.ttf')
-} 
 
 @font-face
 {
 font-family: OpenSans;
-src: url('OpenSans-Regular.ttf')
+src: url('fonts/OpenSans-Regular.ttf')
 } 
 
 @font-face
 {
-font-family: Monaco;
-src: url('DroidSansMono.ttf')
+font-family: RobotoRegular;
+src: url('fonts/Roboto-Regular.ttf')
+} 
+
+@font-face
+{
+font-family: RobotoThin;
+src: url('fonts/Roboto-Thin.ttf')
 } 
 
 
@@ -42,7 +43,7 @@ div.contents
 .title
 {
   color: #444;
-  font-family: OpenSans;
+  font-family: RobotoRegular;
   font-size: 16px;
   font-weight: bold;
   margin-top: 5px;
@@ -56,7 +57,7 @@ h2.groupheader
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: #6da5e5;
-  color: #187cd0;
+  color: #1086e2;
   font-size: 150%;
   font-weight: normal;
   margin-top: 1.75em;
@@ -71,7 +72,7 @@ a.el
   font-family: Monaco;
   font-size: 12px;
   font-weight: bold;
-  color: #187cd0;
+  color: #1086e2;
 }
 
 .memproto, dl.reflist dt
@@ -203,7 +204,7 @@ a.el
 /* Line 958 */
 .navpath li.navelem a:hover
 {
-  color: #187cd0;
+  color: #1086e2;
 }
 
 /* Line 692 */
@@ -272,7 +273,7 @@ div.headertitle
 .tablist a:hover
 {
   background: #eee;
-  color: #187cd0;
+  color: #1086e2;
   text-shadow: none;
 }
 
@@ -288,7 +289,7 @@ div.headertitle
 /* Line 55 */
 .tablist li.current a
 {
-  background:#187cd0;
+  background:#1086e2;
   color: #ffffff;
   text-shadow: none;
 }

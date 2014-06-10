@@ -9,6 +9,9 @@
 #define QK_PACKET_CODE_WAKEUP           0xF5
 #define QK_PACKET_CODE_ACK              0x03
 
+#define QK_PACKET_CODE_HELLO            0x0E
+#define QK_PACKET_CODE_READY            0x0D
+
 #define QK_PACKET_CODE_OK               0x01
 #define QK_PACKET_CODE_ERR              0xFF
 #define QK_PACKET_CODE_TIMEOUT          0xFE

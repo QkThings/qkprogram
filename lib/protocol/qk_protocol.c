@@ -73,6 +73,8 @@ void qk_protocol_build_packet(qk_packet *packet, qk_packet_descriptor *desc, qk_
       fragment_fill_value(protocol->ctrl.ack.arg, 1, &frag);
     }
     break;
+  case QK_PACKET_CODE_READY:
+    break;
   case QK_PACKET_CODE_INFOQK:
     fragment_fill_value(QK_VERSION_MAJOR, 1, &frag);
     fragment_fill_value(QK_VERSION_MINOR, 1, &frag);
@@ -421,7 +423,8 @@ static bool board_process_packet(qk_packet *packet, qk_protocol *protocol)
   i_data = 0;
   switch(packet->code)
   {
-  case QK_PACKET_CODE_SETQK:
+  case QK_PACKET_CODE_HELLO:
+    _qk_protocol_send_code(QK_PACKET_CODE_READY, protocol);
     break;
   case QK_PACKET_CODE_SETNAME:
     packet_get_string((char*)buf, _QK_BOARD_NAME_SIZE, &i_data, packet);
