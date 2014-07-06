@@ -23,6 +23,13 @@
 #define PB_PIN    1
 #define DET_PORT  gpioPortA
 #define DET_PIN   2
+#elif defined( EFM32TG_DEVBOARD )
+#define LED_PORT  gpioPortA
+#define LED_PIN   2
+#define PB_PORT   gpioPortC
+#define PB_PIN    0
+#define DET_PORT  gpioPortC
+#define DET_PIN   1
 #else
 #error "EFM32 board not defined"
 #endif
@@ -45,6 +52,7 @@ void hal_gpio_init()
                   gpioModePushPull, /* Mode */
                   0 );              /* Output value */
 
+#if 1
   /* Set PB0_PORT PB0_PIN (Push button 0) as input */
   GPIO_PinModeSet(PB_PORT,        /* Port */
                   PB_PIN,                /* Pin */
@@ -58,6 +66,7 @@ void hal_gpio_init()
 
   GPIO_IntConfig(PB_PORT, PB_PIN, false, true, true);
   GPIO_IntConfig(DET_PORT, DET_PIN, true, true, true);
+#endif
 
   NVIC_EnableIRQ(GPIO_EVEN_IRQn);
   NVIC_EnableIRQ(GPIO_ODD_IRQn);

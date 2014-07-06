@@ -13,8 +13,8 @@
 hal_uart_t _hal_uart[HAL_UART_COUNT];
 
 
-//#ifdef HAL_USE_UART1
 #define u1rxBuf                 _hal_uart[HAL_UART_ID_1].buffers.rx
+
 #define QK_UART1                USART0
 #define QK_UART1_RX_IRQn        USART0_RX_IRQn
 #define QK_UART1_RX_IRQHandler  USART0_RX_IRQHandler
@@ -23,7 +23,7 @@ hal_uart_t _hal_uart[HAL_UART_COUNT];
 #define QK_UART1_TX_PIN         10
 #define QK_UART1_RX_PORT        gpioPortE
 #define QK_UART1_RX_PIN         11
-//#endif
+
 
 #ifdef HAL_USE_UART2
 #define u2rxBuf                 _hal_uart[HAL_UART_ID_2].buffers.rx
@@ -142,12 +142,12 @@ void QK_UART1_RX_IRQHandler()
   uint8_t max = 2;
   uint32_t rxData;
 
-  hal_toggleLED();
+//  hal_toggleLED();
 
   while((QK_UART1->STATUS & USART_STATUS_RXDATAV) && max--)
   {
     rxData = QK_UART1->RXDATA;
-    writeByte(QK_UART1, rxData);
+    writeByte(QK_UART1, 'A');
     handleRxInterrupt(&_hal_uart[HAL_UART_ID_1],rxData); //FIXME uncomment
   }
   QK_UART1->IFC = USART_IF_RXDATAV;
@@ -164,7 +164,7 @@ void QK_UART2_RX_IRQHandler()
   while((QK_UART2->STATUS & USART_STATUS_RXDATAV) && max--)
   {
     rxData = QK_UART2->RXDATA;
-    writeByte(QK_UART2, rxData);
+//    writeByte(QK_UART2, rxData);
     handleRxInterrupt(&_hal_uart[HAL_UART_ID_2],rxData); //FIXME uncomment
     _toggleLED();
   }
