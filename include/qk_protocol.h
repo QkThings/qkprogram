@@ -39,6 +39,16 @@ typedef enum
   QK_ACK_TYPE_ERROR
 } qk_ack_type;
 
+typedef enum qk_protocol_callback_id
+{
+  QK_PROTOCOL_CALLBACK_SENDBYTES,
+  QK_PROTOCOL_CALLBACK_SENDPACKET,
+  QK_PROTOCOL_CALLBACK_PROCESSBYTES,
+  QK_PROTOCOL_CALLBACK_PROCESSPACKET,
+  _QK_PROTOCOL_CALLBACK_COUNT
+} qk_protocol_callback_id;
+
+
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
@@ -49,14 +59,16 @@ typedef struct qk_ack
   int32_t arg;
 } qk_ack;
 
-typedef struct qk_protocol_callback
-{
-  //void (*send_bytes)(uint8_t *buf, uint8_t count); // required for UART based comm
-  void (*send_bytes)(qk_callback_arg *arg);
-  void (*send_packet)(qk_packet *packet);
-  void (*process_bytes)(void);
-  void (*process_packet)(void);
-} qk_protocol_callbacks;
+
+//typedef struct qk_protocol_callbacks
+//{
+////  void (*send_bytes)(qk_callback_arg *arg);
+////  //void (*send_bytes)(uint8_t *buf, uint8_t count); // required for UART based comm
+////  void (*send_packet)(qk_callback_arg *arg);
+////  void (*process_bytes)(qk_callback_arg *arg);
+////  void (*process_packet)(qk_callback_arg *arg);
+//} qk_protocol_callbacks;
+
 
 typedef volatile struct qk_comm_flags
 {
@@ -71,15 +83,16 @@ typedef volatile struct qk_comm_ctrl
 
 typedef struct qk_protocol
 {
-  qk_packet           packet;     // RX packet
-  qk_protocol_ctrl      ctrl;
-  qk_protocol_flags     flags;
-  qk_protocol_callbacks  callback;  // Callbacks
+  qk_packet           packet;
+  qk_protocol_ctrl    ctrl;
+  qk_protocol_flags   flags;
+  qk_callback         callback[_QK_PROTOCOL_CALLBACK_COUNT];
 } qk_protocol;
 
 /******************************************************************************
    DEFINES
  ******************************************************************************/
+
 enum
 {
   _QK_PROTOCOL_BOARD,  // Qk board
@@ -103,6 +116,16 @@ extern qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
+
+static inline void
+qk_protocol_register_callback(qk_protocol *protocol,
+                              qk_protocol_callback_id id,
+                              qk_callback cb)
+{
+  protocol->callback[id] = cb;
+//  _QK_CALLBACK_REGISTER(protocol->callback[id], cb);
+}
+
 void qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol);
 void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol);
 void qk_protocol_process_packet(qk_protocol *protocol);

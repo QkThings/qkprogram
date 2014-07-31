@@ -11,27 +11,40 @@
 qk_board board;
 QK_DEFINE_BOARD(board);
 
-//static void board_send_bytes(uint8_t *buf, uint8_t count);
-static void board_send_bytes(qk_callback_arg *arg);
-static void board_process_bytes();
-static void board_send_packet(qk_packet *packet);
-static void board_process_packet();
+static void board_callback_send_bytes(qk_callback_arg *arg);
+static void board_callback_process_bytes(qk_callback_arg *arg);
+static void board_callback_send_packet(qk_callback_arg *arg);
+static void board_callback_process_packet(qk_callback_arg *arg);
+
 
 void qk_board_init()
 {
   memset(&board, 0, sizeof(qk_board));
   qk_protocol_init(qk_protocol_board);
-  qk_protocol_board->callback.send_bytes = board_send_bytes;
-  qk_protocol_board->callback.process_bytes = board_process_bytes;
-  qk_protocol_board->callback.send_packet = board_send_packet;
-  qk_protocol_board->callback.process_packet = board_process_packet;
+
+  qk_protocol_register_callback(qk_protocol_board,
+                                QK_PROTOCOL_CALLBACK_SENDBYTES,
+                                board_callback_send_bytes);
+
+  PRINT("addr1:%08X addr2:%08X\n", board_callback_send_bytes, qk_protocol_board->callback[QK_PROTOCOL_CALLBACK_SENDBYTES]);
+
+  qk_protocol_register_callback(qk_protocol_board,
+                                QK_PROTOCOL_CALLBACK_PROCESSBYTES,
+                                board_callback_process_bytes);
+
+  qk_protocol_register_callback(qk_protocol_board,
+                                QK_PROTOCOL_CALLBACK_SENDPACKET,
+                                board_callback_send_packet);
+
+  qk_protocol_register_callback(qk_protocol_board,
+                                QK_PROTOCOL_CALLBACK_PROCESSPACKET,
+                                board_callback_process_packet);
 
   hal_uart_enable(HAL_UART_ID_1);
 
 #ifdef QK_IS_DEVICE
   _qk_device_init();
 #endif
-
 #ifdef QK_IS_COMM
   _qk_comm_init();
 #endif
@@ -58,16 +71,15 @@ void qk_board_ready()
 #endif
 }
 
-//static void board_send_bytes(uint8_t *buf, uint8_t count)
-static void board_send_bytes(qk_callback_arg *arg)
+
+static void board_callback_send_bytes(qk_callback_arg *arg)
 {
   uint8_t *buf = (uint8_t*) QK_BUF_PTR( QK_CALLBACK_ARG_BUF(arg) );
   uint16_t count = (uint16_t) QK_BUF_COUNT( QK_CALLBACK_ARG_BUF(arg) );
-//  hal_uart_writeBytes(HAL_UART_ID_1, buf, count);
-  hal_uart_writeBytes(HAL_UART_ID_1, arg->buf->ptr, arg->buf->count);
+  hal_uart_writeBytes(HAL_UART_ID_1, buf, count);
 }
 
-static void board_process_bytes()
+static void board_callback_process_bytes(qk_callback_arg *arg)
 {
   uint16_t count = hal_uart_bytesAvailable(HAL_UART_ID_1);
   while(count--)
@@ -76,12 +88,13 @@ static void board_process_bytes()
   }
 }
 
-static void board_send_packet(qk_packet *packet)
+static void board_callback_send_packet(qk_callback_arg *arg)
 {
+  qk_packet *packet = (qk_packet*) QK_CALLBACK_ARG_PTR(arg);
   qk_protocol_send_packet(packet, qk_protocol_board);
 }
 
-static void board_process_packet()
+static void board_callback_process_packet(qk_callback_arg *arg)
 {
   qk_protocol_process_packet(qk_protocol_board);
 }

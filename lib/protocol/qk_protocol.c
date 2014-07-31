@@ -21,7 +21,6 @@ static bool board_process_packet(qk_packet *packet, qk_protocol *protocol);
 static bool comm_process_packet(qk_packet *packet, qk_protocol *protocol);
 static bool device_process_packet(qk_packet *packet, qk_protocol *protocol);
 
-
 void qk_ack_set_OK(qk_ack *ack)
 {
   ack->type = QK_ACK_TYPE_OK;
@@ -199,17 +198,13 @@ static void send_raw_byte(uint8_t b, qk_protocol *protocol)
   uint8_t byte_buf = b;
   qk_buf buf;
   QK_BUF_SET_PTR(&buf, (void*)&byte_buf);
+
   QK_BUF_SET_COUNT(&buf, 1);
   qk_callback_arg cb_arg;
   QK_CALLBACK_ARG_SET_BUF(&cb_arg, &buf);
 
-  protocol->callback.send_bytes(&cb_arg);
-
-//  if(protocol->callback[QK_PROTOCOL_CALLBACK_SENDBYTES] != 0)
-//    protocol->callback[QK_PROTOCOL_CALLBACK_SENDBYTES](&cb_arg);
-
-//  if(protocol->callback.send_bytes != 0)
-//    protocol->callback.send_bytes(&b, 1);
+  if(protocol->callback[QK_PROTOCOL_CALLBACK_SENDBYTES] != 0)
+    protocol->callback[QK_PROTOCOL_CALLBACK_SENDBYTES](&cb_arg);
 }
 
 static void send_data_byte(uint8_t b, qk_protocol *protocol)
@@ -262,14 +257,21 @@ void qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol)
   send_ctrl_byte(QK_PROTOCOL_CTRL_FLAG, protocol);
 }
 
+void _qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol)
+{
+  packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_LASTFRAG;
+  qk_callback_arg cb_arg;
+  QK_CALLBACK_ARG_SET_PTR(&cb_arg, (void*) packet);
+  protocol->callback[QK_PROTOCOL_CALLBACK_SENDPACKET](&cb_arg);
+}
+
 void _qk_protocol_send_code(int code, qk_protocol *protocol)
 {
   qk_packet packet;
   qk_packet_descriptor desc;
   desc.code = code;
   qk_protocol_build_packet(&packet, &desc, protocol);
-  packet.flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_LASTFRAG;
-  protocol->callback.send_packet(&packet);
+  _qk_protocol_send_packet(&packet, protocol);
 }
 
 void _qk_protocol_send_string(const char *str, qk_protocol *protocol)
@@ -280,8 +282,7 @@ void _qk_protocol_send_string(const char *str, qk_protocol *protocol)
   desc.code = QK_PACKET_CODE_STRING;
   desc.string_ptr = str;
   qk_protocol_build_packet(&packet, &desc, protocol);
-  packet.flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_LASTFRAG;
-  protocol->callback.send_packet(&packet);
+  _qk_protocol_send_packet(&packet, protocol);
 }
 
 #if defined( QK_IS_DEVICE )
@@ -292,8 +293,7 @@ void _qk_protocol_send_event(qk_event *e, qk_protocol *protocol)
   desc.code = QK_PACKET_CODE_EVENT;
   desc.event_fired = e;
   qk_protocol_build_packet(&packet, &desc, protocol);
-  packet.flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_LASTFRAG;
-  protocol->callback.send_packet(&packet);
+  _qk_protocol_send_packet(&packet, protocol);
 }
 #endif
 

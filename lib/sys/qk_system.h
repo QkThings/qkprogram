@@ -21,7 +21,8 @@
 /*****************************************************************************
  *      General (C standard libs)
  *****************************************************************************/
-#if defined( _QK_DEBUG_ )
+#define _QK_DEBUG
+#if defined( _QK_DEBUG)
   #include <stdio.h>
   #define PRINT(...) printf(__VA_ARGS__)
 #else

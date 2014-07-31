@@ -23,6 +23,7 @@ bool fragment_send(qk_fragment *frag, uint8_t *data, uint16_t size)
   uint8_t *dest_ptr, *src_ptr;
   bool fragmented = false;
   qk_packet *packet = frag->packet;
+  qk_callback_arg cb_arg;
 
 #ifdef _QK_FEAT_FRAGMENTATION
   int16_t ovf;
@@ -38,7 +39,9 @@ bool fragment_send(qk_fragment *frag, uint8_t *data, uint16_t size)
 
     packet->payload_lenght = _QK_PACKET_PAYLOAD_SIZE;
     packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_FRAG;
-    frag->protocol->callback.send_packet(packet);
+
+    QK_CALLBACK_ARG_SET_PTR(&cb_arg, (void*)packet);
+    frag->protocol->callback[QK_PROTOCOL_CALLBACK_SENDPACKET](&cb_arg);
 
     j += count;
     frag->i_data = 0;

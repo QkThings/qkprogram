@@ -68,6 +68,8 @@ bool qk_clock_set_mode(qk_clock_mode mode)
 void qk_run()
 {
   uint32_t i, count;
+  qk_callback_arg cb_arg;
+
   /*************************************
    * PROCESSING
    ************************************/
@@ -87,13 +89,13 @@ void qk_run()
 
   for(i = 0; i < QK_PROTOCOL_STRUCT_COUNT; i++)
   {
-    if(_qk_protocol[i].callback.process_bytes != 0)
-      _qk_protocol[i].callback.process_bytes();
+    if(_qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSBYTES] != 0)
+      _qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSBYTES](&cb_arg);
 
     if(_qk_protocol[i].flags.reg & QK_PROTOCOL_FLAGMASK_NEWPACKET)
     {
-      if(_qk_protocol[i].callback.process_packet != 0)
-        _qk_protocol[i].callback.process_packet();
+      if(_qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSPACKET] != 0)
+        _qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSPACKET](&cb_arg);
 
       _qk_protocol[i].flags.reg &= ~QK_PROTOCOL_FLAGMASK_NEWPACKET;
     }
