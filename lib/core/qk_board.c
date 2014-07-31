@@ -26,8 +26,6 @@ void qk_board_init()
                                 QK_PROTOCOL_CALLBACK_SENDBYTES,
                                 board_callback_send_bytes);
 
-  PRINT("addr1:%08X addr2:%08X\n", board_callback_send_bytes, qk_protocol_board->callback[QK_PROTOCOL_CALLBACK_SENDBYTES]);
-
   qk_protocol_register_callback(qk_protocol_board,
                                 QK_PROTOCOL_CALLBACK_PROCESSBYTES,
                                 board_callback_process_bytes);

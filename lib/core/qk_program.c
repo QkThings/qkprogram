@@ -15,24 +15,12 @@ void qk_init()
 {
   hal_init();
   hal_blinkLED(1, 40);
-  PRINT("hal_init OK\n");
-
   qk_core_init();
-  PRINT("hal_init OK\n");
-
   qk_board_init();
   hal_blinkLED(1, 40);
-  PRINT("hal_init OK\n");
-
   qk_setup();
-  PRINT("qk_setup OK\n");
-
   qk_board_setup();
-  PRINT("qk_board_setup OK\n");
-
   qk_board_ready();
-  PRINT("qk_board_ready OK\n");
-
   hal_blinkLED(2, 100);
 }
 
