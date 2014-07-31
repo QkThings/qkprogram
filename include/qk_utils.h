@@ -41,6 +41,21 @@ void qk_datetime_set_time(qk_datetime *dt, uint8_t hr, uint8_t min, uint8_t sec)
 void qk_datetime_set_date(qk_datetime *dt, uint8_t year, uint8_t month, uint8_t day);
 
 /*****************************************************************************
+ *  Buffers
+ *****************************************************************************/
+typedef struct qk_buf
+{
+  void *ptr;
+  int count;
+} qk_buf;
+
+#define QK_BUF_SET_PTR(buf, p)      ((buf)->ptr = (p))
+#define QK_BUF_SET_COUNT(buf, c)  ((buf)->count = (c))
+
+#define QK_BUF_PTR(buf)   ((buf)->ptr)
+#define QK_BUF_COUNT(buf) ((buf)->count)
+
+/*****************************************************************************
  *  Circular Buffers
  *****************************************************************************/
 typedef volatile struct qk_cb
@@ -62,6 +77,29 @@ void *qk_cb_pick(qk_cb *cb);
 bool qk_cb_isFull(qk_cb *cb);
 bool qk_cb_isEmpty(qk_cb *cb);
 uint32_t qk_cb_available(qk_cb *cb);
+
+/*****************************************************************************
+ *  Callbacks
+ *****************************************************************************/
+
+typedef struct qk_callback_arg
+{
+  void *ptr;
+  int val_i;
+  qk_buf *buf;
+} qk_callback_arg;
+
+typedef void (*qk_callback)(qk_callback_arg *arg);
+
+#define QK_CALLBACK_ARG_SET_PTR(arg, p) ((arg)->ptr = (p))
+#define QK_CALLBACK_ARG_SET_INT(arg, i) ((arg)->val_i = (i))
+#define QK_CALLBACK_ARG_SET_BUF(arg, b) ((arg)->buf = (b))
+
+#define QK_CALLBACK_ARG_PTR(arg) ((arg)->ptr)
+#define QK_CALLBACK_ARG_INT(arg) ((arg)->val_i)
+#define QK_CALLBACK_ARG_BUF(arg) ((arg)->buf)
+
+#define _QK_CALLBACK_REGISTER(cb, c) ((cb) = (c))
 
 /*****************************************************************************
  *  Lightweight STDIO functions

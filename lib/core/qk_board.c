@@ -11,7 +11,8 @@
 qk_board board;
 QK_DEFINE_BOARD(board);
 
-static void board_send_bytes(uint8_t *buf, uint8_t count);
+//static void board_send_bytes(uint8_t *buf, uint8_t count);
+static void board_send_bytes(qk_callback_arg *arg);
 static void board_process_bytes();
 static void board_send_packet(qk_packet *packet);
 static void board_process_packet();
@@ -57,9 +58,13 @@ void qk_board_ready()
 #endif
 }
 
-static void board_send_bytes(uint8_t *buf, uint8_t count)
+//static void board_send_bytes(uint8_t *buf, uint8_t count)
+static void board_send_bytes(qk_callback_arg *arg)
 {
-  hal_uart_writeBytes(HAL_UART_ID_1, buf, count);
+  uint8_t *buf = (uint8_t*) QK_BUF_PTR( QK_CALLBACK_ARG_BUF(arg) );
+  uint16_t count = (uint16_t) QK_BUF_COUNT( QK_CALLBACK_ARG_BUF(arg) );
+//  hal_uart_writeBytes(HAL_UART_ID_1, buf, count);
+  hal_uart_writeBytes(HAL_UART_ID_1, arg->buf->ptr, arg->buf->count);
 }
 
 static void board_process_bytes()

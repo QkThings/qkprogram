@@ -51,7 +51,8 @@ typedef struct qk_ack
 
 typedef struct qk_protocol_callback
 {
-  void (*send_bytes)(uint8_t *buf, uint8_t count); // required for UART based comm
+  //void (*send_bytes)(uint8_t *buf, uint8_t count); // required for UART based comm
+  void (*send_bytes)(qk_callback_arg *arg);
   void (*send_packet)(qk_packet *packet);
   void (*process_bytes)(void);
   void (*process_packet)(void);

@@ -196,8 +196,20 @@ void qk_protocol_build_packet(qk_packet *packet, qk_packet_descriptor *desc, qk_
 
 static void send_raw_byte(uint8_t b, qk_protocol *protocol)
 {
-  if(protocol->callback.send_bytes != 0)
-    protocol->callback.send_bytes(&b, 1);
+  uint8_t byte_buf = b;
+  qk_buf buf;
+  QK_BUF_SET_PTR(&buf, (void*)&byte_buf);
+  QK_BUF_SET_COUNT(&buf, 1);
+  qk_callback_arg cb_arg;
+  QK_CALLBACK_ARG_SET_BUF(&cb_arg, &buf);
+
+  protocol->callback.send_bytes(&cb_arg);
+
+//  if(protocol->callback[QK_PROTOCOL_CALLBACK_SENDBYTES] != 0)
+//    protocol->callback[QK_PROTOCOL_CALLBACK_SENDBYTES](&cb_arg);
+
+//  if(protocol->callback.send_bytes != 0)
+//    protocol->callback.send_bytes(&b, 1);
 }
 
 static void send_data_byte(uint8_t b, qk_protocol *protocol)
