@@ -122,8 +122,7 @@ qk_protocol_register_callback(qk_protocol *protocol,
                               qk_protocol_callback_id id,
                               qk_callback cb)
 {
-  protocol->callback[id] = cb;
-//  _QK_CALLBACK_REGISTER(protocol->callback[id], cb);
+  _QK_CALLBACK_REGISTER(protocol->callback[id], cb);
 }
 
 void qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol);

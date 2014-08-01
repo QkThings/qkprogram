@@ -64,9 +64,7 @@ void qk_board_setup()
 
 void qk_board_ready()
 {
-#ifdef QK_IS_DEVICE
   _qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_board);
-#endif
 }
 
 

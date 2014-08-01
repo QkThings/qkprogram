@@ -14,6 +14,13 @@ static void handle_board_detection();
 static void handle_input_changed();
 /******************************************************************************/
 
+inline void
+qk_core_register_callback(qk_core_callback_id id,
+                          qk_callback cb)
+{
+  _QK_CALLBACK_REGISTER(_qk_core.callback[id], cb);
+}
+
 void qk_core_init()
 {
   memset(&_qk_core, 0, sizeof(qk_core));
@@ -79,6 +86,10 @@ void qk_run()
     handle_input_changed();
     _hal_gpio.flags.inputChanged = 0;
   }
+
+  if(_qk_core.callback[QK_CORE_CALLBACK_APP] != 0)
+    _qk_core.callback[QK_CORE_CALLBACK_APP](&cb_arg);
+
 
 #ifdef _QK_HAL_UART_POLLING
   hal_uart_poll(HAL_UART_ID_1);
@@ -235,6 +246,7 @@ void qk_sampling_set_period(uint32_t usec)
 static void handle_board_detection()
 {
   bool detected = !hal_getDET(); // DET pin is pulled-up
+  qk_callback_arg cb_arg;
 
   if(flag(_qk_core.flags.reg_status, QK_FLAGMASK_STATUS_DET) == detected) {
     return;
@@ -247,8 +259,8 @@ static void handle_board_detection()
 
     hal_uart_setBaudRate(HAL_UART_ID_1, _qk_core.info.baudRate);
 
-    if(_qk_core.callbacks.boardAttached != 0) {
-      _qk_core.callbacks.boardAttached();
+    if(_qk_core.callback[QK_CORE_CALLBACK_BOARDATTACHED] != 0) {
+      _qk_core.callback[QK_CORE_CALLBACK_BOARDATTACHED](&cb_arg);
     }
 
 #if defined( QK_IS_DEVICE )
@@ -262,8 +274,8 @@ static void handle_board_detection()
 
     hal_uart_setBaudRate(HAL_UART_ID_1, _HAL_UART_BAUD_DEFAULT_LOW);
 
-    if(_qk_core.callbacks.boardRemoved != 0)
-      _qk_core.callbacks.boardRemoved();
+    if(_qk_core.callback[QK_CORE_CALLBACK_BOARDREMOVED] != 0)
+      _qk_core.callback[QK_CORE_CALLBACK_BOARDREMOVED](&cb_arg);
 
 #if defined( QK_IS_DEVICE )
 //stop
@@ -275,37 +287,8 @@ static void handle_input_changed()
 {
   handle_board_detection();
 
-#if defined( QK_IS_MODULE )
-  uint8_t count;
-  bool buttonPressed = !_getPB(); // PB pin is pulled-up
 
-  if(buttonPressed) {
-    delay_ms(250);
-    if(_getPB() == 1) { // quick
-      //if(_qk.flags.reg & QK_FLAGMASK_DET) {
-        //TODO startDevice
-      //}
-      //else {
-        //TODO stopDevice
-      //}
-    }
-    else { // hold
-      for(count = 0; count < QK_GOTOPD_TIMEOUT; count++) {
-        delay_ms(100);
-        if(_getPB()) break;
-      }
-      if(count == QK_GOTOPD_TIMEOUT) {
-        _blinkLED(1, 100);
-        while(_getPB() == 0) {
-          delay_ms(100);
-        }
-        //TODO goto power down (deep sleep)
-      }
-    }
-  }
-#endif /*QK_IS_MODULE*/
-
-  if(_qk_core.callbacks.inputChanged != 0) {
-    _qk_core.callbacks.inputChanged();
-  }
+//  if(_qk_core.callbacks.inputChanged != 0) {
+//    _qk_core.callbacks.inputChanged();
+//  }
 }

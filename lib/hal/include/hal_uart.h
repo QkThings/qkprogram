@@ -17,13 +17,9 @@ extern "C" {
    DEFINES
  ******************************************************************************/
 #define HAL_USE_UART1
-#if defined( QK_IS_DEVICE )
-#define HAL_UART_COUNT  1
-#else
-#define HAL_UART_COUNT  2
-#define HAL_USE_UART1
-#define HAL_USE_UART2
-#endif
+
+#define HAL_UART_COUNT 1
+
 
 /******************************************************************************
    ENUMS
@@ -31,9 +27,6 @@ extern "C" {
 typedef enum hal_uart_id
 {
   HAL_UART_ID_1, // QkConnector
-#ifdef HAL_USE_UART2
-  HAL_UART_ID_2, // Communication modules
-#endif
 } hal_uart_id_t;
 
 /******************************************************************************

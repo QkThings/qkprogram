@@ -51,6 +51,14 @@ typedef enum qk_trigger_clock
   QK_SAMPLING_TRIGGER_CLOCK_1HOUR //!< QK_TRIGGER_CLOCK_1HOUR
 } qk_sampling_trigger_clock;
 
+typedef enum qk_core_callback_id
+{
+  QK_CORE_CALLBACK_APP,
+  QK_CORE_CALLBACK_BOARDATTACHED,
+  QK_CORE_CALLBACK_BOARDREMOVED,
+  QK_CORE_CALLBACK_INPUTCHANGED,
+  _QK_CORE_CALLBACK_COUNT
+} qk_core_callback_id;
 
 /******************************************************************************
    PROTOTYPES
@@ -60,6 +68,10 @@ void qk_loop();
 
 bool qk_clock_set_mode(qk_clock_mode mode);
 void qk_core_set_baudrate(uint32_t baud);
+
+inline void
+qk_core_register_callback(qk_core_callback_id id,
+                          qk_callback cb);
 
 #if defined( QK_IS_DEVICE )
 void qk_sampling_set_frequency(uint32_t sampFreq);
