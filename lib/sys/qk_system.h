@@ -13,21 +13,18 @@
 #define QK_VERSION_MINOR     1
 #define QK_VERSION_PATCH     0
 
+
+#if defined( QKPROGRAM_DEBUG)
+  #include <stdio.h>
+  #define QKPROGRAM_PRINT(...) printf(__VA_ARGS__)
+#else
+  #define QKPROGRAM_PRINT(...)
+#endif
+
 /*****************************************************************************
  *      Settings
  *****************************************************************************/
 #include "qk_settings.h"
-
-/*****************************************************************************
- *      General (C standard libs)
- *****************************************************************************/
-//#define _QK_DEBUG
-#if defined( _QK_DEBUG)
-  #include <stdio.h>
-  #define PRINT(...) printf(__VA_ARGS__)
-#else
-  #define PRINT(...)
-#endif
 
 /*****************************************************************************
  *      Program (public)

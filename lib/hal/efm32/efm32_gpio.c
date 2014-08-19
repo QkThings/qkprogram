@@ -25,7 +25,7 @@
 #define DET_PIN   2
 #elif defined( EFM32TG_DEVBOARD )
 #define LED_PORT  gpioPortA
-#define LED_PIN   2
+#define LED_PIN   10
 #define PB_PORT   gpioPortC
 #define PB_PIN    0
 #define DET_PORT  gpioPortC
@@ -103,14 +103,10 @@ bool hal_getLED()
 
 void hal_setLED(bool on)
 {
-#if defined( EFM32G_OLIMEX)
-  if(!on)
-#else
   if(on)
-#endif
-    GPIO_PinOutSet(LED_PORT, LED_PIN);
-  else
     GPIO_PinOutClear(LED_PORT, LED_PIN);
+  else
+    GPIO_PinOutSet(LED_PORT, LED_PIN);
 }
 
 bool hal_toggleLED()

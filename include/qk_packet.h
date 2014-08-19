@@ -1,6 +1,10 @@
 #ifndef QK_PACKET_H_
 #define QK_PACKET_H_
 
+/** \addtogroup QkPacket
+ *  @{
+ */
+
 #include "qk_settings.h"
 
 /******************************************************************************
@@ -17,6 +21,9 @@ typedef volatile struct qk_packet_flags
   uint8_t network;
 } qk_packet_flags;
 
+/**
+ * Packet
+ */
 typedef volatile struct qk_packet
 {
   qk_packet_flags flags;
@@ -33,5 +40,6 @@ typedef volatile struct qk_packet
    PROTOTYPES
  ******************************************************************************/
 
+/** @}*/
 
 #endif /* QK_PACKET_H_ */

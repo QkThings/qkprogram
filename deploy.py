@@ -18,8 +18,8 @@ def deploy():
 	chdir(path.join(rootdir,"doc"))
 	if path.exists("html"):
 		shutil.rmtree("html")
-	call(["doxygen","Doxyfile"])
-	cp(".", "html", "css")
+	call(["/usr/local/bin/doxygen"])
+#	cp(".", "html", "css")
 	cp(".", "html", "fonts")
 
 if __name__ == "__main__":

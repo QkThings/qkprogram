@@ -6,8 +6,14 @@
  * This file is part of QkProgram
  */
 
+
 #ifndef QK_CORE_H
 #define QK_CORE_H
+
+/** \addtogroup QkCore
+ *  @{
+ */
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,7 +26,7 @@ extern "C" {
 /**
  * Clock Mode
  */
-typedef enum qk_clock_mode
+typedef enum
 {
   QK_CLOCK_MODE_NORMAL = 0,
   QK_CLOCK_MODE_FASTER,
@@ -29,10 +35,12 @@ typedef enum qk_clock_mode
   QK_CLOCK_MODE_SLOWER
 } qk_clock_mode;
 
+//TODO Sampling should be placed in qk_device.h
+
 /**
  * Sampling Mode
  */
-typedef enum qk_samp_mode
+typedef enum
 {
   QK_SAMPLING_MODE_SINGLE,
   QK_SAMPLING_MODE_CONTINUOUS,
@@ -42,7 +50,7 @@ typedef enum qk_samp_mode
 /**
  * Sampling Trigger Clock
  */
-typedef enum qk_trigger_clock
+typedef enum
 {
   QK_SAMPLING_TRIGGER_CLOCK_1SEC, //!< QK_SAMPLING_TRIGGER_CLOCK_1SEC
   QK_SAMPLING_TRIGGER_CLOCK_10SEC,//!< QK_TRIGGER_CLOCK_10SEC
@@ -51,24 +59,38 @@ typedef enum qk_trigger_clock
   QK_SAMPLING_TRIGGER_CLOCK_1HOUR //!< QK_TRIGGER_CLOCK_1HOUR
 } qk_sampling_trigger_clock;
 
-typedef enum qk_core_callback_id
+/**
+ * Core callback IDs
+ */
+typedef enum
 {
-  QK_CORE_CALLBACK_APP,
-  QK_CORE_CALLBACK_BOARDATTACHED,
-  QK_CORE_CALLBACK_BOARDREMOVED,
-  QK_CORE_CALLBACK_INPUTCHANGED,
-  _QK_CORE_CALLBACK_COUNT
+  QK_CORE_CALLBACK_APP,          //!< QK_CORE_CALLBACK_APP
+  QK_CORE_CALLBACK_BOARDATTACHED,//!< QK_CORE_CALLBACK_BOARDATTACHED
+  QK_CORE_CALLBACK_BOARDREMOVED, //!< QK_CORE_CALLBACK_BOARDREMOVED
+  QK_CORE_CALLBACK_INPUTCHANGED, //!< QK_CORE_CALLBACK_INPUTCHANGED
+  _QK_CORE_CALLBACK_COUNT        //!< _QK_CORE_CALLBACK_COUNT
 } qk_core_callback_id;
 
 /******************************************************************************
    PROTOTYPES
  ******************************************************************************/
+
+/**
+ * @brief .
+ */
 void qk_run();
+
+/**
+ * @brief .
+ */
 void qk_loop();
 
 bool qk_clock_set_mode(qk_clock_mode mode);
 void qk_core_set_baudrate(uint32_t baud);
 
+/**
+ * @brief .
+ */
 inline void
 qk_core_register_callback(qk_core_callback_id id,
                           qk_callback cb);
@@ -85,5 +107,7 @@ void qk_sampling_set_N(uint32_t N);
 #ifdef __cplusplus
 }
 #endif
+
+/** @}*/
 
 #endif /* QK_CORE_H */

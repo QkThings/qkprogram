@@ -9,6 +9,10 @@
 #ifndef QK_PROTOCOL_H
 #define QK_PROTOCOL_H
 
+/** \addtogroup QkProtocol
+ *  @{
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -19,26 +23,37 @@ extern "C" {
 /******************************************************************************
    ENUMS
  ******************************************************************************/
+
+//TODO Move this to a more central file (e.g. core? system?)
+/**
+ * Error
+ */
 typedef enum
 {
-  QK_ERR_COMM_TIMEOUT = 0,
-  QK_ERR_CODE_UNKNOWN = 255,
-  QK_ERR_UNABLE_TO_SEND_MESSAGE,
-  QK_ERR_UNSUPPORTED_OPERATION,
-  QK_ERR_INVALID_BOARD,
-  QK_ERR_INVALID_DATA_OR_ARG,
-  QK_ERR_BOARD_NOT_CONNECTED,
-  QK_ERR_INVALID_SAMP_FREQ,
-  QK_ERR_SAMP_OVERLAP
+  QK_ERR_COMM_TIMEOUT = 0,      //!< QK_ERR_COMM_TIMEOUT
+  QK_ERR_CODE_UNKNOWN = 255,    //!< QK_ERR_CODE_UNKNOWN
+  QK_ERR_UNABLE_TO_SEND_MESSAGE,//!< QK_ERR_UNABLE_TO_SEND_MESSAGE
+  QK_ERR_UNSUPPORTED_OPERATION, //!< QK_ERR_UNSUPPORTED_OPERATION
+  QK_ERR_INVALID_BOARD,         //!< QK_ERR_INVALID_BOARD
+  QK_ERR_INVALID_DATA_OR_ARG,   //!< QK_ERR_INVALID_DATA_OR_ARG
+  QK_ERR_BOARD_NOT_CONNECTED,   //!< QK_ERR_BOARD_NOT_CONNECTED
+  QK_ERR_INVALID_SAMP_FREQ,     //!< QK_ERR_INVALID_SAMP_FREQ
+  QK_ERR_SAMP_OVERLAP           //!< QK_ERR_SAMP_OVERLAP
 } qk_err;
 
+/**
+ * ACK type
+ */
 typedef enum
 {
-  QK_ACK_TYPE_NACK,
-  QK_ACK_TYPE_OK,
-  QK_ACK_TYPE_ERROR
+  QK_ACK_TYPE_NACK,//!< QK_ACK_TYPE_NACK
+  QK_ACK_TYPE_OK,  //!< QK_ACK_TYPE_OK
+  QK_ACK_TYPE_ERROR//!< QK_ACK_TYPE_ERROR
 } qk_ack_type;
 
+/**
+ * Protocol callback ID
+ */
 typedef enum qk_protocol_callback_id
 {
   QK_PROTOCOL_CALLBACK_SENDBYTES,
@@ -52,11 +67,15 @@ typedef enum qk_protocol_callback_id
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
-typedef struct qk_ack
+
+/**
+ * ACK
+ */
+typedef struct
 {
-  qk_ack_type type;
-  qk_err err;
-  int32_t arg;
+  qk_ack_type type; //!< Type
+  qk_err err; //!< Error
+  int32_t arg; //!< ARgument
 } qk_ack;
 
 
@@ -70,18 +89,21 @@ typedef struct qk_ack
 //} qk_protocol_callbacks;
 
 
-typedef volatile struct qk_comm_flags
+typedef volatile struct
 {
   uint16_t reg;
 } qk_protocol_flags;
 
-typedef volatile struct qk_comm_ctrl
+typedef volatile struct
 {
   qk_ack ack;    // Acknowledge
   uint16_t count;       // Count received bytes
 } qk_protocol_ctrl;
 
-typedef struct qk_protocol
+/**
+ * Protocol
+ */
+typedef struct
 {
   qk_packet           packet;
   qk_protocol_ctrl    ctrl;
@@ -117,6 +139,9 @@ extern qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
    PROTOTYPES
  ******************************************************************************/
 
+/**
+ * @brief .
+ */
 static inline void
 qk_protocol_register_callback(qk_protocol *protocol,
                               qk_protocol_callback_id id,
@@ -125,8 +150,19 @@ qk_protocol_register_callback(qk_protocol *protocol,
   _QK_CALLBACK_REGISTER(protocol->callback[id], cb);
 }
 
+/**
+ * @brief .
+ */
 void qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol);
+
+/**
+ * @brief .
+ */
 void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol);
+
+/**
+ * @brief .
+ */
 void qk_protocol_process_packet(qk_protocol *protocol);
 
 /******************************************************************************/
@@ -134,5 +170,7 @@ void qk_protocol_process_packet(qk_protocol *protocol);
 #ifdef __cplusplus
 }
 #endif
+
+/** @}*/
 
 #endif /* QK_PROTOCOL_H */

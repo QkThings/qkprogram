@@ -7,25 +7,36 @@
 #ifndef QK_DEVICE_H
 #define QK_DEVICE_H
 
+/** \addtogroup QkDevice
+ *  @{
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include "qk_settings.h"
 
-#if defined(QK_IS_DEVICE)
+
+#if defined(QK_IS_DEVICE) || defined( DOXYGEN )
 
 /******************************************************************************
    ENUMS
  ******************************************************************************/
 
-typedef enum qk_data_type
+/**
+ * Data type
+ */
+typedef enum
 {
   QK_DATA_TYPE_INT,
   QK_DATA_TYPE_FLOAT
 } qk_data_type;
 
-typedef enum qk_action_type
+/**
+ * Action type
+ */
+typedef enum
 {
   QK_ACTION_TYPE_BOOL,
   QK_ACTION_TYPE_INT,
@@ -35,9 +46,13 @@ typedef enum qk_action_type
 /******************************************************************************
    TYPES
  ******************************************************************************/
+
+/**
+ * Action ID
+ */
 typedef int32_t qk_action_id;
 
-typedef volatile struct qk_data_value
+typedef volatile struct
 {
   union
   {
@@ -51,6 +66,9 @@ typedef struct qk_data_prop
   char label[_QK_LABEL_SIZE];
 } qk_data_prop;
 
+/**
+ * Data
+ */
 typedef volatile struct qk_data
 {
   //qk_data_type_t  type;
@@ -70,6 +88,9 @@ typedef struct qk_event_prop
   char label[_QK_LABEL_SIZE];
 } qk_event_prop;
 
+/**
+ * Event
+ */
 typedef volatile struct qk_event
 {
   uint8_t _id;
@@ -97,7 +118,10 @@ typedef struct qk_action_callbacks
   void (*run)(void);
 } qk_action_callbacks;
 
-typedef struct qk_action
+/**
+ * Action
+ */
+typedef struct
 {
   qk_action_type      type;
   qk_action_value     value;
@@ -106,7 +130,10 @@ typedef struct qk_action
 } qk_action;
 
 //TODO move all sampling related stuff to qk_device
-typedef enum qk_sampling_callback_id
+/**
+ * Sampling callback ID
+ */
+typedef enum
 {
   QK_SAMPLING_CALLBACK_SAMPLE,
   QK_SAMPLING_CALLBACK_START,
@@ -118,30 +145,104 @@ typedef enum qk_sampling_callback_id
    PROTOTYPES
  ******************************************************************************/
 
+/**
+ * @brief .
+ */
 void qk_data_set_buffer(qk_data *buf, uint32_t count);
+
+/**
+ * @brief .
+ */
 void qk_data_set_count(uint32_t count);
+
+/**
+ * @brief .
+ */
 void qk_data_set_label(uint8_t idx, char *label);
+
+/**
+ * @brief .
+ */
 void qk_data_set_type(qk_data_type type);
+
+/**
+ * @brief .
+ */
 void qk_data_set_value_i(uint8_t idx, int32_t value);
+
+/**
+ * @brief .
+ */
 void qk_data_set_value_f(uint8_t idx, float value);
 
+/**
+ * @brief .
+ */
 void qk_event_set_buffer(qk_event *buf, uint32_t count);
+
+/**
+ * @brief .
+ */
 void qk_event_set_label(uint8_t idx, const char *label);
+
+/**
+ * @brief .
+ */
 void qk_event_set_args(uint8_t idx, float *args, uint8_t count);
+
+/**
+ * @brief .
+ */
 bool qk_event_generate(uint8_t idx, char *message);
 
+/**
+ * @brief .
+ */
 void qk_action_set_buffer(qk_action *buf, unsigned int size);
+
+/**
+ * @brief .
+ */
 void qk_action_set_label(qk_action_id id, const char *label);
+
+/**
+ * @brief .
+ */
 void qk_action_set_type(qk_action_id id, qk_action_type type);
+
+/**
+ * @brief .
+ */
 void qk_action_set_value_i(qk_action_id id, int32_t value);
+
+/**
+ * @brief .
+ */
 void qk_action_set_value_b(qk_action_id id, bool value);
 
+/**
+ * @brief .
+ */
 qk_action_type qk_action_get_type(qk_action_id id);
+
+/**
+ * @brief .
+ */
 int32_t qk_action_get_value_i(qk_action_id id);
+
+/**
+ * @brief .
+ */
 bool qk_action_get_value_b(qk_action_id id);
 
+/**
+ * @brief .
+ */
 void qk_action_set_callback(void (*fnc)(qk_action_id));
 
+/**
+ * @brief .
+ */
 void qk_sampling_set_callback(qk_sampling_callback id, void (*fnc)(void));
 
 #endif // QK_IS_DEVICE
@@ -149,5 +250,7 @@ void qk_sampling_set_callback(qk_sampling_callback id, void (*fnc)(void));
 #ifdef __cplusplus
 }
 #endif
+
+/** @}*/
 
 #endif /* QK_DEVICE_H */

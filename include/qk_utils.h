@@ -9,6 +9,11 @@
 #ifndef QK_UTILS_H
 #define QK_UTILS_H
 
+/** \addtogroup QkUtils
+ *  @{
+ *  @brief .
+ */
+
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -25,7 +30,10 @@
 /*****************************************************************************
  *  Date and Time
  *****************************************************************************/
-typedef struct qk_datetime
+/**
+ * Date and time
+ */
+typedef struct
 {
   unsigned int hours : 5;
   unsigned int minutes : 6;
@@ -35,18 +43,31 @@ typedef struct qk_datetime
   unsigned int day : 5;
 } qk_datetime;
 
+/**
+ * Time
+ */
 typedef qk_datetime qk_time;
 
+/**
+ * @brief .
+ */
 void qk_datetime_set_time(qk_datetime *dt, uint8_t hr, uint8_t min, uint8_t sec);
+
+/**
+ * @brief .
+ */
 void qk_datetime_set_date(qk_datetime *dt, uint8_t year, uint8_t month, uint8_t day);
 
 /*****************************************************************************
  *  Buffers
  *****************************************************************************/
+/**
+ * Buffer
+ */
 typedef struct qk_buf
 {
-  void *ptr;
-  int count;
+  void *ptr; //!< Pointer
+  int count; //!< Number of elements
 } qk_buf;
 
 #define QK_BUF_SET_PTR(buf, p)      ((buf)->ptr = (p))
@@ -58,7 +79,10 @@ typedef struct qk_buf
 /*****************************************************************************
  *  Circular Buffers
  *****************************************************************************/
-typedef volatile struct qk_cb
+/**
+ * Circular buffer
+ */
+typedef volatile struct
 {
   void     *buf;
   void     *bufEnd;
@@ -70,23 +94,52 @@ typedef volatile struct qk_cb
   bool overwrite;
 } qk_cb;
 
+/**
+ * @brief .
+ */
 void qk_cb_init(qk_cb *cb, void *buf, uint32_t bufSize, uint32_t itemSize, bool overwrite);
+
+/**
+ * @brief .
+ */
 void qk_cb_write(qk_cb *cb, const void *item);
+
+/**
+ * @brief .
+ */
 void qk_cb_read(qk_cb *cb, void *item);
+
+/**
+ * @brief .
+ */
 void *qk_cb_pick(qk_cb *cb);
+
+/**
+ * @brief .
+ */
 bool qk_cb_isFull(qk_cb *cb);
+
+/**
+ * @brief .
+ */
 bool qk_cb_isEmpty(qk_cb *cb);
+
+/**
+ * @brief .
+ */
 uint32_t qk_cb_available(qk_cb *cb);
 
 /*****************************************************************************
  *  Callbacks
  *****************************************************************************/
-
-typedef struct qk_callback_arg
+/**
+ * Callback arguments
+ */
+typedef struct
 {
-  void *ptr;
-  int val_i;
-  qk_buf *buf;
+  void *ptr; //!< Pointer
+  int val_i; //!< Integer value
+  qk_buf *buf; //!< Buffer
 } qk_callback_arg;
 
 typedef void (*qk_callback)(qk_callback_arg *arg);
@@ -119,5 +172,7 @@ typedef union _IntFloatConverter
 //void _blinkLED(uint8_t n, uint16_t msec);
 float _floatFromBytes(int32_t value);
 int32_t _bytesFromFloat(float value);
+
+/** @}*/
 
 #endif /* QK_UTILS_H */
