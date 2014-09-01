@@ -1,40 +1,6 @@
-# QkProgram
+QkProgram
+---
 
-QkProgram is the embedded framework of QkThings. 
+**IMPORTANT:** read the [Building Instructions](http://discourse.qkthings.com/t/building-instructions/20) before cloning this repository.
 
-## Building Instructions
-
-### Building as a static library:
-
-	make TARGET=<targetname>
-
-See _build/target_ folder to get the available targets.
-You can also save the default target so you don't need to specify it later.
-
-	make savetarget <targetname>
-	make
-
-### Compiling the library with a test file that provides the main() function:
-
-	make test MAIN=<testname>.c TARGET=<targetname>
-	make upload PORT=<portname>
-
-In this case, if the library doesn't exists it will be automatically created.
-This feature is meant to be used to test the library in different situations (unit testing) and for different hardware (useful when porting the library to other targets).
-Some tests are available under the _test_ folder.
-
-#### Additional notes:
-
-Under linux you may have to change permissions of your /dev directory in order to be able to upload the program to the board. 
-
-	sudo chown -R <username> /dev/
-
-## Porting Code
-
-Most of the code is written in ANSI C resulting in a high level of portability. 
-Hardware-dependend code is part of the _Hardware Abstraction Layer_ (HAL) and can be found on _src/hal/<targetname>_ folder.
-That's the only code that needs to be changed/created when porting QkProgram to another target. 
-See the files under that folder to understand how they are organized and which functions need to be implemented. Actually, if you really want to know which functions must be implemented you shoud take a look at the corresponding header files on _src/hal_ folder (one header file for each peripheral).
-
-
-
+Questions? Bugs? Visit [community.qkthings.com](http://community.qkthings.com) or send an email to `dev@qkthings.com`
