@@ -16,21 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- *
- * @brief These are application-specific resources which are used
- *        in the example application of the device in addition to the
- *        underlaying stack.
- *
- * $Id: app_config.h,v 1.3.2.1 2011/07/15 06:35:57 dam Exp $
- *
- * @author    Atmel Corporation: http://www.atmel.com
- * @author    Support email: avr@atmel.com
- */
-/*
- * Copyright (c) 2009, Atmel Corporation All rights reserved.
- *
- * Licensed under Atmel's Limited License Agreement --> EULA.txt
- */
+
 
 /* Prevent double inclusion */
 #ifndef APP_CONFIG_H

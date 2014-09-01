@@ -17,6 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef QK_PACKET_P_H
+#define QK_PACKET_P_H
+
 #include "qk_settings.h"
 
 /******************************************************************************

@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- *
- *  Created on: Mar 11, 2014
- *      Author: mribeiro
- */
-
 #include "qk_system.h"
 
 void fragment_init(qk_fragment *frag, qk_packet *packet, qk_protocol *protocol)

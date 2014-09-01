@@ -16,10 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- *
- *  Created on: 5 de Dez de 2013
- *      Author: mribeiro
- */
 
 #include "qk_system.h"
 

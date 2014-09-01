@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- *
- * \author mribeiro
- *  
- * This file is part of QkProgram
- */
 
 #include "../sys/qk_system.h"
 #include "hal_hwspecs.h"

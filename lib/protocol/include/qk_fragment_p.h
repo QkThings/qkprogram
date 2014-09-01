@@ -16,10 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- *
- *  Created on: Mar 11, 2014
- *      Author: mribeiro
- */
 
 #ifndef QK_FRAGMENT_H_
 #define QK_FRAGMENT_H_

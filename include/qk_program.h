@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- *
- * @author qkthings
- *  
- * This file is part of QkProgram
- */
 
 #ifndef QK_PROGRAM_H
 #define QK_PROGRAM_H

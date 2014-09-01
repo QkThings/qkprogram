@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- *
- *  Created on: 5 de Dez de 2013
- *      Author: mribeiro
- */
-
 #include "../sys/qk_system.h"
 
 hal_clock_t _hal_clock;

@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "qk_system.h"
+#include "qk_debug.h"
 #include <stdio.h>
 #include <stdarg.h>
 

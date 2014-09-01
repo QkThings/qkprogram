@@ -29,7 +29,7 @@ S_SRC +=
 # TARGET                
 ####################################################################
 
-BUILD_TARGET ?= BUILD_DEVICE
+BUILD_TARGET := BUILD_DEVICE
 $(info BUILD_TARGET = $(BUILD_TARGET))
 
 DEFINES += $(BUILD_TARGET) 
