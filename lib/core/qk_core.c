@@ -101,7 +101,7 @@ void qk_run()
     _qk_core.callback[QK_CORE_CALLBACK_APP](&cb_arg);
 
 
-#ifdef _QK_HAL_UART_POLLING
+#ifdef _QK_FEAT_UART_POLLING
   hal_uart_poll(HAL_UART_ID_1);
 #endif
 

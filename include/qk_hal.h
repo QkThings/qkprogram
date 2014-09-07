@@ -17,12 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../sys/qk_system.h"
+#ifndef QK_HAL_H
+#define QK_HAL_H
 
-hal_timer_t _qk_hal_timer[2];
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-void _hal_timer_init()
-{
-  memset(&_qk_hal_timer[HAL_TIMER_ID_1], 0, sizeof(hal_timer_t));
-  memset(&_qk_hal_timer[HAL_TIMER_ID_2], 0, sizeof(hal_timer_t));
+/******************************************************************************
+   PROTOTYPES
+ ******************************************************************************/
+void hal_setLED(bool state);
+bool hal_toggleLED();
+void hal_blinkLED(uint8_t n, uint16_t msec);
+
+/******************************************************************************/
+
+#ifdef __cplusplus
 }
+#endif
+
+#endif /* QK_HAL_H */

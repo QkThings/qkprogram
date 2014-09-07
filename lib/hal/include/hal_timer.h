@@ -69,13 +69,13 @@ typedef struct hal_timer
 #define HAL_USE_TIMER2 //TODO count timers
 #endif
 
-#define _hal_timer_1  (&(_hal_timer[HAL_TIMER_ID_2]))
-#define _hal_timer_2  (&(_hal_timer[HAL_TIMER_ID_2]))
+#define _hal_timer_1  (&(_qk_hal_timer[HAL_TIMER_ID_2]))
+#define _hal_timer_2  (&(_qk_hal_timer[HAL_TIMER_ID_2]))
 
 /******************************************************************************
    GLOBAL VARIABLES
  ******************************************************************************/
-extern hal_timer_t _hal_timer[2];
+extern hal_timer_t _qk_hal_timer[2];
 
 /******************************************************************************
    PROTOTYPES

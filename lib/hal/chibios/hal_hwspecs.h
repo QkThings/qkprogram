@@ -17,12 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../sys/qk_system.h"
+#ifndef HAL_HWSPECS_H_
+#define HAL_HWSPECS_H_
 
-hal_timer_t _qk_hal_timer[2];
+/* Available clock frequencies (obtained through external crystals/oscilators or internal
+ * oscilators */
+typedef enum hal_clock_freq {
+  HAL_CLOCK_FREQ_16MHz = 0, // Default
+} hal_clock_freq_t;
 
-void _hal_timer_init()
-{
-  memset(&_qk_hal_timer[HAL_TIMER_ID_1], 0, sizeof(hal_timer_t));
-  memset(&_qk_hal_timer[HAL_TIMER_ID_2], 0, sizeof(hal_timer_t));
-}
+#define HAL_CLOCK_FREQ_FASTER   HAL_CLOCK_FREQ_16MHz
+#define HAL_CLOCK_FREQ_FAST     HAL_CLOCK_FREQ_16MHz
+#define HAL_CLOCK_FREQ_NORMAL   HAL_CLOCK_FREQ_16MHz
+#define HAL_CLOCK_FREQ_SLOW     HAL_CLOCK_FREQ_16MHz
+#define HAL_CLOCK_FREQ_SLOWER   HAL_CLOCK_FREQ_16MHz
+
+#endif /* HAL_HWSPECS_H_ */

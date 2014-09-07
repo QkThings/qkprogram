@@ -17,12 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../sys/qk_system.h"
+#include "qk_system.h"
 
-hal_timer_t _qk_hal_timer[2];
+hal_power_t _hal_power;
 
-void _hal_timer_init()
+void hal_power_init()
 {
-  memset(&_qk_hal_timer[HAL_TIMER_ID_1], 0, sizeof(hal_timer_t));
-  memset(&_qk_hal_timer[HAL_TIMER_ID_2], 0, sizeof(hal_timer_t));
+  _hal_power.info.batteryStatus = HAL_BATTERY_STATUS_OK;
 }
+
+void hal_power_batteryCheck()
+{
+
+}
+
+void hal_power_EM1()
+{
+
+}
+
+void hal_power_EM2()
+{
+
+}
+
+void hal_power_EM3()
+{
+
+}
+

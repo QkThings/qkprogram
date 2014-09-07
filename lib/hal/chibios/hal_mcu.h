@@ -17,12 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../sys/qk_system.h"
+#ifndef HAL_MCU_H
+#define HAL_MCU_H
 
-hal_timer_t _qk_hal_timer[2];
+#include "ch.h"
+#include "hal.h"
 
-void _hal_timer_init()
+static inline void hal_mcu_init()
 {
-  memset(&_qk_hal_timer[HAL_TIMER_ID_1], 0, sizeof(hal_timer_t));
-  memset(&_qk_hal_timer[HAL_TIMER_ID_2], 0, sizeof(hal_timer_t));
+  /*
+   * System initializations.
+   * - HAL initialization, this also initializes the configured device drivers
+   *   and performs the board-specific initializations.
+   * - Kernel initialization, the main() function becomes a thread and the
+   *   RTOS is active.
+   */
+  halInit();
+  chSysInit();
 }
+
+static inline void hal_finalize()
+{
+
+}
+
+
+#endif /* HAL_MCU_H */

@@ -17,24 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HAL_H
-#define HAL_H
+#include "qk_system.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+void hal_clock_init()
+{
 
-/******************************************************************************
-   PROTOTYPES
- ******************************************************************************/
-void hal_setLED(bool state);
-bool hal_toggleLED();
-void hal_blinkLED(uint8_t n, uint16_t msec);
-
-/******************************************************************************/
-
-#ifdef __cplusplus
 }
-#endif
 
-#endif /* HAL_H */
+bool hal_clock_setFrequency(hal_clock_freq_t freq)
+{
+  return false;
+}
+
+hal_clock_freq_t hal_clock_getFreqEnum(uint32_t fosc)
+{
+
+}
+uint32_t hal_clock_getFreqValue(hal_clock_freq_t freq)
+{
+
+}
