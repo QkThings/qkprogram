@@ -28,7 +28,7 @@ extern "C" {
    PROTOTYPES
  ******************************************************************************/
 void hal_setLED(bool state);
-bool hal_toggleLED();
+bool hal_toggleLED(void);
 void hal_blinkLED(uint8_t n, uint16_t msec);
 
 /******************************************************************************/

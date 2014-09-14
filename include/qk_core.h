@@ -88,12 +88,12 @@ typedef enum
 /**
  * @brief .
  */
-void qk_run();
+void qk_run(void);
 
 /**
  * @brief .
  */
-void qk_loop();
+void qk_loop(void);
 
 bool qk_clock_set_mode(qk_clock_mode mode);
 void qk_core_set_baudrate(uint32_t baud);

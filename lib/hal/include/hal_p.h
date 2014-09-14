@@ -32,7 +32,7 @@ extern "C" {
 /******************************************************************************
    INCLUDES
  ******************************************************************************/
-#include "hal.h"
+#include "qk_hal.h"
 #include "hal_hwspecs.h"
 #include "hal_power.h"
 #include "hal_clock.h"
@@ -42,6 +42,7 @@ extern "C" {
 #include "hal_spi.h"
 #include "hal_rtc.h"
 #include "hal_eeprom.h"
+
 
 /******************************************************************************
    ENUMS

@@ -14,7 +14,8 @@ $(QKPROGRAM_DIR)/lib/sys \
 $(QKPROGRAM_DIR)/lib/hal/include \
 $(QKPROGRAM_DIR)/lib/core/include \
 $(QKPROGRAM_DIR)/lib/protocol/include \
-$(QKPROGRAM_DIR)/lib/utils/include
+$(QKPROGRAM_DIR)/lib/utils/include \
+qkperipheral/include
 
 C_SRC_DIR += \
 $(QKPROGRAM_DIR)/lib/hal \
@@ -24,6 +25,10 @@ $(QKPROGRAM_DIR)/lib/utils
 
 s_SRC += 
 S_SRC += 
+
+LIBS += \
+-Lqkperipheral/build/lib/$(TARGET_NAME)/$(TARGET_VARIANT) \
+-lqkperipheral
 
 ####################################################################
 # TARGET                
