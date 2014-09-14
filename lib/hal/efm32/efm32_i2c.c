@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../sys/qk_system.h"
-
-void hal_i2c_init()
-{
-
-}
+//#include "../sys/qk_system.h"
+//
+//void hal_i2c_init()
+//{
+//
+//}

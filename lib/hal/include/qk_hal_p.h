@@ -17,4 +17,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../sys/qk_system.h"
+#ifndef HAL_P_H
+#define HAL_P_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "qk_hal_hwspecs.h"
+//#include "qk_hal_power.h"
+#include "qk_hal_gpio.h"
+//#include "qk_hal_timer.h"
+#include "qk_hal_uart.h"
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* HAL_H */

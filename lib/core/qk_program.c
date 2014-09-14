@@ -24,15 +24,15 @@ extern void qk_setup();
 
 void qk_init()
 {
-  hal_init();
-  hal_blinkLED(1, 40);
+  qk_hal_init();
+  qk_board_led_blink(1, 40);
   qk_core_init();
   qk_board_init();
-  hal_blinkLED(1, 40);
+  qk_board_led_blink(1, 40);
   qk_setup();
   qk_board_setup();
   qk_board_ready();
-  hal_blinkLED(2, 100);
+  qk_board_led_blink(2, 100);
 }
 
 

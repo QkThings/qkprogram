@@ -17,22 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qk_system.h"
-
-hal_gpio_t _hal_gpio;
-
-void _hal_gpio_init()
-{
-  memset(&_hal_gpio, 0, sizeof(hal_gpio_t));
-}
-
-void hal_blinkLED(uint8_t n, uint16_t msec)
-{
-  do {
-    hal_setLED(true);
-    delay_ms(msec);
-    hal_setLED(false);
-    delay_ms(msec);
-  }
-  while(--n > 0);
-}
+//#ifndef QK_HAL_UART_H
+//#define QK_HAL_UART_H
+//
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
+//
+//void qk_hal_uart_set_baudrate(uint32_t baud);
+//int qk_hal_uart_bytes_available();
+//int qk_hal_uart_read(uint8_t *buf, int max);
+//void qk_hal_uart_write(uint8_t *buf, int count);
+//bool qk_hal_uart_cts();
+//void qk_hal_uart_rts(bool rts);
+//
+//#ifdef __cplusplus
+//}
+//#endif
+//
+//
+//#endif /* QK_HAL_UART_H */

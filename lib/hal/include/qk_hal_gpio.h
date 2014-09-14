@@ -16,11 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../sys/qk_system.h"
 
-hal_clock_t _hal_clock;
-
-void _hal_clock_init()
-{
-
-}
+//#ifndef HAL_GPIO_H
+//#define HAL_GPIO_H
+//
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
+//
+////void qk_hal_led_set(bool state);
+////void qk_hal_led_toggle(void);
+////void qk_board_led_blink(uint8_t n, uint16_t msec);
+//
+//
+//#ifdef __cplusplus
+//}
+//#endif
+//
+//#endif /* HAL_GPIO_H */

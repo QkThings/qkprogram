@@ -49,7 +49,6 @@ void qk_board_init()
                                 QK_PROTOCOL_CALLBACK_PROCESSPACKET,
                                 board_callback_process_packet);
 
-  hal_uart_enable(HAL_UART_ID_1);
 
 #ifdef QK_IS_DEVICE
   _qk_device_init();
@@ -78,20 +77,36 @@ void qk_board_ready()
   _qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_board);
 }
 
+void qk_board_led_blink(unsigned int n, unsigned int msec)
+{
+  do
+  {
+    qk_gpio_set_pin(_QK_HAL_LED, true);
+    delay_ms(msec);
+    qk_gpio_set_pin(_QK_HAL_LED, false);
+    delay_ms(msec);
+  }
+  while(--n > 0);
+}
+
 
 static void board_callback_send_bytes(qk_callback_arg *arg)
 {
-  uint8_t *buf = (uint8_t*) QK_BUF_PTR( QK_CALLBACK_ARG_BUF(arg) );
-  uint16_t count = (uint16_t) QK_BUF_COUNT( QK_CALLBACK_ARG_BUF(arg) );
-  hal_uart_writeBytes(HAL_UART_ID_1, buf, count);
+  qk_uart_write(_QK_PROGRAM_UART,
+                (uint8_t*) QK_BUF_PTR( QK_CALLBACK_ARG_BUF(arg) ),
+                (uint16_t) QK_BUF_COUNT( QK_CALLBACK_ARG_BUF(arg) ));
 }
 
 static void board_callback_process_bytes(qk_callback_arg *arg)
 {
-  uint16_t count = hal_uart_bytesAvailable(HAL_UART_ID_1);
+  uint8_t buf[32], *p_buf;
+  int count = qk_uart_read(_QK_PROGRAM_UART, buf, 32);
+
+  p_buf = buf;
+
   while(count--)
   {
-    qk_protocol_process_byte(hal_uart_readByte(HAL_UART_ID_1), qk_protocol_board);
+    qk_protocol_process_byte(*p_buf++, qk_protocol_board);
   }
 }
 
@@ -161,4 +176,5 @@ qk_config_type qk_config_get_type(uint8_t idx)
 {
   return _qk_board->buffers.config[idx].type;
 }
+
 

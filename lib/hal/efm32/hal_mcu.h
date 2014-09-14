@@ -17,20 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HAL_MCU_H
-#define HAL_MCU_H
-
-#include "em_chip.h"
-
-static inline void hal_mcu_init()
-{
-  CHIP_Init();
-}
-
-static inline void hal_finalize()
-{
-
-}
-
-
-#endif /* HAL_MCU_H */
+//#ifndef HAL_MCU_H
+//#define HAL_MCU_H
+//
+//#include "em_chip.h"
+//
+//static inline void hal_mcu_init()
+//{
+//  CHIP_Init();
+//}
+//
+//static inline void hal_finalize()
+//{
+//
+//}
+//
+//
+//#endif /* HAL_MCU_H */

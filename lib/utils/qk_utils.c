@@ -102,9 +102,12 @@ static void printchar(char **str, int c)
     ++(*str);
   }
   else {
-    hal_uart_writeByte(HAL_UART_ID_1, c);
+    qk_uart_write(_QK_PROGRAM_UART, (uint8_t*) &c, 1);
     if(c == '\n')
-      hal_uart_writeByte(HAL_UART_ID_1, '\r');
+    {
+      c = '\r';
+      qk_uart_write(_QK_PROGRAM_UART, (uint8_t*) &c, 1);
+    }
   }
 }
 

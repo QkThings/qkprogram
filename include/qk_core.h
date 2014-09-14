@@ -95,8 +95,6 @@ void qk_run(void);
  */
 void qk_loop(void);
 
-bool qk_clock_set_mode(qk_clock_mode mode);
-void qk_core_set_baudrate(uint32_t baud);
 
 /**
  * @brief .

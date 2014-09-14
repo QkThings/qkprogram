@@ -17,4 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../sys/qk_system.h"
+#include "qk_hal.h"
+#include "qk_hal_p.h"
+
+//void qk_hal_led_set(bool state)
+//{
+//  qk_gpio_set_pin(_QK_HAL_LED, state);
+//}
+//
+//void qk_hal_led_toggle(void)
+//{
+//  return qk_gpio_toggle_pin(_QK_HAL_LED);
+//}
+//
+

@@ -17,28 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qk_system.h"
-#include "hal_mcu.h"
+#ifndef HAL_HWSPECS_H_
+#define HAL_HWSPECS_H_
 
-void hal_init()
-{
-  _hal_clock_init();
-  _hal_gpio_init();
-  _hal_timer_init();
-  _hal_uart_init();
-
-  hal_mcu_init();
-  hal_clock_init();
-  hal_gpio_init();
-  hal_timer_init();
-  hal_uart_init();
-
-  hal_finalize();
-
-#ifdef _QK_FEAT_RTC_
-  // RTC
+#if defined( EFM32G_STK )
+#define _QK_HAL_LED   QK_GPIO_CREATE( QK_GPIO_PORT_C , 3)
+#define _QK_HAL_PB    QK_GPIO_CREATE( QK_GPIO_PORT_B , 9)
+#define _QK_HAL_DET   QK_GPIO_CREATE( QK_GPIO_PORT_C , 12)
+#elif defined( EFM32G_OLIMEX )
+#define _QK_HAL_LED   QK_GPIO_CREATE( QK_GPIO_PORT_A , 0)
+#define _QK_HAL_PB    QK_GPIO_CREATE( QK_GPIO_PORT_A , 1)
+#define _QK_HAL_DET   QK_GPIO_CREATE( QK_GPIO_PORT_A , 2)
+#elif defined( EFM32TG_DEVBOARD )
+#define _QK_HAL_LED   QK_GPIO_CREATE( QK_GPIO_PORT_A , 10)
+#define _QK_HAL_PB    QK_GPIO_CREATE( QK_GPIO_PORT_C , 0)
+#define _QK_HAL_DET   QK_GPIO_CREATE( QK_GPIO_PORT_C , 1)
+#else
+#error "EFM32 board not defined"
 #endif
-#ifdef _QK_FEAT_EEPROM_
-  // EEPROM
-#endif
-}
+
+
+#endif /* HAL_HWSPECS_H_ */

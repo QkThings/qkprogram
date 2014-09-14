@@ -5,13 +5,13 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="0.634517543" moduleId="org.eclipse.cdt.core.settings" name="Default">
 				<externalSettings/>
 				<extensions>
-					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.VCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -36,18 +36,19 @@
 									<listOptionValue builtIn="false" value="&quot;C:\Users\mribeiro\AppData\Roaming\energymicro\emlib\inc&quot;"/>
 									<listOptionValue builtIn="false" value="/home/mribeiro/Copy/Atmel/MAC_v_2_6_1/PAL/Inc"/>
 									<listOptionValue builtIn="false" value="/home/mribeiro/Copy/Atmel/MAC_v_2_6_1/PAL/MEGA_RF/Generic/Inc"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/qkperipheral/include}&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.429628905" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="EFM32G890F128"/>
-									<listOptionValue builtIn="false" value="QK_IS_COMM"/>
+									<listOptionValue builtIn="false" value="EFM32TG_DEVBOARD"/>
+									<listOptionValue builtIn="false" value="QK_IS_DEVICE"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.407567973" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<fileInfo id="0.634517543.1262600807" name="qk_fragment.c" rcbsApplicability="disable" resourcePath="lib/protocol/qk_fragment.c" toolsToInvoke="org.eclipse.cdt.build.core.settings.holder.1976402977.1758236661">
-						<tool id="org.eclipse.cdt.build.core.settings.holder.1976402977.1758236661" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder.1976402977">
-							<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1813527154" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
+						<tool id="org.eclipse.cdt.build.core.settings.holder.1976402977.1758236661" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder.2146482478">
+							<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1813527154" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 								<listOptionValue builtIn="false" value="EFM32G890F128"/>
 								<listOptionValue builtIn="false" value="QK_IS_COMM"/>
 								<listOptionValue builtIn="false" value="_QK_FEAT_FRAGMENTATION"/>

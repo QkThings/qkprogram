@@ -24,14 +24,13 @@
 extern "C" {
 #endif
 
-/******************************************************************************
-   PROTOTYPES
- ******************************************************************************/
-void hal_setLED(bool state);
-bool hal_toggleLED(void);
-void hal_blinkLED(uint8_t n, uint16_t msec);
+#include <stdint.h>
+#include <stdbool.h>
 
-/******************************************************************************/
+#include "qk_peripheral.h"
+
+void qk_hal_init(void);
+
 
 #ifdef __cplusplus
 }
