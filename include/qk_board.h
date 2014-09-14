@@ -119,6 +119,11 @@ char* qk_board_get_name();
 /**
  * @brief .
  */
+void qk_board_led_set(bool state);
+
+/**
+ * @brief .
+ */
 void qk_board_led_blink(unsigned int n, unsigned int msec);
 
 /**

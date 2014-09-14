@@ -51,7 +51,6 @@ void qk_core_init()
 #endif
 
   handle_board_detection();
-  handle_input_changed();
 }
 
 void qk_run()
@@ -63,19 +62,19 @@ void qk_run()
    * PROCESSING
    ************************************/
 
-//  if(_hal_gpio.flags.inputChanged == 1)
+//  if(qk_gpio_flags())
 //  {
-//    handle_input_changed();
-//    _hal_gpio.flags.inputChanged = 0;
+//    handle_board_detection();
 //  }
-
-  if(_qk_core.callback[QK_CORE_CALLBACK_APP] != 0)
-    _qk_core.callback[QK_CORE_CALLBACK_APP](&cb_arg);
-
 
 #ifdef _QK_FEAT_UART_POLLING
   hal_uart_poll(HAL_UART_ID_1);
 #endif
+
+  if(_qk_core.callback[QK_CORE_CALLBACK_APP] != 0)
+    _qk_core.callback[QK_CORE_CALLBACK_APP](&cb_arg);
+
+  qk_gpio_flags_clear();
 
   //TODO Status notifications
   //TODO Events

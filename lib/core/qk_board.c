@@ -77,6 +77,14 @@ void qk_board_ready()
   _qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_board);
 }
 
+void qk_board_led_set(bool state)
+{
+  if(state)
+    qk_gpio_set_pin(_QK_HAL_LED, false);
+  else
+    qk_gpio_set_pin(_QK_HAL_LED, true);
+}
+
 void qk_board_led_blink(unsigned int n, unsigned int msec)
 {
   do
