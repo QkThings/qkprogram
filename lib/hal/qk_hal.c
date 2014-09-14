@@ -24,6 +24,10 @@ void qk_hal_init(void)
 {
   _qk_peripheral_setup();
   qk_gpio_set_mode(_QK_HAL_LED, QK_GPIO_MODE_OUTPUT);
+
+//  qk_gpio_set_mode(_QK_HAL_UART_TX, QK_GPIO_MODE_OUTPUT);
+//  qk_gpio_set_pin(_QK_HAL_UART_TX, true);
+//  qk_gpio_set_mode(_QK_HAL_UART_RX, QK_GPIO_MODE_INPUT);
 }
 
 //#include "qk_system.h"

@@ -81,9 +81,9 @@ void qk_board_led_blink(unsigned int n, unsigned int msec)
 {
   do
   {
-    qk_gpio_set_pin(_QK_HAL_LED, true);
-    delay_ms(msec);
     qk_gpio_set_pin(_QK_HAL_LED, false);
+    delay_ms(msec);
+    qk_gpio_set_pin(_QK_HAL_LED, true);
     delay_ms(msec);
   }
   while(--n > 0);
