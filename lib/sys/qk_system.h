@@ -24,12 +24,17 @@
 #define QK_VERSION_MINOR     1
 #define QK_VERSION_PATCH     0
 
+// Development --------------------------------------------------------
+//#define _QK_PROGRAM_DEV_PRINTS
+//#define _QK_PROGRAM_DEV_DONTSENDPACKET
+#define _QK_PROGRAM_DEV_ECHOPROCESSEDBYTE
+// --------------------------------------------------------------------
 
-#if defined( QKPROGRAM_DEBUG)
+#if defined( _QK_PROGRAM_DEV_PRINTS )
   #include <stdio.h>
-  #define QKPROGRAM_PRINT(...) printf(__VA_ARGS__)
+  #define PRINT(...) printf(__VA_ARGS__)
 #else
-  #define QKPROGRAM_PRINT(...)
+  #define PRINT(...)
 #endif
 
 #include "qk_peripheral.h"

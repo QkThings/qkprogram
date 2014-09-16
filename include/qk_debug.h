@@ -27,13 +27,6 @@
 #include <stdint.h>
 
 
-#if defined( QK_DEBUG )
-  #include <stdio.h>
-  #define PRINT(...) printf(__VA_ARGS__)
-#else
-  #define PRINT(...)
-#endif
-
 //#define QK_LOG_NO_OUTPUT
 #define _QK_LOG_BUFSIZE  128
 

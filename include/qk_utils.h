@@ -146,7 +146,7 @@ uint32_t qk_cb_available(qk_cb *cb);
 /**
  * Callback arguments
  */
-typedef struct
+typedef volatile struct
 {
   void *ptr; //!< Pointer
   int val_i; //!< Integer value

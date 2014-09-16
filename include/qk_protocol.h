@@ -57,9 +57,9 @@ typedef enum
  */
 typedef enum
 {
-  QK_ACK_TYPE_NACK,//!< QK_ACK_TYPE_NACK
-  QK_ACK_TYPE_OK,  //!< QK_ACK_TYPE_OK
-  QK_ACK_TYPE_ERROR//!< QK_ACK_TYPE_ERROR
+  QK_ACK_TYPE_NACK = 0,//!< QK_ACK_TYPE_NACK
+  QK_ACK_TYPE_OK = 1,  //!< QK_ACK_TYPE_OK
+  QK_ACK_TYPE_ERROR = 255//!< QK_ACK_TYPE_ERROR
 } qk_ack_type;
 
 /**
@@ -82,7 +82,7 @@ typedef enum qk_protocol_callback_id
 /**
  * ACK
  */
-typedef struct
+typedef volatile struct
 {
   qk_ack_type type; //!< Type
   qk_err err; //!< Error
@@ -114,7 +114,7 @@ typedef volatile struct
 /**
  * Protocol
  */
-typedef struct
+typedef volatile struct
 {
   qk_packet           packet;
   qk_protocol_ctrl    ctrl;

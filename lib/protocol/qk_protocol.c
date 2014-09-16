@@ -70,6 +70,7 @@ void qk_protocol_build_packet(qk_packet *packet, qk_packet_descriptor *desc, qk_
 //    packet->flags.ctrl |= (QK_PACKET_FLAGMASK_CTRL_ADDRESS);
 //  }
   packet->code = desc->code;
+  packet->payload_lenght = 0;
 
   switch(packet->code)
   {
@@ -311,6 +312,10 @@ void _qk_protocol_send_event(qk_event *e, qk_protocol *protocol)
 void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol)
 {
   qk_packet *pkt = &(protocol->packet);
+
+#ifdef _QK_PROGRAM_DEV_ECHOPROCESSEDBYTE
+  qk_uart_write(_QK_PROGRAM_UART, &b, 1);
+#endif
 
   switch(b)
   {

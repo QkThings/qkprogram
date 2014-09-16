@@ -84,7 +84,7 @@ typedef struct qk_sampling
   uint8_t   triggerScaler;
 } qk_sampling;
 
-typedef struct qk_core
+typedef volatile struct
 {
   volatile qk_state currentState;
   volatile qk_state change_to_state;

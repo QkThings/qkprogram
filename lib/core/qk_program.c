@@ -31,8 +31,9 @@ void qk_init()
   qk_board_led_blink(1, 40);
   qk_setup();
   qk_board_setup();
-  qk_board_ready();
   qk_board_led_blink(2, 100);
+
+  qk_board_ready();
 }
 
 

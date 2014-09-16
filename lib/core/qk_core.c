@@ -21,7 +21,7 @@
 qk_core _qk_core;
 /******************************************************************************/
 static void handle_board_detection();
-static void handle_input_changed();
+//static void handle_input_changed();
 /******************************************************************************/
 
 inline void
@@ -33,7 +33,7 @@ qk_core_register_callback(qk_core_callback_id id,
 
 void qk_core_init()
 {
-  memset(&_qk_core, 0, sizeof(qk_core));
+  memset((void*)&_qk_core, 0, sizeof(qk_core));
   _qk_core.currentState = QK_STATE_IDLE;
   _qk_core.info.baudRate = _HAL_UART_BAUD_DEFAULT_LOW;
 #if defined( QK_IS_DEVICE )
@@ -44,10 +44,6 @@ void qk_core_init()
   _qk_core.sampling.N = 10;
 
   qk_sampling_set_frequency(_QK_DEFAULT_SAMPFREQ);
-#endif
-
-#if defined( _QK_FEAT_EEPROM_ )
-  qk_restore();
 #endif
 
   handle_board_detection();
@@ -74,10 +70,23 @@ void qk_run()
   if(_qk_core.callback[QK_CORE_CALLBACK_APP] != 0)
     _qk_core.callback[QK_CORE_CALLBACK_APP](&cb_arg);
 
-  qk_gpio_flags_clear();
+//  qk_gpio_flags_clear();
 
   //TODO Status notifications
   //TODO Events
+
+  if(qk_uart_flags(_QK_PROGRAM_UART) & QK_UART_FLAG_OVERFLOW)
+    while(1) qk_board_led_blink(1, 250);
+
+  volatile uint8_t buf[32], *p_buf;
+  int asd = qk_uart_read(_QK_PROGRAM_UART, buf, 32);
+
+  p_buf = buf;
+
+  while(asd--)
+  {
+    qk_protocol_process_byte(*p_buf++, qk_protocol_board);
+  }
 
   for(i = 0; i < QK_PROTOCOL_STRUCT_COUNT; i++)
   {
@@ -86,6 +95,8 @@ void qk_run()
 
     if(_qk_protocol[i].flags.reg & QK_PROTOCOL_FLAGMASK_NEWPACKET)
     {
+      qk_board_led_blink(1,50);
+
       if(_qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSPACKET] != 0)
         _qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSPACKET](&cb_arg);
 
@@ -149,7 +160,7 @@ void qk_run()
    * POWER MANAGEMENT
    ************************************/
 #ifdef _QK_FEAT_POWER_MANAGEMENT
-  qk_power_EM1();
+//  qk_power_EM1();
 #endif
 }
 
@@ -257,12 +268,12 @@ static void handle_board_detection()
   }
 }
 
-static void handle_input_changed()
-{
-  handle_board_detection();
-
-
-//  if(_qk_core.callbacks.inputChanged != 0) {
-//    _qk_core.callbacks.inputChanged();
-//  }
-}
+//static void handle_input_changed()
+//{
+//  handle_board_detection();
+//
+//
+////  if(_qk_core.callbacks.inputChanged != 0) {
+////    _qk_core.callbacks.inputChanged();
+////  }
+//}

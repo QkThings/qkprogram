@@ -120,8 +120,10 @@ static void board_callback_process_bytes(qk_callback_arg *arg)
 
 static void board_callback_send_packet(qk_callback_arg *arg)
 {
+#ifndef _QK_PROGRAM_DEV_DONTSENDPACKET
   qk_packet *packet = (qk_packet*) QK_CALLBACK_ARG_PTR(arg);
   qk_protocol_send_packet(packet, qk_protocol_board);
+#endif
 }
 
 static void board_callback_process_packet(qk_callback_arg *arg)
