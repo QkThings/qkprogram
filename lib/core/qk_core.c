@@ -75,19 +75,6 @@ void qk_run()
   //TODO Status notifications
   //TODO Events
 
-  if(qk_uart_flags(_QK_PROGRAM_UART) & QK_UART_FLAG_OVERFLOW)
-    while(1) qk_board_led_blink(1, 250);
-
-  volatile uint8_t buf[32], *p_buf;
-  int asd = qk_uart_read(_QK_PROGRAM_UART, buf, 32);
-
-  p_buf = buf;
-
-  while(asd--)
-  {
-    qk_protocol_process_byte(*p_buf++, qk_protocol_board);
-  }
-
   for(i = 0; i < QK_PROTOCOL_STRUCT_COUNT; i++)
   {
     if(_qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSBYTES] != 0)
@@ -95,8 +82,6 @@ void qk_run()
 
     if(_qk_protocol[i].flags.reg & QK_PROTOCOL_FLAGMASK_NEWPACKET)
     {
-      qk_board_led_blink(1,50);
-
       if(_qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSPACKET] != 0)
         _qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSPACKET](&cb_arg);
 

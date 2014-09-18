@@ -27,7 +27,7 @@
 // Development --------------------------------------------------------
 //#define _QK_PROGRAM_DEV_PRINTS
 //#define _QK_PROGRAM_DEV_DONTSENDPACKET
-#define _QK_PROGRAM_DEV_ECHOPROCESSEDBYTE
+//#define _QK_PROGRAM_DEV_ECHOPROCESSEDBYTE
 // --------------------------------------------------------------------
 
 #if defined( _QK_PROGRAM_DEV_PRINTS )

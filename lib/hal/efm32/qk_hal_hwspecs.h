@@ -17,27 +17,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HAL_HWSPECS_H_
-#define HAL_HWSPECS_H_
+#ifndef QK_HAL_HWSPECS_H_
+#define QK_HAL_HWSPECS_H_
 
-#define _QK_HAL_UART_TX QK_GPIO_CREATE( QK_GPIO_PORT_E, 10)
-#define _QK_HAL_UART_RX QK_GPIO_CREATE( QK_GPIO_PORT_E, 11)
+#define _QK_HAL_UART_TX QK_GPIO_PIN( E, 10)
+#define _QK_HAL_UART_RX QK_GPIO_PIN( E, 11)
 
 #if defined( EFM32G_STK )
-#define _QK_HAL_LED   QK_GPIO_CREATE( QK_GPIO_PORT_C , 3)
-#define _QK_HAL_PB    QK_GPIO_CREATE( QK_GPIO_PORT_B , 9)
-#define _QK_HAL_DET   QK_GPIO_CREATE( QK_GPIO_PORT_C , 12)
+#define _QK_HAL_LED   QK_GPIO_PIN( C , 3)
+#define _QK_HAL_PB    QK_GPIO_PIN( B , 9)
+#define _QK_HAL_DET   QK_GPIO_PIN( C , 12)
 #elif defined( EFM32G_OLIMEX )
-#define _QK_HAL_LED   QK_GPIO_CREATE( QK_GPIO_PORT_A , 0)
-#define _QK_HAL_PB    QK_GPIO_CREATE( QK_GPIO_PORT_A , 1)
-#define _QK_HAL_DET   QK_GPIO_CREATE( QK_GPIO_PORT_A , 2)
+#define _QK_HAL_LED   QK_GPIO_PIN( A , 0)
+#define _QK_HAL_PB    QK_GPIO_PIN( A , 1)
+#define _QK_HAL_DET   QK_GPIO_PIN( A , 2)
 #elif defined( EFM32TG_DEVBOARD )
-#define _QK_HAL_LED   QK_GPIO_CREATE( QK_GPIO_PORT_A , 10)
-#define _QK_HAL_PB    QK_GPIO_CREATE( QK_GPIO_PORT_C , 0)
-#define _QK_HAL_DET   QK_GPIO_CREATE( QK_GPIO_PORT_C , 1)
+#define _QK_HAL_LED   QK_GPIO_PIN( A , 10)
+#define _QK_HAL_PB    QK_GPIO_PIN( C , 0)
+#define _QK_HAL_DET   QK_GPIO_PIN( C , 1)
 #else
 #error "EFM32 board not defined"
 #endif
 
 
-#endif /* HAL_HWSPECS_H_ */
+#endif /* QK_HAL_HWSPECS_H_ */
