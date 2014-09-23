@@ -20,9 +20,8 @@
 #ifndef QK_HAL_HWSPECS_H_
 #define QK_HAL_HWSPECS_H_
 
-
 #define _QK_HAL_LED   QK_GPIO_PIN( B , 5)
-#define _QK_HAL_DET   QK_GPIO_PIN( C , 1)
+#define _QK_HAL_DET   QK_GPIO_PIN( D , 2)
 
 
 

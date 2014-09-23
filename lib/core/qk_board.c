@@ -79,19 +79,23 @@ void qk_board_ready()
 
 void qk_board_led_set(bool state)
 {
+#ifdef _QK_HAL_LED_ON_LOW
+  if(!state)
+#else
   if(state)
-    qk_gpio_set_pin(_QK_HAL_LED, false);
-  else
+#endif
     qk_gpio_set_pin(_QK_HAL_LED, true);
+  else
+    qk_gpio_set_pin(_QK_HAL_LED, false);
 }
 
 void qk_board_led_blink(unsigned int n, unsigned int msec)
 {
   do
   {
-    qk_gpio_set_pin(_QK_HAL_LED, false);
+    qk_board_led_set(true);
     delay_ms(msec);
-    qk_gpio_set_pin(_QK_HAL_LED, true);
+    qk_board_led_set(false);
     delay_ms(msec);
   }
   while(--n > 0);
