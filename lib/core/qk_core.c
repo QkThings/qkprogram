@@ -77,11 +77,12 @@ void qk_run()
 
   for(i = 0; i < QK_PROTOCOL_STRUCT_COUNT; i++)
   {
-    if(_qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSBYTES] != 0)
-      _qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSBYTES](&cb_arg);
+    if(_qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_READ] != 0)
+      _qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_READ](&cb_arg);
 
     if(_qk_protocol[i].flags.reg & QK_PROTOCOL_FLAGMASK_NEWPACKET)
     {
+      QK_CALLBACK_ARG_SET_APTR(&cb_arg, 0, (void*) (&_qk_protocol[i]));
       if(_qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSPACKET] != 0)
         _qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSPACKET](&cb_arg);
 

@@ -44,9 +44,31 @@ void qk_ack_set_ERROR(qk_err err, int32_t arg, qk_ack *ack)
   ack->arg = arg;
 }
 
+static void protocol_callback_send_packet(qk_callback_arg *arg)
+{
+#ifndef _QK_PROGRAM_DEV_DONTSENDPACKET
+  qk_protocol *protocol = (qk_protocol*) QK_CALLBACK_ARG_APTR(arg, 0);
+  qk_packet *packet = (qk_packet*) QK_CALLBACK_ARG_APTR(arg, 1);
+  qk_protocol_send_packet(packet, protocol);
+#endif
+}
+
+static void protocol_callback_process_packet(qk_callback_arg *arg)
+{
+  qk_protocol *protocol = (qk_protocol*) QK_CALLBACK_ARG_APTR(arg, 0);
+  qk_protocol_process_packet(protocol);
+}
+
 void qk_protocol_init(qk_protocol *protocol)
 {
   memset((void*)protocol, 0, sizeof(qk_protocol));
+  qk_protocol_register_callback(protocol,
+                                QK_PROTOCOL_CALLBACK_SENDPACKET,
+                                protocol_callback_send_packet);
+
+  qk_protocol_register_callback(protocol,
+                                QK_PROTOCOL_CALLBACK_PROCESSPACKET,
+                                protocol_callback_process_packet);
 }
 
 void qk_protocol_build_packet(qk_packet *packet, qk_packet_descriptor *desc, qk_protocol *protocol)
@@ -213,10 +235,11 @@ static void send_raw_byte(uint8_t b, qk_protocol *protocol)
 
   QK_BUF_SET_COUNT(&buf, 1);
   qk_callback_arg cb_arg;
+  QK_CALLBACK_ARG_SET_APTR(&cb_arg, 0, (void*) protocol);
   QK_CALLBACK_ARG_SET_BUF(&cb_arg, &buf);
 
-  if(protocol->callback[QK_PROTOCOL_CALLBACK_SENDBYTES] != 0)
-    protocol->callback[QK_PROTOCOL_CALLBACK_SENDBYTES](&cb_arg);
+  if(protocol->callback[QK_PROTOCOL_CALLBACK_WRITE] != 0)
+    protocol->callback[QK_PROTOCOL_CALLBACK_WRITE](&cb_arg);
 }
 
 static void send_data_byte(uint8_t b, qk_protocol *protocol)
@@ -273,7 +296,8 @@ void _qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol)
 {
   packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_LASTFRAG;
   qk_callback_arg cb_arg;
-  QK_CALLBACK_ARG_SET_PTR(&cb_arg, (void*) packet);
+  QK_CALLBACK_ARG_SET_APTR(&cb_arg, 0, (void*) protocol);
+  QK_CALLBACK_ARG_SET_APTR(&cb_arg, 1, (void*) packet);
   protocol->callback[QK_PROTOCOL_CALLBACK_SENDPACKET](&cb_arg);
 }
 
@@ -308,6 +332,13 @@ void _qk_protocol_send_event(qk_event *e, qk_protocol *protocol)
   _qk_protocol_send_packet(&packet, protocol);
 }
 #endif
+
+void qk_protocol_process_bytes(uint8_t *buf, int count, qk_protocol *protocol)
+{
+  uint8_t *p_buf = buf;
+  while(count--)
+    qk_protocol_process_byte(*p_buf++, protocol);
+}
 
 void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol)
 {

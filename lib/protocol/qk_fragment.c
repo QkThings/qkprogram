@@ -51,7 +51,8 @@ bool fragment_send(qk_fragment *frag, uint8_t *data, uint16_t size)
     packet->payload_lenght = _QK_PACKET_PAYLOAD_SIZE;
     packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_FRAG;
 
-    QK_CALLBACK_ARG_SET_PTR(&cb_arg, (void*)packet);
+    QK_CALLBACK_ARG_SET_APTR(&cb_arg, 0, (void*)(frag->protocol));
+    QK_CALLBACK_ARG_SET_APTR(&cb_arg, 1, (void*)(frag->protocol));
     frag->protocol->callback[QK_PROTOCOL_CALLBACK_SENDPACKET](&cb_arg);
 
     j += count;

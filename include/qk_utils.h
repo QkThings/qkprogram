@@ -148,18 +148,22 @@ uint32_t qk_cb_available(qk_cb *cb);
  */
 typedef volatile struct
 {
-  void *ptr; //!< Pointer
+  //void *ptr; //!< Pointer
+  void *aptr[2]; //!< Array of pointers 
   int val_i; //!< Integer value
   qk_buf *buf; //!< Buffer
 } qk_callback_arg;
 
 typedef void (*qk_callback)(qk_callback_arg *arg);
 
-#define QK_CALLBACK_ARG_SET_PTR(arg, p) ((arg)->ptr = (p))
+//#define QK_CALLBACK_ARG_SET_PTR(arg, p) ((arg)->ptr = (p))
+#define QK_CALLBACK_ARG_SET_APTR(arg, i, p) ((arg)->aptr[i] = (p))
 #define QK_CALLBACK_ARG_SET_INT(arg, i) ((arg)->val_i = (i))
 #define QK_CALLBACK_ARG_SET_BUF(arg, b) ((arg)->buf = (b))
 
-#define QK_CALLBACK_ARG_PTR(arg) ((arg)->ptr)
+//#define QK_CALLBACK_ARG_PTR(arg) ((arg)->ptr)
+#define QK_CALLBACK_ARG_APTR(arg, i) ((arg)->aptr[i])
+#define QK_CALLBACK_ARG_PROTOCOL(arg) ((arg)->protocol)
 #define QK_CALLBACK_ARG_INT(arg) ((arg)->val_i)
 #define QK_CALLBACK_ARG_BUF(arg) ((arg)->buf)
 

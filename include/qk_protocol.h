@@ -67,9 +67,9 @@ typedef enum
  */
 typedef enum qk_protocol_callback_id
 {
-  QK_PROTOCOL_CALLBACK_SENDBYTES,
+  QK_PROTOCOL_CALLBACK_WRITE,
+  QK_PROTOCOL_CALLBACK_READ,
   QK_PROTOCOL_CALLBACK_SENDPACKET,
-  QK_PROTOCOL_CALLBACK_PROCESSBYTES,
   QK_PROTOCOL_CALLBACK_PROCESSPACKET,
   _QK_PROTOCOL_CALLBACK_COUNT
 } qk_protocol_callback_id;
@@ -169,7 +169,12 @@ void qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol);
 /**
  * @brief .
  */
-void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol);
+void qk_protocol_process_bytes(uint8_t *buf, int count, qk_protocol *protocol);
+
+/**
+ * @brief .
+ */
+void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol); //FIXME should be private
 
 /**
  * @brief .

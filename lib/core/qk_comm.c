@@ -21,5 +21,5 @@
 
 void _qk_comm_init()
 {
-
+  qk_protocol_init(qk_protocol_comm);
 }

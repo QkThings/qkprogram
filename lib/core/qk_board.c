@@ -22,11 +22,8 @@
 qk_board board;
 QK_DEFINE_BOARD(board);
 
-static void board_callback_send_bytes(qk_callback_arg *arg);
-static void board_callback_process_bytes(qk_callback_arg *arg);
-static void board_callback_send_packet(qk_callback_arg *arg);
-static void board_callback_process_packet(qk_callback_arg *arg);
-
+static void board_callback_write(qk_callback_arg *arg);
+static void board_callback_read(qk_callback_arg *arg);
 
 void qk_board_init()
 {
@@ -34,20 +31,12 @@ void qk_board_init()
   qk_protocol_init(qk_protocol_board);
 
   qk_protocol_register_callback(qk_protocol_board,
-                                QK_PROTOCOL_CALLBACK_SENDBYTES,
-                                board_callback_send_bytes);
+                                QK_PROTOCOL_CALLBACK_WRITE,
+                                board_callback_write);
 
   qk_protocol_register_callback(qk_protocol_board,
-                                QK_PROTOCOL_CALLBACK_PROCESSBYTES,
-                                board_callback_process_bytes);
-
-  qk_protocol_register_callback(qk_protocol_board,
-                                QK_PROTOCOL_CALLBACK_SENDPACKET,
-                                board_callback_send_packet);
-
-  qk_protocol_register_callback(qk_protocol_board,
-                                QK_PROTOCOL_CALLBACK_PROCESSPACKET,
-                                board_callback_process_packet);
+                                QK_PROTOCOL_CALLBACK_READ,
+                                board_callback_read);
 
 
 #ifdef QK_IS_DEVICE
@@ -75,6 +64,9 @@ void qk_board_setup()
 void qk_board_ready()
 {
   _qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_board);
+#ifdef QK_IS_COMM
+  _qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_comm);
+#endif
 }
 
 void qk_board_led_set(bool state)
@@ -102,37 +94,18 @@ void qk_board_led_blink(unsigned int n, unsigned int msec)
 }
 
 
-static void board_callback_send_bytes(qk_callback_arg *arg)
+static void board_callback_write(qk_callback_arg *arg)
 {
   qk_uart_write(_QK_PROGRAM_UART,
                 (uint8_t*) QK_BUF_PTR( QK_CALLBACK_ARG_BUF(arg) ),
                 (uint16_t) QK_BUF_COUNT( QK_CALLBACK_ARG_BUF(arg) ));
 }
 
-static void board_callback_process_bytes(qk_callback_arg *arg)
+static void board_callback_read(qk_callback_arg *arg)
 {
   uint8_t buf[32], *p_buf;
   int count = qk_uart_read(_QK_PROGRAM_UART, buf, 32);
-
-  p_buf = buf;
-
-  while(count--)
-  {
-    qk_protocol_process_byte(*p_buf++, qk_protocol_board);
-  }
-}
-
-static void board_callback_send_packet(qk_callback_arg *arg)
-{
-#ifndef _QK_PROGRAM_DEV_DONTSENDPACKET
-  qk_packet *packet = (qk_packet*) QK_CALLBACK_ARG_PTR(arg);
-  qk_protocol_send_packet(packet, qk_protocol_board);
-#endif
-}
-
-static void board_callback_process_packet(qk_callback_arg *arg)
-{
-  qk_protocol_process_packet(qk_protocol_board);
+  qk_protocol_process_bytes(buf, count, qk_protocol_board);
 }
 
 void qk_board_set_name(const char *name)
