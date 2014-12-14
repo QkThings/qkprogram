@@ -102,7 +102,7 @@ typedef volatile struct
 
 typedef volatile struct
 {
-  uint16_t reg;
+  uint16_t status;
 } qk_protocol_flags;
 
 typedef volatile struct
@@ -153,7 +153,8 @@ extern qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
 /**
  * @brief .
  */
-static inline void
+static inline
+void
 qk_protocol_register_callback(qk_protocol *protocol,
                               qk_protocol_callback_id id,
                               qk_callback cb)

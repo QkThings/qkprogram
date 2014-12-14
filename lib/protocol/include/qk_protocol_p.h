@@ -56,6 +56,7 @@ void _qk_protocol_send_string(const char *str, qk_protocol *protocol);
 #if defined( QK_IS_DEVICE )
 void _qk_protocol_send_event(qk_event *e, qk_protocol *protocol);
 #endif
+
 /******************************************************************************/
 
 #ifdef __cplusplus

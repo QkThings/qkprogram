@@ -55,6 +55,8 @@ callback functions.
 #include "qk_packet.h"
 #include "qk_protocol.h"
 
+#include "qk_debug.h"
+
 /**
  * @brief .
  */

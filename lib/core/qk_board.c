@@ -24,10 +24,13 @@ QK_DEFINE_BOARD(board);
 
 static void board_callback_write(qk_callback_arg *arg);
 static void board_callback_read(qk_callback_arg *arg);
+static void board_callback_send_packet(qk_callback_arg *arg);
+static void board_callback_process_packet(qk_callback_arg *arg);
 
 void qk_board_init()
 {
   memset(&board, 0, sizeof(qk_board));
+
   qk_protocol_init(qk_protocol_board);
 
   qk_protocol_register_callback(qk_protocol_board,
@@ -37,6 +40,14 @@ void qk_board_init()
   qk_protocol_register_callback(qk_protocol_board,
                                 QK_PROTOCOL_CALLBACK_READ,
                                 board_callback_read);
+
+  qk_protocol_register_callback(qk_protocol_board,
+                                QK_PROTOCOL_CALLBACK_SENDPACKET,
+                                board_callback_send_packet);
+
+  qk_protocol_register_callback(qk_protocol_board,
+                                QK_PROTOCOL_CALLBACK_PROCESSPACKET,
+                                board_callback_process_packet);
 
 
 #ifdef QK_IS_DEVICE
@@ -59,13 +70,17 @@ void qk_board_setup()
   if(_qk_board->callbacks.config != 0) {
     _qk_board->callbacks.config();
   }
+
+  qk_board_hwfc_out(QK_BOARD_HWFC_READY);
 }
 
 void qk_board_ready()
 {
-  _qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_board);
 #ifdef QK_IS_COMM
-  _qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_comm);
+  //_qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_comm);
+#else
+  delay_ms(50);
+  _qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_board);
 #endif
 }
 
@@ -103,9 +118,53 @@ static void board_callback_write(qk_callback_arg *arg)
 
 static void board_callback_read(qk_callback_arg *arg)
 {
-  uint8_t buf[32], *p_buf;
-  int count = qk_uart_read(_QK_PROGRAM_UART, buf, 32);
-  qk_protocol_process_bytes(buf, count, qk_protocol_board);
+  uint8_t i, buf[128], *p_buf;
+  int bytes_read = qk_uart_read(_QK_PROGRAM_UART, buf, 128);
+  if(bytes_read > 0)
+  {
+//    QK_LOG_DEBUG("bytes_read:%d\n",bytes_read);
+
+    for(i = 0 ; i < bytes_read; i++)
+    {
+//      QK_LOG_DEBUG("%02X\n",buf[i]);
+      qk_protocol_process_byte(buf[i], qk_protocol_board);
+
+      if(qk_protocol_board->flags.status & (QK_PROTOCOL_FLAGMASK_RX | QK_PROTOCOL_FLAGMASK_NEWPACKET))
+        qk_board_hwfc_out(QK_BOARD_HWFC_BUSY);
+
+      if(qk_protocol_board->flags.status & QK_PROTOCOL_FLAGMASK_NEWPACKET)
+      {
+        qk_protocol_process_packet(qk_protocol_board);
+        qk_protocol_board->flags.status &= ~QK_PROTOCOL_FLAGMASK_NEWPACKET;
+        qk_board_hwfc_out(QK_BOARD_HWFC_READY);
+      }
+    }
+  }
+//  qk_protocol_process_bytes(buf, bytes_read, qk_protocol_board);
+
+
+}
+
+static void board_callback_send_packet(qk_callback_arg *arg)
+{
+  qk_protocol *protocol = (qk_protocol*) QK_CALLBACK_ARG_APTR(arg, 0);
+  qk_packet *packet = (qk_packet*) QK_CALLBACK_ARG_APTR(arg, 1);
+
+#ifdef QK_IS_DEVICE
+//  delay_ms(400); //FIXME hwfc workaround
+#endif
+
+  while(qk_board_hwfc_in() != QK_BOARD_HWFC_READY); //TODO enter low power state, timeout
+  qk_protocol_send_packet(packet, protocol);
+}
+
+static void board_callback_process_packet(qk_callback_arg *arg)
+{
+//  qk_protocol *protocol = (qk_protocol*) QK_CALLBACK_ARG_APTR(arg, 0);
+//  QK_LOG_DEBUG("board process packet code:%02X", protocol->packet.code);
+//  qk_protocol_process_packet(protocol);
+
+//  qk_board_hwfc_out(QK_BOARD_HWFC_READY);
 }
 
 void qk_board_set_name(const char *name)

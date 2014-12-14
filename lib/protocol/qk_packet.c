@@ -20,11 +20,22 @@
 
 void packet_calc_header_length(qk_packet *packet)
 {
-  packet->header_lenght = SIZE_FLAGS_CTRL + SIZE_CODE + SIZE_ID;
+  packet->header_lenght = QK_PACKET_HDR_SIZE_FLAGS +
+                          QK_PACKET_HDR_SIZE_ID +
+                          QK_PACKET_HDR_SIZE_CODE;
 }
 
+void packet_set_source(qk_packet *packet)
+{
+  packet->flags.ctrl = (QK_BOARD_TYPE << 4) & QK_PACKET_FLAGMASK_CTRL_SRC;
+}
 
-uint64_t packet_get_value(uint8_t byteCount, uint16_t *idx, qk_packet *packet)
+int packet_source(qk_packet *packet)
+{
+  return (packet->flags.ctrl & QK_PACKET_FLAGMASK_CTRL_SRC) >> 4;
+}
+
+uint64_t packet_value(uint8_t byteCount, uint16_t *idx, qk_packet *packet)
 {
   uint16_t j, i = *idx;
   uint64_t value = 0;
@@ -49,7 +60,7 @@ uint64_t packet_get_value(uint8_t byteCount, uint16_t *idx, qk_packet *packet)
   return value;
 }
 
-void packet_get_string(char *buf, uint16_t count, uint16_t *idx, qk_packet *packet)
+void packet_string(char *buf, uint16_t count, uint16_t *idx, qk_packet *packet)
 {
   uint16_t j, i = *idx;
   char c;

@@ -21,5 +21,7 @@
 
 void _qk_comm_init()
 {
+#ifdef QK_IS_COMM
   qk_protocol_init(qk_protocol_comm);
+#endif
 }

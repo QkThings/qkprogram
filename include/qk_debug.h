@@ -66,6 +66,9 @@ typedef uint8_t qk_log_mask;
 extern qk_log_mask _log_mask;
 extern char _qk_log_str[_QK_LOG_BUFSIZE];
 
+
+void qk_log_set_protocol(qk_protocol *protocol);
+
 /**
  * @brief .
  */

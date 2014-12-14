@@ -34,7 +34,7 @@ qk_core_register_callback(qk_core_callback_id id,
 void qk_core_init()
 {
   memset((void*)&_qk_core, 0, sizeof(qk_core));
-  _qk_core.currentState = QK_STATE_IDLE;
+  _qk_core.currentState = QK_CORE_STATE_IDLE;
   _qk_core.info.baudRate = _HAL_UART_BAUD_DEFAULT_LOW;
 #if defined( QK_IS_DEVICE )
   _qk_core.sampling.frequency = 0; // invalid
@@ -80,13 +80,13 @@ void qk_run()
     if(_qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_READ] != 0)
       _qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_READ](&cb_arg);
 
-    if(_qk_protocol[i].flags.reg & QK_PROTOCOL_FLAGMASK_NEWPACKET)
+    if(_qk_protocol[i].flags.status & QK_PROTOCOL_FLAGMASK_NEWPACKET)
     {
       QK_CALLBACK_ARG_SET_APTR(&cb_arg, 0, (void*) (&_qk_protocol[i]));
       if(_qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSPACKET] != 0)
         _qk_protocol[i].callback[QK_PROTOCOL_CALLBACK_PROCESSPACKET](&cb_arg);
 
-      _qk_protocol[i].flags.reg &= ~QK_PROTOCOL_FLAGMASK_NEWPACKET;
+      _qk_protocol[i].flags.status &= ~QK_PROTOCOL_FLAGMASK_NEWPACKET;
     }
   }
 
@@ -109,19 +109,19 @@ void qk_run()
    ************************************/
   switch(_qk_core.currentState)
   {
-  case QK_STATE_SLEEP:
+  case QK_CORE_STATE_SLEEP:
     break;
-  case QK_STATE_IDLE:
+  case QK_CORE_STATE_IDLE:
     qk_timer_stop(_QK_PROGRAM_TIMER1);
     break;
 #if defined(QK_IS_DEVICE)
-  case QK_STATE_START:
+  case QK_CORE_STATE_START:
     if(_qk_device->callbacks.start != 0)
       _qk_device->callbacks.start();
     qk_timer_restart(_QK_PROGRAM_TIMER1);
-    _qk_core.currentState = QK_STATE_RUNNING;
+    _qk_core.currentState = QK_CORE_STATE_RUNNING;
     break;
-  case QK_STATE_RUNNING:
+  case QK_CORE_STATE_RUNNING:
     if(qk_timer_flags(_QK_PROGRAM_TIMER1) & QK_TIMER_FLAG_TIMEOUT)
     {
       if(_qk_device->callbacks.sample != 0)
@@ -130,16 +130,16 @@ void qk_run()
       qk_timer_flags_clear(_QK_PROGRAM_TIMER1, QK_TIMER_FLAG_TIMEOUT);
     }
     break;
-  case QK_STATE_STANDBY:
+  case QK_CORE_STATE_STANDBY:
     break;
-  case QK_STATE_STOP:
+  case QK_CORE_STATE_STOP:
     if(_qk_device->callbacks.stop != 0)
       _qk_device->callbacks.stop();
-    _qk_core.currentState = QK_STATE_IDLE;
+    _qk_core.currentState = QK_CORE_STATE_IDLE;
     break;
 #endif
   default:
-    _qk_core.currentState = QK_STATE_IDLE;
+    _qk_core.currentState = QK_CORE_STATE_IDLE;
   }
 
   /*************************************
@@ -158,14 +158,14 @@ void qk_loop()
 void _qk_request_state_change(qk_state state)
 {
   _qk_core.change_to_state = state;
-  _qk_core.flags.reg_internal |= QK_FLAGMASK_INTERNAL_RQSTATECHANGE;
+  _qk_core.flags.intern |= QK_CORE_FLAG_INTERN_RQSTATECHANGE;
 }
 void _qk_handle_state_change()
 {
-  if(_qk_core.flags.reg_internal & QK_FLAGMASK_INTERNAL_RQSTATECHANGE)
+  if(_qk_core.flags.intern & QK_CORE_FLAG_INTERN_RQSTATECHANGE)
   {
     _qk_core.currentState = _qk_core.change_to_state;
-    _qk_core.flags.reg_internal &= ~QK_FLAGMASK_INTERNAL_RQSTATECHANGE;
+    _qk_core.flags.intern &= ~QK_CORE_FLAG_INTERN_RQSTATECHANGE;
   }
 }
 
@@ -216,6 +216,9 @@ void qk_sampling_set_period(uint32_t usec)
 
 static void handle_board_detection()
 {
+#ifdef _QK_PROGRAM_DEV_BOARDALWAYSDET
+  _qk_core.flags.status |= QK_CORE_FLAG_STATUS_BOARDDET;
+#else
   bool detected = !qk_gpio_get_pin(_QK_HAL_DET); // DET pin is pulled-up
   qk_callback_arg cb_arg;
 
@@ -252,6 +255,7 @@ static void handle_board_detection()
 //stop
 #endif
   }
+#endif // _QK_PROGRAM_DEV_BOARDALWAYSDET
 }
 
 //static void handle_input_changed()

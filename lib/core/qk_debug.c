@@ -22,15 +22,21 @@
 #include <stdarg.h>
 
 qk_log_mask _log_mask;
+qk_protocol *_log_protocol = qk_protocol_board;
+
 char _qk_log_str[_QK_LOG_BUFSIZE];
+
+void qk_log_set_protocol(qk_protocol *protocol)
+{
+  _log_protocol = protocol;
+}
 
 void qk_log_set_levels(uint8_t mask)
 {
   _log_mask = mask;
 }
 
-
 void _qk_log_send()
 {
-  _qk_protocol_send_string(_qk_log_str, qk_protocol_board);
+  _qk_protocol_send_string(_qk_log_str, _log_protocol);
 }

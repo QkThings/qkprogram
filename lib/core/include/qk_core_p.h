@@ -31,12 +31,12 @@ extern "C" {
  ******************************************************************************/
 typedef enum qk_state
 {
-  QK_STATE_SLEEP,
-  QK_STATE_IDLE,
-  QK_STATE_START,
-  QK_STATE_RUNNING,
-  QK_STATE_STANDBY,
-  QK_STATE_STOP
+  QK_CORE_STATE_SLEEP,
+  QK_CORE_STATE_IDLE,
+  QK_CORE_STATE_START,
+  QK_CORE_STATE_RUNNING,
+  QK_CORE_STATE_STANDBY,
+  QK_CORE_STATE_STOP
 } qk_state;
 
 /******************************************************************************
@@ -59,19 +59,21 @@ typedef struct qk_info
 
 typedef volatile struct qk_flags
 {
-  union
-  {
-    uint64_t reg;
-    struct
-    {
-      uint16_t reg_status;
-      uint16_t reg_settings;
-      uint16_t _rsvd_;
-      uint8_t reg_internal;
-      uint8_t reg_sleep;
-    };
-  };
-} qk_flags;
+  uint32_t status;
+  uint32_t intern;
+//  union
+//  {
+//    uint64_t reg;
+//    struct
+//    {
+//      uint16_t reg_status;
+//      uint16_t reg_settings;
+//      uint16_t _rsvd_;
+//      uint8_t reg_internal;
+//      uint8_t reg_sleep;
+//    };
+//  };
+} qk_core_flags;
 
 typedef struct qk_sampling
 {
@@ -91,7 +93,7 @@ typedef volatile struct
   qk_info       info;
   qk_clock_mode clockMode;
   qk_callback   callback[_QK_CORE_CALLBACK_COUNT];
-  qk_flags      flags;
+  qk_core_flags      flags;
 #if defined(QK_IS_DEVICE)
   qk_sampling   sampling;
 #endif
@@ -100,16 +102,23 @@ typedef volatile struct
 /******************************************************************************
    DEFINES
  ******************************************************************************/
-#define QK_FLAGMASK_STATUS_RUNNING          (1<<0)
-#define QK_FLAGMASK_STATUS_DET              (1<<1)
-#define QK_FLAGMASK_SETTINGS_AUTOSAMP       (1<<0)
-#define QK_FLAGMASK_SETTINGS_TIMESTAMP      (1<<1)
-#define QK_FLAGMASK_SETTINGS_EVTNOTIF       (1<<2)
-#define QK_FLAGMASK_SETTINGS_STATNOTIF      (1<<3)
-#define QK_FLAGMASK_INTERNAL_RQSTATECHANGE  (1<<0)
-#define QK_FLAGMASK_SLEEP_EVENTS_PENDING    (1<<0)
+//#define QK_FLAGMASK_STATUS_RUNNING          (1<<0)
+////#define QK_FLAGMASK_STATUS_DET              (1<<1)
+//#define QK_FLAGMASK_SETTINGS_AUTOSAMP       (1<<0)
+//#define QK_FLAGMASK_SETTINGS_TIMESTAMP      (1<<1)
+//#define QK_FLAGMASK_SETTINGS_EVTNOTIF       (1<<2)
+//#define QK_FLAGMASK_SETTINGS_STATNOTIF      (1<<3)
+//#define QK_FLAGMASK_INTERNAL_RQSTATECHANGE  (1<<0)
+//#define QK_FLAGMASK_SLEEP_EVENTS_PENDING    (1<<0)
 
 #define QK_DEFAULT_FLAGS  0
+
+typedef enum
+{
+  QK_CORE_FLAG_STATUS_BOARDDET = (1<<0),
+  //---
+  QK_CORE_FLAG_INTERN_RQSTATECHANGE = (1<<0)
+} qk_core_flag;
 
 /******************************************************************************
    GLOBAL VARIABLES
@@ -127,11 +136,9 @@ void _qk_handle_state_change();
 
 
 /******************************************************************************/
+
 static inline
-bool _qk_canSleep()
-{
-  return (_qk_core.flags.reg_sleep == 0);
-}
+uint32_t qk_core_flags_status() { return _qk_core.flags.status; }
 
 #ifdef __cplusplus
 }

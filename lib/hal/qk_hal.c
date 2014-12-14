@@ -25,34 +25,7 @@ void qk_hal_init(void)
   _qk_peripheral_setup();
   qk_gpio_set_mode(_QK_HAL_LED, QK_GPIO_MODE_OUTPUT);
   qk_gpio_set_mode(_QK_HAL_DET, QK_GPIO_MODE_INPUT);
-  qk_gpio_interrupt_set(_QK_HAL_DET, QK_GPIO_FLAG_RISE | QK_GPIO_FLAG_FALL);
-
-//  qk_gpio_set_mode(_QK_HAL_UART_TX, QK_GPIO_MODE_OUTPUT);
-//  qk_gpio_set_mode(_QK_HAL_UART_RX, QK_GPIO_MODE_INPUT);
+  qk_gpio_set_mode(_QK_HAL_HWFCO, QK_GPIO_MODE_OUTPUT);
+  qk_gpio_set_mode(_QK_HAL_HWFCI, QK_GPIO_MODE_INPUT_PULL_UP);
+//  qk_gpio_interrupt_set(_QK_HAL_DET, QK_GPIO_FLAG_RISE | QK_GPIO_FLAG_FALL);
 }
-
-//#include "qk_system.h"
-//#include "hal_mcu.h"
-//
-//void qk_hal_init()
-//{
-////  _hal_clock_init();
-////  _hal_gpio_init();
-////  _hal_timer_init();
-////  _hal_uart_init();
-////
-////  hal_mcu_init();
-////  hal_clock_init();
-////  hal_gpio_init();
-////  hal_timer_init();
-////  hal_uart_init();
-////
-////  hal_finalize();
-////
-////#ifdef _QK_FEAT_RTC_
-////  // RTC
-////#endif
-////#ifdef _QK_FEAT_EEPROM_
-////  // EEPROM
-////#endif
-//}

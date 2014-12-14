@@ -32,33 +32,44 @@ extern "C" {
    ENUMS
  ******************************************************************************/
 
-typedef enum qk_board_type {
+typedef enum
+{
   QK_BOARD_TYPE_HOST,
   QK_BOARD_TYPE_COMM,
   QK_BOARD_TYPE_DEVICE
 } qk_board_type;
 
+typedef enum
+{
+  QK_BOARD_HWFC_BUSY = 0,
+  QK_BOARD_HWFC_READY = 1
+} qk_board_hwfc_state;
+
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
 
-typedef struct qk_board_info {
+typedef struct qk_board_info
+{
   uint64_t address;
   uint16_t version;
   char     name[_QK_BOARD_NAME_SIZE];
   uint8_t  _ncfg;
 } qk_board_info;
 
-typedef struct qk_board_buffer {
+typedef struct qk_board_buffer
+{
   qk_config *config;
 } qk_board_buffer;
 
-typedef struct qk_board_callbacks {
+typedef struct qk_board_callbacks
+{
   void (*init)(void);
   void (*config)(void);
 } qk_board_callbacks;
 
-typedef struct qk_board {
+typedef struct qk_board
+{
   qk_board_info       info;
   qk_board_buffer     buffers;
   qk_board_callbacks  callbacks;
@@ -99,6 +110,20 @@ extern qk_board *_qk_board;
 void qk_board_init();
 void qk_board_setup();
 void qk_board_ready();
+
+#include <qk_debug.h>
+
+static inline
+qk_board_hwfc_state qk_board_hwfc_in()
+{
+  return qk_gpio_get_pin(_QK_HAL_HWFCI);
+}
+
+static inline
+void qk_board_hwfc_out(qk_board_hwfc_state state)
+{
+  qk_gpio_set_pin(_QK_HAL_HWFCO, state);
+}
 
 /******************************************************************************/
 

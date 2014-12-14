@@ -23,10 +23,10 @@
 qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
 
 
-#define CODE_OFFSET(packet)   ((unsigned)(packet->header_lenght - SIZE_CODE))
-#define ID_OFFSET(packet)     ((unsigned)(CODE_OFFSET(packet) - SIZE_ID))
-#define ADDR16_OFFSET(packet) ((unsigned)(ID_OFFSET(packet) - SIZE_ADDR16))
-#define ADDR64_OFFSET(packet) ((unsigned)(ID_OFFSET(packet) - SIZE_ADDR64))
+#define CODE_OFFSET(packet)   ((unsigned)(packet->header_lenght - QK_PACKET_HDR_SIZE_CODE))
+#define ID_OFFSET(packet)     ((unsigned)(CODE_OFFSET(packet) - QK_PACKET_HDR_SIZE_ID))
+#define ADDR16_OFFSET(packet) ((unsigned)(ID_OFFSET(packet) - QK_PACKET_HDR_SIZE_ADDR16))
+#define ADDR64_OFFSET(packet) ((unsigned)(ID_OFFSET(packet) - QK_PACKET_HDR_SIZE_ADDR64))
 
 static bool board_process_packet(qk_packet *packet, qk_protocol *protocol);
 static bool comm_process_packet(qk_packet *packet, qk_protocol *protocol);
@@ -85,12 +85,10 @@ void qk_protocol_build_packet(qk_packet *packet, qk_packet_descriptor *desc, qk_
 
   fragment_init(&frag, packet, protocol);
 
-  packet->flags.ctrl = (QK_BOARD_TYPE << 4) & QK_PACKET_FLAGMASK_CTRL_SRC;
+  packet_set_source(packet);
+
   packet->address = _qk_board->info.address;
-//  if(packet->address != 0)
-//  {
-//    packet->flags.ctrl |= (QK_PACKET_FLAGMASK_CTRL_ADDRESS);
-//  }
+  packet->id = 0;
   packet->code = desc->code;
   packet->payload_lenght = 0;
 
@@ -113,7 +111,7 @@ void qk_protocol_build_packet(qk_packet *packet, qk_packet_descriptor *desc, qk_
     fragment_fill_value(QK_VERSION_MINOR, 1, &frag);
     fragment_fill_value(QK_VERSION_PATCH, 1, &frag);
     fragment_fill_value(_qk_core.info.baudRate, 4, &frag);
-    fragment_fill_value(_qk_core.flags.reg, 4, &frag);
+    fragment_fill_value(_qk_core.flags.status, 4, &frag);
     break;
   case QK_PACKET_CODE_INFOBOARD:
     fragment_fill_value(_qk_board->info.version, 2, &frag);
@@ -225,6 +223,8 @@ void qk_protocol_build_packet(qk_packet *packet, qk_packet_descriptor *desc, qk_
     break;
   default: ;
   }
+
+  packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_LASTFRAG;
 }
 
 static void send_raw_byte(uint8_t b, qk_protocol *protocol)
@@ -261,14 +261,14 @@ static void send_ctrl_byte(uint8_t b, qk_protocol *protocol)
 {
   if(b == QK_PROTOCOL_CTRL_FLAG)
   {
-    if(flag(protocol->flags.reg, QK_PROTOCOL_FLAGMASK_TX))
+    if(flag(protocol->flags.status, QK_PROTOCOL_FLAGMASK_TX))
     {
-      send_data_byte(protocol->packet.checksum, protocol);
+//      send_data_byte(protocol->packet.checksum, protocol);
       protocol->packet.checksum = 0;
-      protocol->flags.reg &= ~QK_PROTOCOL_FLAGMASK_TX;
+      protocol->flags.status &= ~QK_PROTOCOL_FLAGMASK_TX;
     }
     else
-      protocol->flags.reg |= QK_PROTOCOL_FLAGMASK_TX;
+      protocol->flags.status |= QK_PROTOCOL_FLAGMASK_TX;
   }
   send_raw_byte(b, protocol);
 }
@@ -278,15 +278,10 @@ void qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol)
 {
   packet->checksum = packet->flags.ctrl + packet->code;
 
-  if((protocol->flags.reg & QK_PROTOCOL_FLAGMASK_REXMIT) == 0)
-  {
-    //qk_packet_setSource(QK_BOARD_TYPE, packet);
-  }
-  protocol->flags.reg &= ~QK_PROTOCOL_FLAGMASK_REXMIT;
-
   send_ctrl_byte(QK_PROTOCOL_CTRL_FLAG, protocol);
   send_data_byte(packet->flags.ctrl & 0xFF, protocol);
   send_data_byte(packet->flags.ctrl >> 8, protocol);
+  send_data_byte(packet->id, protocol);
   send_data_byte(packet->code, protocol);
   send_data_array((uint8_t*)packet->payload, packet->payload_lenght, protocol);
   send_ctrl_byte(QK_PROTOCOL_CTRL_FLAG, protocol);
@@ -294,7 +289,6 @@ void qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol)
 
 void _qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol)
 {
-  packet->flags.ctrl |= QK_PACKET_FLAGMASK_CTRL_LASTFRAG;
   qk_callback_arg cb_arg;
   QK_CALLBACK_ARG_SET_APTR(&cb_arg, 0, (void*) protocol);
   QK_CALLBACK_ARG_SET_APTR(&cb_arg, 1, (void*) packet);
@@ -351,41 +345,48 @@ void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol)
   switch(b)
   {
   case QK_PROTOCOL_CTRL_FLAG:
-    if(flag(protocol->flags.reg, QK_PROTOCOL_FLAGMASK_DLE) == 0)
+    if(flag(protocol->flags.status, QK_PROTOCOL_FLAGMASK_DLE) == 0)
     {
-      if(flag(protocol->flags.reg, QK_PROTOCOL_FLAGMASK_RX) == 0)
+      if(flag(protocol->flags.status, QK_PROTOCOL_FLAGMASK_RX) == 0)
       {
+//        QK_LOG_DEBUG("   BEGIN\n");
         pkt->address = 0;
         pkt->flags.ctrl = 0;
         pkt->code = 0;
         protocol->ctrl.count = 0;
-        protocol->flags.reg |= (QK_PROTOCOL_FLAGMASK_RX | QK_PROTOCOL_FLAGMASK_VALID);
+        protocol->flags.status |= (QK_PROTOCOL_FLAGMASK_RX | QK_PROTOCOL_FLAGMASK_VALID);
       }
       else
       {
-        if(protocol->ctrl.count && flag(protocol->flags.reg, QK_PROTOCOL_FLAGMASK_VALID) == 1)
+        if(protocol->ctrl.count && flag(protocol->flags.status, QK_PROTOCOL_FLAGMASK_VALID) == 1)
         {
-          pkt->payload_lenght = protocol->ctrl.count - pkt->header_lenght - 1;
-          protocol->flags.reg |= QK_PROTOCOL_FLAGMASK_NEWPACKET;
-          protocol->flags.reg &= ~(QK_PROTOCOL_FLAGMASK_RX | QK_PROTOCOL_FLAGMASK_VALID);
+//          QK_LOG_DEBUG("   END\n");
+          pkt->payload_lenght = protocol->ctrl.count - pkt->header_lenght;
+          protocol->flags.status |= QK_PROTOCOL_FLAGMASK_NEWPACKET;
+          protocol->flags.status &= ~(QK_PROTOCOL_FLAGMASK_RX | QK_PROTOCOL_FLAGMASK_VALID);
+        }
+        else
+        {
+//          QK_LOG_DEBUG("   END ???\n");
         }
       }
       return;
     }
     break;
   case QK_PROTOCOL_CTRL_DLE:
-    if(flag(protocol->flags.reg, QK_PROTOCOL_FLAGMASK_VALID) == 1)
+    if(flag(protocol->flags.status, QK_PROTOCOL_FLAGMASK_VALID) == 1)
     {
-      if(flag(protocol->flags.reg, QK_PROTOCOL_FLAGMASK_DLE) == 0)
+      if(flag(protocol->flags.status, QK_PROTOCOL_FLAGMASK_DLE) == 0)
       {
-        protocol->flags.reg |= QK_PROTOCOL_FLAGMASK_DLE;
+//        QK_LOG_DEBUG("   DLE\n");
+        protocol->flags.status |= QK_PROTOCOL_FLAGMASK_DLE;
         return;
       }
     }
     break;
   }
 
-  if(flag(protocol->flags.reg, QK_PROTOCOL_FLAGMASK_VALID))
+  if(flag(protocol->flags.status, QK_PROTOCOL_FLAGMASK_VALID))
   {
     if(protocol->ctrl.count == 0)
     {
@@ -404,23 +405,28 @@ void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol)
     {
       pkt->code = b;
     }
-    else if(protocol->ctrl.count <= _QK_PACKET_PAYLOAD_SIZE)
+    else if((protocol->ctrl.count - pkt->header_lenght) <= _QK_PACKET_PAYLOAD_SIZE)
     {
       pkt->payload[protocol->ctrl.count - pkt->header_lenght] = b;
     }
     else
     {
-      protocol->flags.reg &= ~QK_PROTOCOL_FLAGMASK_VALID;
+//      QK_LOG_DEBUG("   INVALID!\n");
+      protocol->flags.status &= ~QK_PROTOCOL_FLAGMASK_VALID;
     }
 
     protocol->ctrl.count++;
   }
 
-  protocol->flags.reg &= ~QK_PROTOCOL_FLAGMASK_DLE;
+  protocol->flags.status &= ~QK_PROTOCOL_FLAGMASK_DLE;
 }
 
 void qk_protocol_process_packet(qk_protocol *protocol)
 {
+#ifdef _QK_PROGRAM_DEV_BLINKPROCESSPACKET
+  qk_board_led_blink(1,10);
+#endif
+
   qk_packet *packet = &(protocol->packet);
   qk_ack *ack = (qk_ack*) &(protocol->ctrl.ack);
   uint16_t i_data;
@@ -450,12 +456,12 @@ void qk_protocol_process_packet(qk_protocol *protocol)
     //    case QK_PACKET_CODE_TIMEOUT:
   case QK_PACKET_CODE_OK:
     protocol->ctrl.ack.type = packet->code;
-    protocol->ctrl.ack.arg = packet_get_value(1, &i_data, packet);
+    protocol->ctrl.ack.arg = packet_value(1, &i_data, packet);
     break;
   case QK_PACKET_CODE_ERR:
     protocol->ctrl.ack.type = packet->code;
-    protocol->ctrl.ack.err = packet_get_value(1, &i_data, packet);
-    protocol->ctrl.ack.arg = packet_get_value(4, &i_data, packet);
+    protocol->ctrl.ack.err = packet_value(1, &i_data, packet);
+    protocol->ctrl.ack.arg = packet_value(4, &i_data, packet);
     break;
   default:
     handled = false;
@@ -486,37 +492,37 @@ static bool board_process_packet(qk_packet *packet, qk_protocol *protocol)
     _qk_protocol_send_code(QK_PACKET_CODE_READY, protocol);
     break;
   case QK_PACKET_CODE_SETNAME:
-    packet_get_string((char*)buf, _QK_BOARD_NAME_SIZE, &i_data, packet);
+    packet_string((char*)buf, _QK_BOARD_NAME_SIZE, &i_data, packet);
     qk_board_set_name((char*)buf);
     break;
   case QK_PACKET_CODE_SETCONFIG:
-    count = packet_get_value(1, &i_data, packet); // must be 1
-    idx = packet_get_value(1, &i_data, packet);
+    count = packet_value(1, &i_data, packet); // must be 1
+    idx = packet_value(1, &i_data, packet);
     if(idx < qk_config_count())
     {
       switch(qk_config_get_type(idx))
       {
       case QK_CONFIG_TYPE_BOOL:
-        configValue = packet_get_value(1, &i_data, packet);
+        configValue = packet_value(1, &i_data, packet);
         qk_config_set_value_b(idx, (bool) configValue);
         break;
       case QK_CONFIG_TYPE_INTDEC:
       case QK_CONFIG_TYPE_INTHEX:
-        configValue = packet_get_value(4, &i_data, packet);
+        configValue = packet_value(4, &i_data, packet);
         qk_config_set_value_i(idx, configValue);
         break;
       case QK_CONFIG_TYPE_FLOAT:
-        configValue = packet_get_value(4, &i_data, packet);
+        configValue = packet_value(4, &i_data, packet);
         qk_config_set_value_f(idx, _floatFromBytes(configValue));
         break;
       case QK_CONFIG_TYPE_DATETIME:
-        dateTime.year = packet_get_value(1, &i_data, packet);
-        dateTime.month = packet_get_value(1, &i_data, packet);
-        dateTime.day = packet_get_value(1, &i_data, packet);
+        dateTime.year = packet_value(1, &i_data, packet);
+        dateTime.month = packet_value(1, &i_data, packet);
+        dateTime.day = packet_value(1, &i_data, packet);
       case QK_CONFIG_TYPE_TIME:
-        dateTime.hours = packet_get_value(1, &i_data, packet);
-        dateTime.minutes = packet_get_value(1, &i_data, packet);
-        dateTime.seconds = packet_get_value(1, &i_data, packet);
+        dateTime.hours = packet_value(1, &i_data, packet);
+        dateTime.minutes = packet_value(1, &i_data, packet);
+        dateTime.seconds = packet_value(1, &i_data, packet);
         qk_config_set_value_dt(idx, dateTime);
       case QK_CONFIG_TYPE_COMBO:
         break;
@@ -543,6 +549,7 @@ static bool comm_process_packet(qk_packet *packet, qk_protocol *protocol)
 {
   uint16_t i_data;
   bool handled = true;
+  bool rexmit = true;
 
   qk_ack *ack = (qk_ack*)&(protocol->ctrl.ack);
   qk_ack_set_OK(ack);
@@ -562,7 +569,33 @@ static bool comm_process_packet(qk_packet *packet, qk_protocol *protocol)
     handled = false;
   }
 
-  if(handled)
+  //FIXME check destination (do not rexmit all packets)
+  // Retransmit received packet
+  if(rexmit)
+  {
+//    QK_LOG_DEBUG("rexmit packet from %d\n", packet_source(packet));
+//    QK_LOG_DEBUG(" id:%d code:%02X payload_len:%d\n",packet->id,
+//                                                   packet->code,
+//                                                   packet->payload_lenght)
+
+    switch(packet_source(packet))
+    {
+    case QK_BOARD_TYPE_HOST:
+      if(qk_core_flags_status() & QK_CORE_FLAG_STATUS_BOARDDET)
+      {
+        qk_protocol_send_packet(packet, qk_protocol_board);
+        _qk_protocol_send_code(QK_PACKET_CODE_ACK, protocol);
+      }
+      break;
+    case QK_BOARD_TYPE_DEVICE:
+      qk_protocol_board->flags.status |= QK_PROTOCOL_FLAGMASK_REXMIT;
+      _qk_protocol_send_packet(packet, qk_protocol_comm);
+      break;
+    }
+    handled = true;
+  }
+
+  if(handled && !rexmit)
   {
     _qk_protocol_send_code(QK_PACKET_CODE_ACK, protocol);
   }
@@ -606,24 +639,24 @@ static bool device_process_packet(qk_packet *packet, qk_protocol *protocol)
     qk_stop_sampling();
     break;
   case QK_PACKET_CODE_SETSAMP:
-    qk_sampling_set_frequency(packet_get_value(4, &i_data, packet));
-    qk_sampling_set_mode((qk_sampling_mode)packet_get_value(1, &i_data, packet));
-    qk_sampling_set_trigger(packet_get_value(1, &i_data, packet),
-                            packet_get_value(1, &i_data, packet));
-    qk_sampling_set_N(packet_get_value(4, &i_data, packet));
+    qk_sampling_set_frequency(packet_value(4, &i_data, packet));
+    qk_sampling_set_mode((qk_sampling_mode)packet_value(1, &i_data, packet));
+    qk_sampling_set_trigger(packet_value(1, &i_data, packet),
+                            packet_value(1, &i_data, packet));
+    qk_sampling_set_N(packet_value(4, &i_data, packet));
     break;
   case QK_PACKET_CODE_ACTUATE:
     act =  _qk_device->buffers.action;
-    act_id = (qk_action_id) packet_get_value(1, &i_data, packet);
-    packet_get_value(1, &i_data, packet); // action type
+    act_id = (qk_action_id) packet_value(1, &i_data, packet);
+    packet_value(1, &i_data, packet); // action type
     act = &(_qk_device->buffers.action[act_id]);
     switch(act->type)
     {
     case QK_ACTION_TYPE_INT:
-      act->value.i = packet_get_value(4, &i_data, packet);
+      act->value.i = packet_value(4, &i_data, packet);
       break;
     case QK_ACTION_TYPE_BOOL:
-      act->value.b = packet_get_value(1, &i_data, packet);
+      act->value.b = packet_value(1, &i_data, packet);
       break;
     case QK_ACTION_TYPE_TEXT:
       //TODO
