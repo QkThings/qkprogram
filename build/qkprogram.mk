@@ -26,10 +26,6 @@ $(QKPROGRAM_DIR)/lib/utils
 s_SRC += 
 S_SRC += 
 
-LIBS += \
--Lqkperipheral/build/lib/$(TARGET_NAME)/$(TARGET_VARIANT) \
--lqkperipheral
-
 ####################################################################
 # TARGET                
 ####################################################################
@@ -42,9 +38,14 @@ DEFINES += $(BUILD_TARGET)
 include $(TARGET_GLOBAL)
 include $(QKPROGRAM_DIR)/build/target/$(TARGET_NAME)/$(TARGET_NAME).mk
 
+
 ####################################################################
-# LIB DIR                
+# LIBS              
 ####################################################################
+
+LIBS += \
+-Lqkperipheral/build/lib/$(TARGET_NAME)/$(TARGET_VARIANT) \
+-lqkperipheral
 
 ifeq ($(BUILD_TARGET), BUILD_DEVICE)
 LIB_DIR := $(LIB_DIR)/device

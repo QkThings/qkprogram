@@ -24,12 +24,15 @@
 extern "C" {
 #endif
 
+#define _QK_PROGRAM_UART_BOARD 0
+
+#ifndef QK_PROGRAM_RAW
 #include "qk_hal_hwspecs.h"
 //#include "qk_hal_power.h"
 #include "qk_hal_gpio.h"
 //#include "qk_hal_timer.h"
 #include "qk_hal_uart.h"
-
+#endif
 
 #ifdef __cplusplus
 }

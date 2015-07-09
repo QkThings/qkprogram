@@ -632,12 +632,15 @@ static bool device_process_packet(qk_packet *packet, qk_protocol *protocol)
     _qk_protocol_send_code(QK_PACKET_CODE_INFOEVENT, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFOACTION, protocol);
     break;
+#ifndef QK_PROGRAM_RAW
   case QK_PACKET_CODE_START:
     qk_start_sampling();
     break;
   case QK_PACKET_CODE_STOP:
     qk_stop_sampling();
     break;
+#endif
+#ifndef QK_PROGRAM_RAW
   case QK_PACKET_CODE_SETSAMP:
     qk_sampling_set_frequency(packet_value(4, &i_data, packet));
     qk_sampling_set_mode((qk_sampling_mode)packet_value(1, &i_data, packet));
@@ -645,6 +648,7 @@ static bool device_process_packet(qk_packet *packet, qk_protocol *protocol)
                             packet_value(1, &i_data, packet));
     qk_sampling_set_N(packet_value(4, &i_data, packet));
     break;
+#endif
   case QK_PACKET_CODE_ACTUATE:
     act =  _qk_device->buffers.action;
     act_id = (qk_action_id) packet_value(1, &i_data, packet);

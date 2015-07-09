@@ -102,11 +102,11 @@ static void printchar(char **str, int c)
     ++(*str);
   }
   else {
-    qk_uart_write(_QK_PROGRAM_UART, (uint8_t*) &c, 1);
+    qk_uart_write(_QK_PROGRAM_UART_BOARD, (uint8_t*) &c, 1);
     if(c == '\n')
     {
       c = '\r';
-      qk_uart_write(_QK_PROGRAM_UART, (uint8_t*) &c, 1);
+      qk_uart_write(_QK_PROGRAM_UART_BOARD, (uint8_t*) &c, 1);
     }
   }
 }

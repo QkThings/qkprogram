@@ -103,6 +103,7 @@ inline void
 qk_core_register_callback(qk_core_callback_id id,
                           qk_callback cb);
 
+#ifndef QK_PROGRAM_RAW
 #if defined( QK_IS_DEVICE )
 void qk_sampling_set_frequency(uint32_t sampFreq);
 void qk_sampling_set_period(uint32_t usec);
@@ -111,6 +112,7 @@ void qk_sampling_set_trigger(qk_sampling_trigger_clock clock, uint8_t scaler);
 void qk_sampling_set_N(uint32_t N);
 
 #endif // QK_IS_DEVICE
+#endif // !QK_PROGRAM_RAW
 
 #ifdef __cplusplus
 }

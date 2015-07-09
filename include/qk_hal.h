@@ -27,7 +27,9 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef QK_PROGRAM_RAW
 #include "qk_peripheral.h"
+#endif
 
 void qk_hal_init(void);
 

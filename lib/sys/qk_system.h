@@ -39,7 +39,10 @@
   #define PRINT(...)
 #endif
 
+#ifndef QK_PROGRAM_RAW
 #include "qk_peripheral.h"
+#endif
+
 #include "qk_settings.h"
 #include "qk_program.h"
 

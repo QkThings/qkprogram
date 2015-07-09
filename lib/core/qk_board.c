@@ -79,10 +79,12 @@ void qk_board_ready()
 #ifdef QK_IS_COMM
   //_qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_comm);
 #else
-  delay_ms(50);
+  //delay_ms(50);
   _qk_protocol_send_code(QK_PACKET_CODE_READY, qk_protocol_board);
 #endif
 }
+
+#ifndef QK_PROGRAM_RAW
 
 void qk_board_led_set(bool state)
 {
@@ -108,10 +110,12 @@ void qk_board_led_blink(unsigned int n, unsigned int msec)
   while(--n > 0);
 }
 
+#endif // !QK_PROGRAM_RAW
+
 
 static void board_callback_write(qk_callback_arg *arg)
 {
-  qk_uart_write(_QK_PROGRAM_UART,
+  qk_uart_write(_QK_PROGRAM_UART_BOARD,
                 (uint8_t*) QK_BUF_PTR( QK_CALLBACK_ARG_BUF(arg) ),
                 (uint16_t) QK_BUF_COUNT( QK_CALLBACK_ARG_BUF(arg) ));
 }
@@ -119,7 +123,7 @@ static void board_callback_write(qk_callback_arg *arg)
 static void board_callback_read(qk_callback_arg *arg)
 {
   uint8_t i, buf[128], *p_buf;
-  int bytes_read = qk_uart_read(_QK_PROGRAM_UART, buf, 128);
+  int bytes_read = qk_uart_read(_QK_PROGRAM_UART_BOARD, buf, 128);
   if(bytes_read > 0)
   {
 //    QK_LOG_DEBUG("bytes_read:%d\n",bytes_read);

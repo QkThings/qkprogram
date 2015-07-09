@@ -45,6 +45,7 @@ void _qk_device_setup()
   }
 }
 
+#ifndef QK_PROGRAM_RAW
 void qk_start_sampling()
 {
   _qk_request_state_change(QK_CORE_STATE_START);
@@ -54,6 +55,7 @@ void qk_stop_sampling()
 {
   _qk_request_state_change(QK_CORE_STATE_STOP);
 }
+#endif
 
 qk_cb* qk_pendingEvents()
 {

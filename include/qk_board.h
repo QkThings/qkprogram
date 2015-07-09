@@ -53,6 +53,12 @@ typedef enum
    STRUCTS
  ******************************************************************************/
 
+typedef enum
+{
+  QK_BOARD_HWFC_BUSY = 0,
+  QK_BOARD_HWFC_READY = 1
+} qk_board_hwfc_state;
+
 typedef struct qk_config_prop
 {
   char label[_QK_LABEL_SIZE];

@@ -22,10 +22,12 @@
 
 void qk_hal_init(void)
 {
+#ifndef QK_PROGRAM_RAW
   _qk_peripheral_setup();
   qk_gpio_set_mode(_QK_HAL_LED, QK_GPIO_MODE_OUTPUT);
   qk_gpio_set_mode(_QK_HAL_DET, QK_GPIO_MODE_INPUT);
   qk_gpio_set_mode(_QK_HAL_HWFCO, QK_GPIO_MODE_OUTPUT);
   qk_gpio_set_mode(_QK_HAL_HWFCI, QK_GPIO_MODE_INPUT_PULL_UP);
 //  qk_gpio_interrupt_set(_QK_HAL_DET, QK_GPIO_FLAG_RISE | QK_GPIO_FLAG_FALL);
+#endif
 }

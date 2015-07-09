@@ -39,12 +39,6 @@ typedef enum
   QK_BOARD_TYPE_DEVICE
 } qk_board_type;
 
-typedef enum
-{
-  QK_BOARD_HWFC_BUSY = 0,
-  QK_BOARD_HWFC_READY = 1
-} qk_board_hwfc_state;
-
 /******************************************************************************
    STRUCTS
  ******************************************************************************/
@@ -113,6 +107,7 @@ void qk_board_ready();
 
 #include <qk_debug.h>
 
+#ifndef QK_PROGRAM_RAW
 static inline
 qk_board_hwfc_state qk_board_hwfc_in()
 {
@@ -124,6 +119,7 @@ void qk_board_hwfc_out(qk_board_hwfc_state state)
 {
   qk_gpio_set_pin(_QK_HAL_HWFCO, state);
 }
+#endif
 
 /******************************************************************************/
 

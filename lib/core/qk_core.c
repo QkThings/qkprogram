@@ -34,8 +34,11 @@ qk_core_register_callback(qk_core_callback_id id,
 void qk_core_init()
 {
   memset((void*)&_qk_core, 0, sizeof(qk_core));
-  _qk_core.currentState = QK_CORE_STATE_IDLE;
+  
   _qk_core.info.baudRate = _HAL_UART_BAUD_DEFAULT_LOW;
+
+#ifndef QK_PROGRAM_RAW
+  _qk_core.currentState = QK_CORE_STATE_IDLE;
 #if defined( QK_IS_DEVICE )
   _qk_core.sampling.frequency = 0; // invalid
   _qk_core.sampling.mode = QK_SAMPLING_MODE_CONTINUOUS;
@@ -45,6 +48,7 @@ void qk_core_init()
 
   qk_sampling_set_frequency(_QK_DEFAULT_SAMPFREQ);
 #endif
+#endif // !QK_PROGRAM_RAW
 
   handle_board_detection();
 }
@@ -64,7 +68,7 @@ void qk_run()
 //  }
 
 #ifdef _QK_FEAT_UART_POLLING
-  hal_uart_poll(HAL_UART_ID_1);
+  //hal_uart_poll(HAL_UART_ID_1);
 #endif
 
   if(_qk_core.callback[QK_CORE_CALLBACK_APP] != 0)
@@ -102,6 +106,7 @@ void qk_run()
   }
 #endif
 
+#ifndef QK_PROGRAM_RAW
   _qk_handle_state_change();
 
   /*************************************
@@ -148,6 +153,9 @@ void qk_run()
 #ifdef _QK_FEAT_POWER_MANAGEMENT
 //  qk_power_EM1();
 #endif
+
+#endif // ! QK_PROGAM_RAW
+
 }
 
 void qk_loop()
@@ -168,6 +176,8 @@ void _qk_handle_state_change()
     _qk_core.flags.intern &= ~QK_CORE_FLAG_INTERN_RQSTATECHANGE;
   }
 }
+
+#ifndef QK_PROGRAM_RAW
 
 #ifdef QK_IS_DEVICE
 void qk_sampling_set_mode(qk_sampling_mode mode)
@@ -213,6 +223,8 @@ void qk_sampling_set_period(uint32_t usec)
 
 #endif /*QK_IS_DEVICE*/
 
+#endif // ! QK_PROGRAM_RAW
+
 
 static void handle_board_detection()
 {
@@ -222,7 +234,8 @@ static void handle_board_detection()
   bool detected = !qk_gpio_get_pin(_QK_HAL_DET); // DET pin is pulled-up
   qk_callback_arg cb_arg;
 
-  if(flag(_qk_core.flags.reg_status, QK_FLAGMASK_STATUS_DET) == detected) {
+  if(flag(_qk_core.flags.reg_status, QK_FLAGMASK_STATUS_DET) == detected) 
+  {
     return;
   }
 
@@ -231,7 +244,7 @@ static void handle_board_detection()
     qk_board_led_blink(2, 50);
     _qk_core.flags.reg_status |= QK_FLAGMASK_STATUS_DET;
 
-    qk_uart_set_baudrate(_QK_PROGRAM_UART, _qk_core.info.baudRate);
+    //qk_uart_set_baudrate(_QK_PROGRAM_UART, _qk_core.info.baudRate);
 
     if(_qk_core.callback[QK_CORE_CALLBACK_BOARDATTACHED] != 0) {
       _qk_core.callback[QK_CORE_CALLBACK_BOARDATTACHED](&cb_arg);
@@ -246,7 +259,7 @@ static void handle_board_detection()
     qk_board_led_blink(1, 50);
     _qk_core.flags.reg_status &= ~QK_FLAGMASK_STATUS_DET;
 
-    qk_uart_set_baudrate(_QK_PROGRAM_UART, _HAL_UART_BAUD_DEFAULT_LOW);
+    //qk_uart_set_baudrate(_QK_PROGRAM_UART, _HAL_UART_BAUD_DEFAULT_LOW);
 
     if(_qk_core.callback[QK_CORE_CALLBACK_BOARDREMOVED] != 0)
       _qk_core.callback[QK_CORE_CALLBACK_BOARDREMOVED](&cb_arg);
