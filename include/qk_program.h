@@ -46,7 +46,6 @@ callback functions.
 #include <stdbool.h>
 #include <math.h>
 
-#include "qk_raw.h"
 #include "qk_hal.h"
 #include "qk_utils.h"
 #include "qk_core.h"

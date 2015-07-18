@@ -3,10 +3,11 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="qkprogram" />
+		<Option makefile_is_custom="1" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="release">
+			<Target title="lib">
 				<Option output="build/bin/qkprogram" prefix_auto="1" extension_auto="1" />
 				<Option object_output="build/obj/" />
 				<Option type="1" />
@@ -17,11 +18,127 @@
 				<Linker>
 					<Add option="-s" />
 				</Linker>
+				<MakeCommands>
+					<Build command="$make -f $makefile $target LIB=qkprogram.mk" />
+					<CompileFile command="$make -f $makefile $file" />
+					<Clean command="$make -f $makefile clean" />
+					<DistClean command="$make -f $makefile distclean$target" />
+					<AskRebuildNeeded command="$make -q -f $makefile $target" />
+					<SilentBuild command="$make -f $makefile $target LIB=qkprogram.mk &gt; $(CMD_NULL)" />
+				</MakeCommands>
+			</Target>
+			<Target title="app">
+				<Option output="build/bin/qkprogram" prefix_auto="1" extension_auto="1" />
+				<Option object_output="build/obj/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+				<MakeCommands>
+					<Build command="$make -f $makefile $target APP=asd.mk" />
+					<CompileFile command="$make -f $makefile $file" />
+					<Clean command="$make -f $makefile clean" />
+					<DistClean command="$make -f $makefile distclean$target" />
+					<AskRebuildNeeded command="$make -q -f $makefile $target" />
+					<SilentBuild command="$make -f $makefile $target APP=asd.mk &gt; $(CMD_NULL)" />
+				</MakeCommands>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="include/qk_board.h" />
+		<Unit filename="include/qk_comm.h" />
+		<Unit filename="include/qk_core.h" />
+		<Unit filename="include/qk_debug.h" />
+		<Unit filename="include/qk_device.h" />
+		<Unit filename="include/qk_hal.h" />
+		<Unit filename="include/qk_packet.h" />
+		<Unit filename="include/qk_program.h" />
+		<Unit filename="include/qk_protocol.h" />
+		<Unit filename="include/qk_raw.h" />
+		<Unit filename="include/qk_settings.h" />
+		<Unit filename="include/qk_utils.h" />
+		<Unit filename="src/hal/arduino/arduino_clock.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/hal/arduino/arduino_eeprom.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/hal/arduino/arduino_gpio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/hal/arduino/arduino_i2c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/hal/arduino/arduino_power.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/hal/arduino/arduino_rtc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/hal/arduino/arduino_spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/hal/arduino/arduino_timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/hal/arduino/arduino_uart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/hal/arduino/hal_mcu.h" />
+		<Unit filename="src/hal/arduino/qk_hal_hwspecs.h" />
+		<Unit filename="src/hal/efm32/qk_hal_hwspecs.h" />
+		<Unit filename="src/hal/include/qk_hal_gpio.h" />
+		<Unit filename="src/hal/include/qk_hal_p.h" />
+		<Unit filename="src/hal/include/qk_hal_power.h" />
+		<Unit filename="src/hal/include/qk_hal_timer.h" />
+		<Unit filename="src/hal/include/qk_hal_uart.h" />
+		<Unit filename="src/hal/qk_hal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/include/qk_board_p.h" />
+		<Unit filename="src/include/qk_comm_p.h" />
+		<Unit filename="src/include/qk_core_p.h" />
+		<Unit filename="src/include/qk_device_p.h" />
+		<Unit filename="src/include/qk_system.h" />
+		<Unit filename="src/protocol/include/qk_fragment_p.h" />
+		<Unit filename="src/protocol/include/qk_packet_p.h" />
+		<Unit filename="src/protocol/include/qk_protocol_p.h" />
+		<Unit filename="src/protocol/qk_fragment.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/protocol/qk_packet.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/protocol/qk_protocol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/qk_board.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/qk_comm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/qk_core.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/qk_debug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/qk_device.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/qk_program.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/utils/qk_utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
