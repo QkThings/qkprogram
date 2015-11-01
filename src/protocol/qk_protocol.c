@@ -1,27 +1,7 @@
-/*
- * QkThings LICENSE
- * The open source framework and modular platform for smart devices.
- * Copyright (C) 2014 <http://qkthings.com>
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 #include "qk_system.h"
 #include "qk_debug.h"
 
 qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
-
 
 #define CODE_OFFSET(packet)   ((unsigned)(packet->header_lenght - QK_PACKET_HDR_SIZE_CODE))
 #define ID_OFFSET(packet)     ((unsigned)(CODE_OFFSET(packet) - QK_PACKET_HDR_SIZE_ID))
@@ -29,8 +9,14 @@ qk_protocol _qk_protocol[QK_PROTOCOL_STRUCT_COUNT];
 #define ADDR64_OFFSET(packet) ((unsigned)(ID_OFFSET(packet) - QK_PACKET_HDR_SIZE_ADDR64))
 
 static bool board_process_packet(qk_packet *packet, qk_protocol *protocol);
+
+#ifdef QK_IS_COMM
 static bool comm_process_packet(qk_packet *packet, qk_protocol *protocol);
+#endif
+
+#ifdef QK_IS_DEVICE
 static bool device_process_packet(qk_packet *packet, qk_protocol *protocol);
+#endif
 
 void qk_ack_set_OK(qk_ack *ack)
 {
@@ -156,13 +142,6 @@ void qk_protocol_build_packet(qk_packet *packet, qk_packet_descriptor *desc, qk_
     }
     break;
 #if defined( QK_IS_DEVICE )
-  case QK_PACKET_CODE_INFOSAMP:
-    fragment_fill_value(_qk_core.sampling.frequency, 4, &frag);
-    fragment_fill_value(_qk_core.sampling.mode, 1, &frag);
-    fragment_fill_value(_qk_core.sampling.triggerClock, 1, &frag);
-    fragment_fill_value(_qk_core.sampling.triggerScaler, 1, &frag);
-    fragment_fill_value(_qk_core.sampling.N, 4, &frag);
-    break;
   case QK_PACKET_CODE_INFODATA:
     p_data = _qk_device->buffers.data;
     fragment_fill_value(_qk_device->info._ndat, 1, &frag);
@@ -273,7 +252,6 @@ static void send_ctrl_byte(uint8_t b, qk_protocol *protocol)
   send_raw_byte(b, protocol);
 }
 
-
 void qk_protocol_send_packet(qk_packet *packet, qk_protocol *protocol)
 {
   packet->checksum = packet->flags.ctrl + packet->code;
@@ -339,7 +317,7 @@ void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol)
   qk_packet *pkt = &(protocol->packet);
 
 #ifdef _QK_PROGRAM_DEV_ECHOPROCESSEDBYTE
-  qk_uart_write(_QK_PROGRAM_UART, &b, 1);
+  qk_hal_uart_write(&b, 1);
 #endif
 
   switch(b)
@@ -360,14 +338,13 @@ void qk_protocol_process_byte(uint8_t b, qk_protocol *protocol)
       {
         if(protocol->ctrl.count && flag(protocol->flags.status, QK_PROTOCOL_FLAGMASK_VALID) == 1)
         {
-//          QK_LOG_DEBUG("   END\n");
           pkt->payload_lenght = protocol->ctrl.count - pkt->header_lenght;
           protocol->flags.status |= QK_PROTOCOL_FLAGMASK_NEWPACKET;
           protocol->flags.status &= ~(QK_PROTOCOL_FLAGMASK_RX | QK_PROTOCOL_FLAGMASK_VALID);
         }
         else
         {
-//          QK_LOG_DEBUG("   END ???\n");
+
         }
       }
       return;
@@ -627,7 +604,6 @@ static bool device_process_packet(qk_packet *packet, qk_protocol *protocol)
     _qk_protocol_send_code(QK_PACKET_CODE_INFOQK, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFOBOARD, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFOCONFIG, protocol);
-    _qk_protocol_send_code(QK_PACKET_CODE_INFOSAMP, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFODATA, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFOEVENT, protocol);
     _qk_protocol_send_code(QK_PACKET_CODE_INFOACTION, protocol);
@@ -666,8 +642,3 @@ static bool device_process_packet(qk_packet *packet, qk_protocol *protocol)
   return handled;
 }
 #endif
-
-
-
-
-

@@ -20,14 +20,63 @@
 #include "qk_hal.h"
 #include "qk_hal_p.h"
 
+#ifdef QK_PROGRAM_USE_PERIPH
+ #include "qk_peripheral.h"
+
 void qk_hal_init(void)
 {
-#ifdef QK_PROGRAM_USE_PERIPH
-  _qk_peripheral_setup();
+  qk_peripheral_setup();
+
   qk_gpio_set_mode(_QK_HAL_LED, QK_GPIO_MODE_OUTPUT);
-  qk_gpio_set_mode(_QK_HAL_DET, QK_GPIO_MODE_INPUT);
+
   qk_gpio_set_mode(_QK_HAL_HWFCO, QK_GPIO_MODE_OUTPUT);
   qk_gpio_set_mode(_QK_HAL_HWFCI, QK_GPIO_MODE_INPUT_PULL_UP);
+
+  qk_gpio_set_mode(_QK_HAL_DET, QK_GPIO_MODE_INPUT);
+
 //  qk_gpio_interrupt_set(_QK_HAL_DET, QK_GPIO_FLAG_RISE | QK_GPIO_FLAG_FALL);
-#endif
 }
+
+void qk_hal_led_set(bool state)
+{
+#ifdef QK_PROGRAM_LED_ACTIVE_LOW
+  state = !state;
+#endif
+
+  if(state)
+  {
+    qk_gpio_set_pin(_QK_HAL_LED, true);
+  }
+  else
+  {
+    qk_gpio_set_pin(_QK_HAL_LED, false);
+  }
+}
+
+void qk_hal_hwfc_out(bool state)
+{
+	qk_gpio_set_pin(_QK_HAL_HWFCO, state);
+}
+
+bool qk_hal_hwfc_in(void)
+{
+	return qk_gpio_get_pin(_QK_HAL_HWFCI);
+}
+
+int qk_hal_uart_read(uint8_t *buf, uint32_t count)
+{
+	return qk_uart_read(_QK_PROGRAM_UART_BOARD, buf, count);
+}
+
+void qk_hal_uart_write(uint8_t *buf, uint32_t count)
+{
+	qk_uart_write(_QK_PROGRAM_UART_BOARD, buf, count);
+}
+
+void qk_hal_delay_ms(uint32_t ms)
+{
+	delay_ms(ms);
+}
+#else
+#warning "QK_PERIPHERAL NOT USED"
+#endif

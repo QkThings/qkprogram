@@ -73,7 +73,7 @@ void qk_board_setup()
     _qk_board->callbacks.config();
   }
 
-  qk_board_hwfc_out(QK_BOARD_HWFC_READY);
+  qk_hal_hwfc_out(QK_BOARD_HWFC_READY);
 }
 
 void qk_board_ready()
@@ -86,55 +86,28 @@ void qk_board_ready()
 #endif
 }
 
-bool qk_board_hwfc_in()
-{
-  return qk_gpio_get_pin(_QK_HAL_HWFCI);
-}
-
-void qk_board_hwfc_out(bool state)
-{
-  qk_gpio_set_pin(_QK_HAL_HWFCO, state);
-}
-
-void qk_board_led_set(bool state)
-{
-#ifdef QK_PROGRAM_LED_ACTIVE_LOW
-  state = !state;
-#endif
-
-  if(state)
-  {
-    qk_gpio_set_pin(_QK_HAL_LED, true);
-  }
-  else
-  {
-    qk_gpio_set_pin(_QK_HAL_LED, false);
-  }
-}
-
 void qk_board_led_blink(unsigned int n, unsigned int msec)
 {
   do
   {
-    qk_board_led_set(true);
-    delay_ms(msec);
-    qk_board_led_set(false);
-    delay_ms(msec);
+    qk_hal_led_set(true);
+    qk_hal_delay_ms(msec);
+    qk_hal_led_set(false);
+    qk_hal_delay_ms(msec);
   }
   while(--n > 0);
 }
 
 static void board_callback_write(qk_callback_arg *arg)
 {
-  qk_uart_write(_QK_PROGRAM_UART_BOARD,
-                (uint8_t*) QK_BUF_PTR( QK_CALLBACK_ARG_BUF(arg) ),
-                (uint16_t) QK_BUF_COUNT( QK_CALLBACK_ARG_BUF(arg) ));
+  qk_hal_uart_write((uint8_t*) QK_BUF_PTR( QK_CALLBACK_ARG_BUF(arg) ),
+                    (uint16_t) QK_BUF_COUNT( QK_CALLBACK_ARG_BUF(arg) ));
 }
 
 static void board_callback_read(qk_callback_arg *arg)
 {
   uint8_t i, buf[128], *p_buf;
-  int bytes_read = qk_uart_read(_QK_PROGRAM_UART_BOARD, buf, 128);
+  int bytes_read = qk_hal_uart_read(buf, 128);
   if(bytes_read > 0)
   {
 //    QK_LOG_DEBUG("bytes_read:%d\n",bytes_read);
@@ -146,14 +119,14 @@ static void board_callback_read(qk_callback_arg *arg)
 
       if(qk_protocol_board->flags.status & (QK_PROTOCOL_FLAGMASK_RX | QK_PROTOCOL_FLAGMASK_NEWPACKET))
       {
-        qk_board_hwfc_out(QK_BOARD_HWFC_BUSY);
+        qk_hal_hwfc_out(QK_BOARD_HWFC_BUSY);
       }
 
       if(qk_protocol_board->flags.status & QK_PROTOCOL_FLAGMASK_NEWPACKET)
       {
         qk_protocol_process_packet(qk_protocol_board);
         qk_protocol_board->flags.status &= ~QK_PROTOCOL_FLAGMASK_NEWPACKET;
-        qk_board_hwfc_out(QK_BOARD_HWFC_READY);
+        qk_hal_hwfc_out(QK_BOARD_HWFC_READY);
       }
     }
   }
@@ -167,7 +140,7 @@ static void board_callback_send_packet(qk_callback_arg *arg)
   qk_protocol *protocol = (qk_protocol*) QK_CALLBACK_ARG_APTR(arg, 0);
   qk_packet *packet = (qk_packet*) QK_CALLBACK_ARG_APTR(arg, 1);
 
-  while(qk_board_hwfc_in() != QK_BOARD_HWFC_READY); //TODO enter low power state, timeout
+  while(qk_hal_hwfc_in() != QK_BOARD_HWFC_READY); //TODO enter low power state, timeout
   qk_protocol_send_packet(packet, protocol);
 }
 

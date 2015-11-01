@@ -172,8 +172,8 @@ typedef void (*qk_callback)(qk_callback_arg *arg);
 /*****************************************************************************
  *  Lightweight STDIO functions
  *****************************************************************************/
-int sprintf(char *str, const char *format, ...);
-int printf(const char *format, ...);
+//int sprintf(char *str, const char *format, ...);
+//int printf(const char *format, ...);
 
 /*****************************************************************************
  *  Others

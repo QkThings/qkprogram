@@ -27,12 +27,13 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-#ifndef QK_PROGRAM_RAW
-#include "qk_peripheral.h"
-#endif
-
 void qk_hal_init(void);
-
+void qk_hal_led_set(bool state);
+void qk_hal_hwfc_out(bool state);
+bool qk_hal_hwfc_in(void);
+int qk_hal_uart_read(uint8_t *buf, uint32_t count);
+void qk_hal_uart_write(uint8_t *buf, uint32_t count);
+void qk_hal_delay_ms(uint32_t ms);
 
 #ifdef __cplusplus
 }

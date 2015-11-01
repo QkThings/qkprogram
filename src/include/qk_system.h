@@ -32,13 +32,6 @@
 #define _QK_PROGRAM_DEV_BLINKPROCESSPACKET
 // --------------------------------------------------------------------
 
-#if defined( _QK_PROGRAM_DEV_PRINTS )
-  #include <stdio.h>
-  #define PRINT(...) printf(__VA_ARGS__)
-#else
-  #define PRINT(...)
-#endif
-
 #ifdef QK_PROGRAM_USE_PERIPH
 #include "qk_peripheral.h"
 #endif

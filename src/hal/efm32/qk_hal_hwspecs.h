@@ -32,6 +32,16 @@
 #define _QK_HAL_DET   QK_GPIO_PIN( C , 1)
 #define _QK_HAL_HWFCO QK_GPIO_PIN( F, 3)
 #define _QK_HAL_HWFCI QK_GPIO_PIN( F, 2)
+
+#elif defined( EFM32G_DEVBOARD )
+#define QK_PROGRAM_LED_ACTIVE_LOW
+#define _QK_HAL_HAS_LED
+#define _QK_HAL_HAS_HWFC
+
+#define _QK_HAL_LED   QK_GPIO_PIN( A , 15 )
+#define _QK_HAL_HWFCO QK_GPIO_PIN( C, 12 )
+#define _QK_HAL_HWFCI QK_GPIO_PIN( C, 11 )
+
 #else
 #error "EFM32 board not defined"
 #endif

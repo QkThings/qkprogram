@@ -78,7 +78,9 @@ void qk_run()
   }
 #endif
 
-
+#if defined( _QK_FEAT_POWER_MANAGEMENT )
+  qk_power_EM1();
+#endif
 
 }
 
@@ -92,6 +94,7 @@ void _qk_request_state_change(qk_state state)
   _qk_core.change_to_state = state;
   _qk_core.flags.intern |= QK_CORE_FLAG_INTERN_RQSTATECHANGE;
 }
+
 void _qk_handle_state_change()
 {
   if(_qk_core.flags.intern & QK_CORE_FLAG_INTERN_RQSTATECHANGE)
@@ -100,8 +103,6 @@ void _qk_handle_state_change()
     _qk_core.flags.intern &= ~QK_CORE_FLAG_INTERN_RQSTATECHANGE;
   }
 }
-
-
 
 static void handle_board_detection()
 {

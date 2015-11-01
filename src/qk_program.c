@@ -25,13 +25,13 @@ extern void qk_setup();
 void qk_init()
 {
   qk_hal_init();
-  qk_board_led_blink(1, 20);
+  qk_board_led_blink(1, 50);
   qk_core_init();
   qk_board_init();
-  qk_board_led_blink(1, 20);
+  qk_board_led_blink(1, 50);
   qk_setup();
   qk_board_setup();
-  qk_board_led_blink(2, 80);
+  qk_board_led_blink(1, 100);
 
   qk_board_ready();
 }
@@ -40,6 +40,6 @@ void qk_init()
 int qk_main()
 {
   qk_init();
-  qk_loop();
+  qk_loop(); // never returns
   return 0;
 }
